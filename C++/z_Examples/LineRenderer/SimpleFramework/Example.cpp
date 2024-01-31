@@ -20,4 +20,5 @@ void Example::Update(float delta)
 
 void Example::OnLeftClick()
 {
+
 }

@@ -17,6 +17,4 @@ public:
 	void Draw(LineRenderer* line);
 
 
-
 };
-
