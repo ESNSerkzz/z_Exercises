@@ -153,7 +153,10 @@
     <ClCompile Include="..\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="CollisionData.cpp" />
+    <ClCompile Include="CollisionFunctions.cpp" />
     <ClCompile Include="DotClicker.cpp" />
+    <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EntryPoint.cpp" />
     <ClCompile Include="Example.cpp" />
     <ClCompile Include="glad.c" />
@@ -176,7 +179,10 @@
     <ClInclude Include="..\imgui\imstb_textedit.h" />
     <ClInclude Include="..\imgui\imstb_truetype.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="CollisionData.h" />
+    <ClInclude Include="CollisionFunctions.h" />
     <ClInclude Include="DotClicker.h" />
+    <ClInclude Include="Engine.h" />
     <ClInclude Include="Example.h" />
     <ClInclude Include="glad.h" />
     <ClInclude Include="GLFWCallbacks.h" />

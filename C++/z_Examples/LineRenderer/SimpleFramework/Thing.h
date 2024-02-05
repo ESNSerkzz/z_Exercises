@@ -7,7 +7,7 @@ class Thing
 {
 public:
 	Vec2 position;
-	float raduis = 1.5f;
+	float radius = 1.5f;
 
 	Thing() {}
 	Thing(float xPos, float yPos);

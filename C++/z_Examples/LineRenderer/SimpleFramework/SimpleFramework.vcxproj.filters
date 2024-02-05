@@ -50,6 +50,15 @@
     <ClCompile Include="Thing.cpp">
       <Filter>Game\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionData.cpp">
+      <Filter>Game\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionFunctions.cpp">
+      <Filter>Game\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Game\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLFWCallbacks.h">
@@ -119,6 +128,15 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Thing.h">
+      <Filter>Game\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionData.h">
+      <Filter>Game\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionFunctions.h">
+      <Filter>Game\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
       <Filter>Game\Engine</Filter>
     </ClInclude>
   </ItemGroup>

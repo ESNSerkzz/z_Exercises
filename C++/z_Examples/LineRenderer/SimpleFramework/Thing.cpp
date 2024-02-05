@@ -13,5 +13,5 @@ void Thing::Update(float delta)
 void Thing::Draw(LineRenderer* lines)
 {
 
-	lines->DrawCircle(position, raduis);
+	lines->DrawCircle(position, radius);
 }
