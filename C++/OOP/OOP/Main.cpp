@@ -5,22 +5,67 @@
 int rps(std::string choice);
 
 
-int main() 
+int main()
 {
-	std::string selectChoice; 
+	std::string selectChoice;
 	std::cout << "Play Rock, paper, scissors \n";
 	std::cout << "Rock? Paper? Scissor?: ";
-	std::cin >> selectChoice;
-	
-	
-	rps("rock");
-	rps("paper");
-	rps("scissors");
-	
 	
 
-	//if (rps(0) != selectChoice)
-	
+	int userScore = 0;
+	int opponentScore = 0;
+
+	while (userScore < 5 && opponentScore < 5)
+	{
+		
+
+		int  status = 0;
+		while (status == 0)
+		{
+			std::cin >> selectChoice;
+			status = rps(selectChoice);
+			/*rps("paper");
+			rps("scissors");*/
+
+
+		}
+		if (status == -1)
+		{
+			std::cout << "error 303";
+			status = 0;
+
+		}
+		if (status == 1)
+		{
+			
+			std::cout << "draw, go again \n";
+		}
+		if (status == 2) 
+		{
+			std::cout << "you win a point \n";
+			userScore++;
+		}
+		if (status == 3)
+		{
+			opponentScore++;
+			std::cout << "womp womp \n";
+		}
+
+
+		//if (rps(0) != selectChoice)
+
+
+	}
+	if (userScore > opponentScore)
+	{
+		std::cout << "you win.\n";
+	}
+
+	else
+	{
+		std::cout << "you suk\n";
+	}
+
 	return 1;
 
 }
@@ -32,42 +77,43 @@ int rps(std::string choice)
 
 	if (choice == "rock")
 	{
-		userChoice = 0;
-	}
-	if (choice == "paper")
-	{
 		userChoice = 1;
 	}
-	if (choice == "scissors")
+	else if (choice == "paper")
 	{
 		userChoice = 2;
 	}
-
-	if (choice != userChoice)
+	else if (choice == "scissors")
 	{
-		std::cout << "Please select by proper name (lowercase)";
+		userChoice = 3;
 	}
 
-	opponentChoice = std::rand() % 4;
+	else
+	{
+		std::cout << "Please select by proper name (lowercase)";
+		return 0;
+	}
+
+	opponentChoice = std::rand() % 3;
 
 	opponentChoice--;
-	
+
 	switch (userChoice)
 	{
 	case 0:
 		if (opponentChoice == 0)
 		{
-			return 0;
+			return 1;
 
 		}
 		if (opponentChoice == 1)
 		{
-			return 2;
+			return 3;
 
 		}
 		if (opponentChoice == 2)
 		{
-			return 1;
+			return 2;
 
 		}
 		break;
@@ -75,17 +121,17 @@ int rps(std::string choice)
 	case 1:
 		if (opponentChoice == 0)
 		{
-			return 0;
+			return 2;
 
 		}
 		if (opponentChoice == 1)
 		{
-			return 2;
+			return 1;
 
 		}
 		if (opponentChoice == 2)
 		{
-			return 1;
+			return 3;
 
 		}
 		break;
@@ -93,7 +139,7 @@ int rps(std::string choice)
 	case 2:
 		if (opponentChoice == 0)
 		{
-			return 0;
+			return 3;
 
 		}
 		if (opponentChoice == 1)
@@ -109,8 +155,8 @@ int rps(std::string choice)
 
 	}
 
-
-	// set 0,1,2 for tie win and lose
+	return -1;
+	// set 1,2,3 for tie win and lose
 
 };
 //int TieWinlose()
