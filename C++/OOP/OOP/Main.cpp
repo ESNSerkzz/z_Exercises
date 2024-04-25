@@ -17,27 +17,21 @@ int main()
 
 	while (userScore < 5 && opponentScore < 5)
 	{
-		
-
 		int  status = 0;
 		while (status == 0)
 		{
 			std::cin >> selectChoice;
 			status = rps(selectChoice);
-			/*rps("paper");
-			rps("scissors");*/
-
-
 		}
 		if (status == -1)
 		{
-			std::cout << "error 303";
+			std::cout << "error 303 \n";
 			status = 0;
 
 		}
 		if (status == 1)
 		{
-			
+		
 			std::cout << "draw, go again \n";
 		}
 		if (status == 2) 
@@ -50,11 +44,7 @@ int main()
 			opponentScore++;
 			std::cout << "womp womp \n";
 		}
-
-
-		//if (rps(0) != selectChoice)
-
-
+		std::cout << "User score: " << userScore <<  " \nOpponent Score:" << opponentScore << "\n";
 	}
 	if (userScore > opponentScore)
 	{
@@ -96,63 +86,53 @@ int rps(std::string choice)
 
 	opponentChoice = std::rand() % 3;
 
-	opponentChoice--;
+	//opponentChoice--;
 
 	switch (userChoice)
 	{
-	case 0:
-		if (opponentChoice == 0)
-		{
-			return 1;
-
-		}
-		if (opponentChoice == 1)
-		{
-			return 3;
-
-		}
-		if (opponentChoice == 2)
-		{
-			return 2;
-
-		}
-		break;
-
 	case 1:
 		if (opponentChoice == 0)
-		{
-			return 2;
-
+		{	
+			return 1;
 		}
 		if (opponentChoice == 1)
 		{
-			return 1;
-
+			return 3;
 		}
 		if (opponentChoice == 2)
 		{
-			return 3;
-
+			return 2;
 		}
 		break;
-
 	case 2:
 		if (opponentChoice == 0)
 		{
+			return 2;
+		}
+		if (opponentChoice == 1)
+		{
+			return 1;
+		}
+		if (opponentChoice == 2)
+		{
+			return 3;
+		}
+		break;
+
+	case 3:
+		if (opponentChoice == 0)
+		{
 			return 3;
 
 		}
 		if (opponentChoice == 1)
 		{
 			return 2;
-
 		}
 		if (opponentChoice == 2)
 		{
 			return 1;
-
 		}
-
 	}
 
 	return -1;
