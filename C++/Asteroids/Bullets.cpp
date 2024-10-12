@@ -16,4 +16,5 @@ Bullets::Bullets(GameSpacePosition* pos, float speed)
 
 	tiles = MapGrid(BULLET);
 	//TODO
+	// construct the bullet image (see MapGrid.cpp to re-jog memory)
 }
