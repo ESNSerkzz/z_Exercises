@@ -134,12 +134,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bullets.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MapGrid.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SpaceObjects.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullets.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="MapGrid.h" />
     <ClInclude Include="Player.h" />

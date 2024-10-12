@@ -18,7 +18,7 @@ public:
 	Vector2 endPos = { screenHeight, screenWidth };
 	
 
-	static void Draw(float rotation, Vector2 scale, Vector2 pos);
+	void Draw(float rotation, Vector2 scale, Vector2 pos);
 	MapGrid();
 	MapGrid(imageType type);
 

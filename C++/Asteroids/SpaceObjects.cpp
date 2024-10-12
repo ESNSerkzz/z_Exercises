@@ -3,7 +3,7 @@
 
 SpaceObject::SpaceObject()
 {
-	tiles = MapGrid();
+	tiles = MapGrid(ASTEROID);
 	locationInfo =
 	{
 		{50, 50},
@@ -14,6 +14,10 @@ SpaceObject::SpaceObject()
 
 void SpaceObject::Update(float delta)
 {
+	locationInfo.deltaVelocity.x = locationInfo.deltaVelocity.x * 0.95;
+	locationInfo.deltaVelocity.y = locationInfo.deltaVelocity.y * 0.95;
+
+
 	locationInfo.pos.x += locationInfo.deltaVelocity.x;
 	locationInfo.pos.y += locationInfo.deltaVelocity.y;
 
@@ -23,8 +27,8 @@ void SpaceObject::Update(float delta)
 
 void SpaceObject::Draw(void)
 {
-	DrawCircle(locationInfo.pos.x, locationInfo.pos.y, 30, WHITE);
-
+	//DrawCircle(locationInfo.pos.x, locationInfo.pos.y, 30, WHITE);
+	tiles.Draw(locationInfo.rotation, { 20, 20 }, locationInfo.pos);
 }
 
 void SpaceObject::WrapCoordinates(float ix, float iy, float& ox, float& oy)

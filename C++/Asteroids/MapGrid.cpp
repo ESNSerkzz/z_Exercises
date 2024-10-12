@@ -13,6 +13,17 @@ MapGrid::MapGrid(imageType type)
 		points.push_back({ -2,-3 });
 		break;
 
+
+	case ASTEROID:
+		points.push_back({ -4,-6 });
+		points.push_back({ 4,-6 });
+		points.push_back({ 9,-2 });
+		points.push_back({ 9, 2 });
+		points.push_back({ 4, 6 });
+		points.push_back({ -4,6 });
+		points.push_back({ -9,2 });
+		points.push_back({ -9,-2 });
+
 	default:
 		break;
 
