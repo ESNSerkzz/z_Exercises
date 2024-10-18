@@ -23,6 +23,15 @@ MapGrid::MapGrid(imageType type)
 		points.push_back({ -4,6 });
 		points.push_back({ -9,2 });
 		points.push_back({ -9,-2 });
+		break;
+
+	case BULLET:
+		points.push_back({ 0, 0 });
+		points.push_back({ 1, -1 });
+		points.push_back({ 0, 1 });
+		points.push_back({ -1, -1 });
+		break;
+
 
 	default:
 		break;

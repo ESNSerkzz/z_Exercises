@@ -1,7 +1,7 @@
 #pragma once
 #include "SpaceObjects.h"
 #include "Constants.h"
-
+#include "Bullets.h"
 
 class Player :public SpaceObject 
 {
@@ -11,5 +11,5 @@ public:
 	void Draw();
 	void Update(float delta);
 	void Input(float delta);
-
+	std::vector <Bullets> bullets;
 };

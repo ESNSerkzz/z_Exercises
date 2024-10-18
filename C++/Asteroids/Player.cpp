@@ -25,20 +25,48 @@ void Player::Draw()
 	
 	
 	tiles.Draw(locationInfo.rotation, {-20, -20}, locationInfo.pos);
-	
+	for (auto& b : bullets)
+	{
+		b.Draw();
+	}
 }
 
 void Player::Update(float delta)
 {
 	SpaceObject::Update(delta);
 	//SpaceObject::Update(Player::playerObject.Draw());
+	locationInfo.deltaVelocity.x = locationInfo.deltaVelocity.x * 0.95;
+	locationInfo.deltaVelocity.y = locationInfo.deltaVelocity.y * 0.95;
+
+	for (auto& b : bullets)
+	{
+		b.Update(delta);
+	}
+
+	if (bullets.size() > 0)
+	{
+		auto i = remove_if(
+			bullets.begin(),
+			bullets.end(),
+			[&](Bullets o) {
+				return(o.deletable);
+			}
+		);
+
+		if (i != bullets.end()) {
+			bullets.erase(i);
+		}
+
+	}
+
 }
 
 void Player::Input(float delta)
 {
 	if (IsKeyDown(KEY_UP)) AddThrust(playerSpeed, delta);
-	if (IsKeyDown(KEY_DOWN))AddThrust(-playerSpeed, delta);
+	if (IsKeyDown(KEY_DOWN)) AddThrust(-playerSpeed, delta);
 	if (IsKeyDown(KEY_LEFT)) AddRotation(-torque, delta);
 	if (IsKeyDown(KEY_RIGHT)) AddRotation(torque, delta);
+	if (IsKeyDown(KEY_SPACE)) bullets.push_back(Bullets(&locationInfo, 10));
 
 }

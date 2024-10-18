@@ -7,15 +7,14 @@ SpaceObject::SpaceObject()
 	locationInfo =
 	{
 		{50, 50},
-		{5,5},
+		{10,10},
 		0.0f,
 	};
 }
 
 void SpaceObject::Update(float delta)
 {
-	locationInfo.deltaVelocity.x = locationInfo.deltaVelocity.x * 0.95;
-	locationInfo.deltaVelocity.y = locationInfo.deltaVelocity.y * 0.95;
+	
 
 
 	locationInfo.pos.x += locationInfo.deltaVelocity.x;

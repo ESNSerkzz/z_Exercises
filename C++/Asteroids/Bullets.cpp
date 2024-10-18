@@ -15,6 +15,14 @@ Bullets::Bullets(GameSpacePosition* pos, float speed)
 	};
 
 	tiles = MapGrid(BULLET);
+
+	deletable = false;
+	
 	//TODO
 	// construct the bullet image (see MapGrid.cpp to re-jog memory)
+}
+
+void Bullets::Draw()
+{
+	tiles.Draw(locationInfo.rotation, {-10,-10}, locationInfo.pos);
 }
