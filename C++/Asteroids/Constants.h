@@ -8,3 +8,5 @@ static const float playerSpeed = 50.0f;
 static const float torque = 10.0f;
 
 static const int bulletsduration = 300;
+
+static const int BulletStreamLength = 70;

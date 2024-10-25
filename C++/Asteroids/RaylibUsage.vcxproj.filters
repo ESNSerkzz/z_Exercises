@@ -6,6 +6,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SpaceObjects.cpp" />
     <ClCompile Include="Bullets.cpp" />
+    <ClCompile Include="Trail.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constants.h">
@@ -20,7 +21,12 @@
     <ClInclude Include="SpaceObjects.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Bullets.h" />
+    <ClInclude Include="Bullets.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Trail.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">

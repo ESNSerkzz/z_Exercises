@@ -139,6 +139,7 @@
     <ClCompile Include="MapGrid.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SpaceObjects.cpp" />
+    <ClCompile Include="Trail.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullets.h" />
@@ -146,6 +147,7 @@
     <ClInclude Include="MapGrid.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SpaceObjects.h" />
+    <ClInclude Include="Trail.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
