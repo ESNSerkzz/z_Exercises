@@ -4,13 +4,13 @@
 #include "raymath.h"
 #include "Constants.h"
 
-class trail
+class Trail
 {
 public:
-	trail();
-	trail(int max_Size, uint32_t Colour_A, uint32_t Colour_B);
+	Trail();
+	Trail(int max_Size, uint32_t Colour_A, uint32_t Colour_B);
 
-	~trail();
+	~Trail();
 
 	void draw();
 	void insert(Vector2 pos);

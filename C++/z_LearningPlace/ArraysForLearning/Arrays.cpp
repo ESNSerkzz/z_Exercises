@@ -7,12 +7,12 @@ void DynamicArrays();
 void MultiDimArrays();
 
 
-void main()
-{
-	FixedArrays();
-	DynamicArrays();
-	MultiDimArrays();
-}
+//void main()
+//{
+//	FixedArrays();
+//	DynamicArrays();
+//	MultiDimArrays();
+//}
 
 //Declareing Arrays - fixed sized
 void FixedArrays()
@@ -38,13 +38,16 @@ void FixedArrays()
 	for (int i = 0; i < 3; i++)
 	{
 		std::cout << measurementsM_2[i] << "M" << std::endl;
+		continue;
 	}
+	//"\n";
 	int myNumbers[] = { 10, 20 , 30, 40, 50 };
-	for (int i = 0; i < sizeof(myNumbers) / sizeof(myNumbers[0]); i++)
+	for (int i = 0; i < sizeof(myNumbers[0]); i++)
 	{
-		std::cout << "\n" << myNumbers[i];
-		break;
+		std::cout << myNumbers[i] << std::endl;
+		
 	};
+	std::cout << "\n";
 }
 
 void DynamicArrays()
@@ -56,12 +59,12 @@ void DynamicArrays()
 	int* anotherSetOfNumbers = new int[differentNumbers];
 	
 
-	/*for (int i = 0; i <= anotherSetOfNumbers; i++)
+	for (int i = 0; i < differentNumbers; i++)
 	{
 
-		std::cout << anotherSetOfNumbers << "\n";
-	}*/
-	//std::cout << anotherSetOfNumbers << "\n";
+		std::cout << differentNumbers << "\n";
+	}
+	std::cout << anotherSetOfNumbers << "\n";
 	
 	delete[] numbers;
 	delete[] anotherSetOfNumbers;
@@ -80,8 +83,18 @@ void MultiDimArrays()
 		{2,4}
 	};
 
-	/*for (int i = 0; i < gridArray[i][i]; i++)
+	/*for (int i = 0; i <= gridWithNumbers[i][i]; i++)
 	{
-		std::cout << gridArray[i][i] << std::endl;
-	};*/
+		std::cout << gridWithNumbers[i][i] << std::endl;
+	}*/
+
+	/*for (int rows = 0; rows <= gridWithNumbers[rows][j]; rows++)
+	{
+		
+		for (int j; = 0; j <= gridWithNumbers[i][j]; j++)
+		{
+			std::cout << gridWithNumbers[i][j] << std::endl;
+
+		}
+	}*/
 }

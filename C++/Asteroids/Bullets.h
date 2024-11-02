@@ -14,6 +14,6 @@ public:
 	bool deletable;
 	int bulletAge;
 
-	trail path;
+	Trail path;
 	//make it actually delete using its "alive time" and and its deletability
 };

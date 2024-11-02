@@ -54,3 +54,21 @@ void SpaceObject::AddThrust(float thrust, float delta)
 	locationInfo.deltaVelocity.y += -cos(locationInfo.rotation) * thrust * delta;
 
 }
+
+bool SpaceObject::isOverlapped(Vector2 point)
+{
+	Vector2 spaceBetween = {
+
+	locationInfo.pos.x - point.x,
+	locationInfo.pos.y - point.y
+	};
+
+	float distance = sqrt(spaceBetween.x * spaceBetween.x + spaceBetween.y * spaceBetween.y);
+	if (distance <= locationInfo.size)
+	{
+		return true;
+	}
+
+
+	return false;
+}

@@ -42,6 +42,7 @@ MapGrid::MapGrid(imageType type)
 
 MapGrid::MapGrid()
 {
+
 }
 void MapGrid::Draw(float rotation, Vector2 scale, Vector2 pos)
 {

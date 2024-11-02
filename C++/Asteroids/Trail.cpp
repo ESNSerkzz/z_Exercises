@@ -1,25 +1,25 @@
 #include "Trail.h"
 
 
-trail::trail()
+Trail::Trail()
 {
-	maxSize = BulletStreamLength;
+	maxSize = TrailStreamLength;
 	startColour = 0x33FFA2FF;
 	endColour = 0x0991E9FF;
 }
 
-trail::trail(int max_Size, uint32_t Colour_A, uint32_t Colour_B)
+Trail::Trail(int max_Size, uint32_t Colour_A, uint32_t Colour_B)
 {
 	maxSize = max_Size;
 	startColour = Colour_A;
 	endColour = Colour_B;
 }
 
-trail::~trail()
+Trail::~Trail()
 {
 }
 
-void trail::draw()
+void Trail::draw()
 {
 	
 	
@@ -52,7 +52,7 @@ void trail::draw()
 	}
 }
 
-void trail::insert(Vector2 pos)
+void Trail::insert(Vector2 pos)
 {
 
 	points.insert(points.begin(), pos);

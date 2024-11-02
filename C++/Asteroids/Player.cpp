@@ -29,6 +29,7 @@ void Player::Draw()
 	{
 		b.Draw();
 	}
+	pathForPlayer.draw();
 }
 
 void Player::Update(float delta)
@@ -58,6 +59,20 @@ void Player::Update(float delta)
 		}
 
 	}
+	Vector2 trailOffset = locationInfo.pos;
+	
+	trailOffset.x -= sinf(locationInfo.rotation) * 50;
+	trailOffset.y += cosf(locationInfo.rotation) * 50;
+	/*{
+	cosf(locationInfo.rotation) - sinf(locationInfo.rotation),
+	sinf(locationInfo.rotation) + cosf(locationInfo.rotation)
+	};*/
+
+	
+
+	pathForPlayer.insert(trailOffset);
+
+
 
 }
 
@@ -67,6 +82,6 @@ void Player::Input(float delta)
 	if (IsKeyDown(KEY_DOWN)) AddThrust(-playerSpeed, delta);
 	if (IsKeyDown(KEY_LEFT)) AddRotation(-torque, delta);
 	if (IsKeyDown(KEY_RIGHT)) AddRotation(torque, delta);
-	if (IsKeyDown(KEY_SPACE)) bullets.push_back(Bullets(&locationInfo, 10));
+	if (IsKeyPressed(KEY_SPACE)) bullets.push_back(Bullets(&locationInfo, 10));
 
 }

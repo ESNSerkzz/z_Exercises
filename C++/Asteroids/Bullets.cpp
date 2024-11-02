@@ -6,8 +6,8 @@ Bullets::Bullets(GameSpacePosition* pos, float speed)
 	{
 		pos->pos,
 		{
-			(speed * sinf(pos->rotation)) + pos->deltaVelocity.x ,
-			(-speed * cosf(pos->rotation)) + pos->deltaVelocity.y
+			(speed * sinf(pos->rotation)),
+			(-speed * cosf(pos->rotation))
 		},
 		pos->rotation
 	};

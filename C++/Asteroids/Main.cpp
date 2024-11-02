@@ -59,5 +59,7 @@ static void Draw(void)
 static void Update(float delta)
 {
 	asteroid.Update(delta);
+	//loop through all bullets, and chack if bullet overlaps the asteriod -max
 	player.Update(delta);
+
 }
