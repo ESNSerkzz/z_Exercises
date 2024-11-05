@@ -15,16 +15,11 @@ Bullets::Bullets(GameSpacePosition* pos, float speed)
 
 	bulletAge = 0;
 
-	deletable = false;
+	bulletDeletable = false;
 
 	
 
-	//deletable = true;
-
-	/*if (deletable = true)
-	{
-
-	}*/
+	
 }   
 
 void Bullets::Draw()
@@ -38,9 +33,12 @@ void Bullets::Update(float delta)
 	SpaceObject::Update(delta);
 	bulletAge++;
 
-	if (bulletAge > bulletsduration)
+	if (bulletAge > bulletsDuration)
 	{
-		deletable = true;
+		bulletDeletable = true;
 	}
 	path.insert(locationInfo.pos);
+
+	
+
 }

@@ -7,24 +7,22 @@ void DynamicArrays();
 void MultiDimArrays();
 
 
-//void main()
-//{
-//	FixedArrays();
-//	DynamicArrays();
-//	MultiDimArrays();
-//}
+void main()
+{
+	FixedArrays();
+	DynamicArrays();
+	MultiDimArrays();
+}
 
-//Declareing Arrays - fixed sized
+//Declaring Arrays - fixed sized
 void FixedArrays()
 {
 	float distanceMeasurements[3];
 
-	//Initailise List size
+	//Initailize List size
 	float measurementsM_1[3] = { 1.2f, 2.5f, 3.7f };
 	//Implied size
 	float measurementsM_2[] = { 2.2f, 4.5f, 6.7f };
-
-
 
 	std::cout << "Fixed sized arrays" << std::endl;
 	std::cout << "Initialised List size" << std::endl;
@@ -40,13 +38,23 @@ void FixedArrays()
 		std::cout << measurementsM_2[i] << "M" << std::endl;
 		continue;
 	}
-	//"\n";
+	"\n";
 	int myNumbers[] = { 10, 20 , 30, 40, 50 };
 	for (int i = 0; i < sizeof(myNumbers[0]); i++)
 	{
 		std::cout << myNumbers[i] << std::endl;
 		
 	};
+	std::cout << "\n";
+
+	//Range-based for loop
+
+
+
+
+
+
+
 	std::cout << "\n";
 }
 
@@ -77,21 +85,21 @@ void MultiDimArrays()
 	int gridArray[2][2];
 
 	// using an initializer list
-	int gridWithNumbers[2][2] =
-	{
-		{1,3},
-		{2,4}
-	};
+	int gridWithNumbers[2][2] = { { 1,3 }, { 2,4 } };
 
-	/*for (int i = 0; i <= gridWithNumbers[i][i]; i++)
+	std::cout << "\n";
+	std::cout << "Multi Dimentional Array" << std::endl;
+	/*
+	for (int i = 0; i <= gridWithNumbers[i][i]; i++)
 	{
 		std::cout << gridWithNumbers[i][i] << std::endl;
 	}*/
 
-	/*for (int rows = 0; rows <= gridWithNumbers[rows][j]; rows++)
+	//-----------------
+	/*for (int i = 0; i < gridWithNumbers[i][i]; i++)
 	{
 		
-		for (int j; = 0; j <= gridWithNumbers[i][j]; j++)
+		for (int j = 0; j < gridWithNumbers[j][j]; j++)
 		{
 			std::cout << gridWithNumbers[i][j] << std::endl;
 

@@ -50,7 +50,7 @@ void Player::Update(float delta)
 			bullets.begin(),
 			bullets.end(),
 			[&](Bullets o) {
-				return(o.deletable);
+				return(o.bulletDeletable);
 			}
 		);
 

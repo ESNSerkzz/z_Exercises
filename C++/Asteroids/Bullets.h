@@ -11,9 +11,9 @@ public:
 	void Draw() override;
 	void Update(float delta);
 
-	bool deletable;
+	bool bulletDeletable;
 	int bulletAge;
 
 	Trail path;
-	//make it actually delete using its "alive time" and and its deletability
+	
 };

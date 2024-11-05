@@ -17,5 +17,5 @@ public:
 	Trail pathForPlayer;
 	//int PFP_offset = pathForPlayer - 20;
 	
-	//add a trail for the player (pretty much the exact same as the bullet ~max)
+
 };

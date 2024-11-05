@@ -4,6 +4,7 @@
 #include "SpaceObjects.h"
 #include "Player.h"
 #include "MapGrid.h"
+#include "Bullets.h"
 
 static void SetUp(void);
 
@@ -59,7 +60,7 @@ static void Draw(void)
 static void Update(float delta)
 {
 	asteroid.Update(delta);
-	//loop through all bullets, and chack if bullet overlaps the asteriod -max
+	//loop through all bullets, and check if bullet overlaps the asteroid -max
 	player.Update(delta);
-
+	
 }
