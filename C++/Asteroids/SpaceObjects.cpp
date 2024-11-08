@@ -69,7 +69,5 @@ bool SpaceObject::isOverlapped(Vector2 point)
 		return true;
 	}
 
-	for(int i = 0; i )
-
 	return false;
 }

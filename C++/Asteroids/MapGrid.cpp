@@ -74,8 +74,57 @@ void MapGrid::Draw(float rotation, Vector2 scale, Vector2 pos)
 			transformedPoints[j % verts].first,
 			transformedPoints[j % verts].second,
 			RAYWHITE
-
+		);
+		DrawLine
+		(
+			transformedPoints[i % verts].first - screenWidth,
+			transformedPoints[i % verts].second,
+			transformedPoints[j % verts].first - screenWidth,
+			transformedPoints[j % verts].second,
+			RAYWHITE
 		);
 
+		DrawLine
+		(
+			transformedPoints[i % verts].first,
+			transformedPoints[i % verts].second - screenHeight,
+			transformedPoints[j % verts].first,
+			transformedPoints[j % verts].second - screenHeight,
+			RAYWHITE
+		);
+		DrawLine
+		(
+			transformedPoints[i % verts].first - screenWidth,
+			transformedPoints[i % verts].second - screenHeight,
+			transformedPoints[j % verts].first - screenWidth,
+			transformedPoints[j % verts].second - screenHeight,
+			RAYWHITE
+		);
+
+		DrawLine
+		(
+			transformedPoints[i % verts].first + screenWidth,
+			transformedPoints[i % verts].second,
+			transformedPoints[j % verts].first + screenWidth,
+			transformedPoints[j % verts].second,
+			RAYWHITE
+		);
+
+		DrawLine
+		(
+			transformedPoints[i % verts].first,
+			transformedPoints[i % verts].second + screenHeight,
+			transformedPoints[j % verts].first,
+			transformedPoints[j % verts].second + screenHeight,
+			RAYWHITE
+		);
+		DrawLine
+		(
+			transformedPoints[i % verts].first + screenWidth,
+			transformedPoints[i % verts].second + screenHeight,
+			transformedPoints[j % verts].first + screenWidth,
+			transformedPoints[j % verts].second + screenHeight,
+			RAYWHITE
+		);
 	}
 }

@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "MapGrid.h"
 #include "Bullets.h"
+#include "Asteroids.h"
+#include <vector>
 
 static void SetUp(void);
 
@@ -14,7 +16,9 @@ static void Update(float delta);
 
 static void Input(float delta);
 
-SpaceObject asteroid = SpaceObject();
+std::vector<Asteroid*> asteroids;
+
+
 Player player = Player();
 
 int main(void)
@@ -36,6 +40,10 @@ static void SetUp(void)
 {
 	InitWindow(screenWidth, screenHeight, "Window");
 	SetTargetFPS(60);
+	for (int i = 0; i < 10; i++)
+	{
+		asteroids.push_back(new Asteroid());
+	}
 
 }
 
@@ -50,17 +58,27 @@ static void Draw(void)
 	ClearBackground(BLACK);
 
 	DrawFPS(10, 10);
-	asteroid.Draw();
 	player.Draw();
 	
+	for (auto& a : asteroids)
+	{
+		a->Draw();
+
+	}
 
 	EndDrawing();
 }
 
 static void Update(float delta)
 {
-	asteroid.Update(delta);
+	
+	for (auto& a : asteroids)
+	{
+		a->Update(delta);
+
+	}
 	//loop through all bullets, and check if bullet overlaps the asteroid -max
 	player.Update(delta);
+	
 	
 }

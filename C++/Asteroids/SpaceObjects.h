@@ -3,6 +3,7 @@
 #include "raylib.h"
 #include "MapGrid.h"
 
+
 struct GameSpacePosition
 {
 	Vector2 pos;

@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Asteroids.cpp" />
     <ClCompile Include="Bullets.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MapGrid.cpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="Trail.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Asteroids.h" />
     <ClInclude Include="Bullets.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="MapGrid.h" />

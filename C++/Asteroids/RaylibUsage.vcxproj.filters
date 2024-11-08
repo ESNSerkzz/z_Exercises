@@ -7,6 +7,7 @@
     <ClCompile Include="SpaceObjects.cpp" />
     <ClCompile Include="Bullets.cpp" />
     <ClCompile Include="Trail.cpp" />
+    <ClCompile Include="Asteroids.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constants.h">
@@ -25,6 +26,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Trail.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Asteroids.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
