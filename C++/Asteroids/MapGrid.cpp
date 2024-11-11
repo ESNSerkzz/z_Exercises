@@ -15,14 +15,15 @@ MapGrid::MapGrid(imageType type)
 
 
 	case ASTEROID:
-		points.push_back({ -4,-6 });
-		points.push_back({ 4,-6 });
-		points.push_back({ 9,-2 });
-		points.push_back({ 9, 2 });
-		points.push_back({ 4, 6 });
-		points.push_back({ -4,6 });
-		points.push_back({ -9,2 });
-		points.push_back({ -9,-2 });
+		points.push_back({ -2, -5 });
+		points.push_back({  2, -5 });
+		points.push_back({  3, -3 });
+		points.push_back({  5, -2 });
+		points.push_back({  5,  2 });
+		points.push_back({  2,  5 });
+		points.push_back({ -2,  5 });
+		points.push_back({ -5,  2 });
+		points.push_back({ -5, -2 });
 		break;
 
 	case BULLET:

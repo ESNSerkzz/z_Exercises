@@ -7,8 +7,8 @@ Asteroid::Asteroid()
 		{(float)rand() / RAND_MAX * screenWidth * 2,
 		(float)rand() / RAND_MAX * screenHeight * 2},
 		{
-			(float)sin((float)rand() / RAND_MAX * 6.82) * 15,
-			(float)-cos((float)rand() / RAND_MAX * 6.82) * 15
+			(float)sin((float)rand() / RAND_MAX * 6.82) * 7,
+			(float)-cos((float)rand() / RAND_MAX * 6.82) * 7
 		},
 		(float)(rand() / RAND_MAX * 6.82),
 		16

@@ -82,6 +82,6 @@ void Player::Input(float delta)
 	if (IsKeyDown(KEY_DOWN)) AddThrust(-playerSpeed, delta);
 	if (IsKeyDown(KEY_LEFT)) AddRotation(-torque, delta);
 	if (IsKeyDown(KEY_RIGHT)) AddRotation(torque, delta);
-	if (IsKeyPressed(KEY_SPACE)) bullets.push_back(Bullets(&locationInfo, 10));
+	if (IsKeyPressed(KEY_SPACE)) bullets.push_back(Bullets(&locationInfo, 20));
 
 }
