@@ -21,26 +21,30 @@ void FixedArrays()
 
 	//Initailize List size
 	float measurementsM_1[3] = { 1.2f, 2.5f, 3.7f };
+
 	//Implied size
 	float measurementsM_2[] = { 2.2f, 4.5f, 6.7f };
 
-	std::cout << "Fixed sized arrays" << std::endl;
-	std::cout << "Initialised List size" << std::endl;
+	
+	std::cout << "Fixed sized arrays" << std::endl; //dialog
+	std::cout << "Initialised List size" << std::endl; //dialog
 	for (int i = 0; i < 3; i++)
 	{
 		std::cout << measurementsM_1[i] << "M" << std::endl;
 	}
-
-	std::cout << std::endl;
-	std::cout << "Implied size" << std::endl;
+	
+	
+	std::cout << std::endl; //dialog
+	std::cout << "Implied size" << std::endl; //dialog
 	for (int i = 0; i < 3; i++)
 	{
 		std::cout << measurementsM_2[i] << "M" << std::endl;
 		continue;
 	}
 	"\n";
+
 	int myNumbers[] = { 10, 20 , 30, 40, 50 };
-	for (int i = 0; i < sizeof(myNumbers[0]); i++)
+	for (int i = 0; i <= sizeof(myNumbers[0]); i++)
 	{
 		std::cout << myNumbers[i] << std::endl;
 		
@@ -65,7 +69,7 @@ void DynamicArrays()
 	int* numbers = new int[5];
 	int differentNumbers = 3;
 	int* anotherSetOfNumbers = new int[differentNumbers];
-	
+	int* dereference = &differentNumbers;
 
 	for (int i = 0; i < differentNumbers; i++)
 	{
@@ -74,6 +78,9 @@ void DynamicArrays()
 	}
 	std::cout << anotherSetOfNumbers << "\n";
 	
+	std::cout << &dereference << "\n";
+
+
 	delete[] numbers;
 	delete[] anotherSetOfNumbers;
 
@@ -81,14 +88,14 @@ void DynamicArrays()
 
 void MultiDimArrays()
 {
-	// 3x3 array of integers
+	// 2x2 array of integers
 	int gridArray[2][2];
 
 	// using an initializer list
 	int gridWithNumbers[2][2] = { { 1,3 }, { 2,4 } };
 
 	std::cout << "\n";
-	std::cout << "Multi Dimentional Array" << std::endl;
+	std::cout << "Multi Dimensional Array" << std::endl;
 	/*
 	for (int i = 0; i <= gridWithNumbers[i][i]; i++)
 	{

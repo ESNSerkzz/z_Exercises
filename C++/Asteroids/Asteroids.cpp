@@ -21,6 +21,14 @@ Asteroid::Asteroid()
 
 Asteroid::Asteroid(Vector2 startPos, Vector2 velocity, int size)
 {
+	locationInfo =
+	{
+		startPos, velocity, 0, size
+	};
+	
+	tiles = MapGrid(ASTEROID);
+	toDelete = false;
+	return;
 
 }
 
