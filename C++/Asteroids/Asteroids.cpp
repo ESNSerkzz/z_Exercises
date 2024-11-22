@@ -1,4 +1,5 @@
 #include "Asteroids.h"
+#include <iostream>
 
 Asteroid::Asteroid()
 {
@@ -11,7 +12,7 @@ Asteroid::Asteroid()
 			(float)-cos((float)rand() / RAND_MAX * 6.82) * 7
 		},
 		(float)(rand() / RAND_MAX * 6.82),
-		16
+		128
 	};
 
 	tiles = MapGrid (ASTEROID);
@@ -23,18 +24,20 @@ Asteroid::Asteroid(Vector2 startPos, Vector2 velocity, int size)
 {
 	locationInfo =
 	{
-		startPos, velocity, 0, size
+		startPos, velocity, 4, size
 	};
 	
 	tiles = MapGrid(ASTEROID);
 	toDelete = false;
+
+	std::cout << size << "\n";
 	return;
 
 }
 
 void Asteroid::Draw()
 {
-	tiles.Draw(locationInfo.rotation, { (float)locationInfo.size, (float)locationInfo.size }, locationInfo.pos);
+	tiles.Draw(locationInfo.rotation, { (float)locationInfo.size / 5, (float)locationInfo.size /5} , locationInfo.pos);
 }
 
 void Asteroid::Update(float delta)

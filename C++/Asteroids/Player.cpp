@@ -16,6 +16,7 @@ Player::Player()
 
 	};
 	tiles = MapGrid(SHIP);
+	playerScore = 0;
 
 	return;
 }
@@ -30,6 +31,18 @@ void Player::Draw()
 		b.Draw();
 	}
 	pathForPlayer.draw();
+}
+
+void Player::addPoints(int points)
+{
+	playerScore += points;
+	
+}
+
+int Player::getScore()
+{
+	
+	return playerScore;
 }
 
 void Player::Update(float delta)

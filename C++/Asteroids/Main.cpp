@@ -68,6 +68,8 @@ static void Draw(void)
 
 	}
 
+	DrawText(TextFormat("Score; %03i", player.getScore()), 200, 80, 100, RED);
+
 	EndDrawing();
 }
 
@@ -77,7 +79,7 @@ static void Update(float delta)
 	
 	for (auto& a : asteroids)
 	{
-		//a->Update(delta);
+		a->Update(delta);
 
 	}
 	//loop through all bullets, and check if bullet overlaps the asteroid -max
@@ -92,8 +94,27 @@ static void Update(float delta)
 			{
 				a->toDelete = true;
 				b.bulletDeletable = true;
+				if (a->locationInfo.size > 32)
+				{
+					newListOfAsteroids.push_back(new Asteroid(a->locationInfo.pos, { (float)sin((float)rand() / RAND_MAX * 6.82) * 7, (float)-cos((float)rand() / RAND_MAX * 6.82) * 7 }, a->locationInfo.size / 2));  //new Asteroid * newListOfAsteroids;
+					newListOfAsteroids.push_back(new Asteroid(a->locationInfo.pos, { (float)sin((float)rand() / RAND_MAX * 6.82) * 7, (float)-cos((float)rand() / RAND_MAX * 6.82) * 7 }, a->locationInfo.size /2 ));  //new Asteroid * newListOfAsteroids;
+				}
+				if (a->locationInfo.size == 128)
+				{
+					player.addPoints(50);
+				}
+				if (a->locationInfo.size == 64)
+				{
+					player.addPoints(75);
+				}
+				if (a->locationInfo.size == 32)
+				{
+					player.addPoints(100);
+				}
 			}
-			//after delleting bullet and asteroid, create 2 new asteroids and add them to the end of NEW asteroid
+			//after deleting bullet and asteroid, create 2 new asteroids and add them to the end of NEW asteroid
+			
+			
 			
 		}
 		
@@ -112,6 +133,15 @@ static void Update(float delta)
 		{
 			asteroids.erase(i);
 		}
+
+
+	}
+	
+	for (auto a : newListOfAsteroids)
+	{
+		a->toDelete = false;
+		
+		asteroids.push_back(a);
 	}
 
 }

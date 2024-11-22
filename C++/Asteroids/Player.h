@@ -8,6 +8,10 @@ class Player :public SpaceObject
 public:
 	SpaceObject playerObject;
 	Player();
+	int playerScore;
+	void addPoints(int points);
+	int getScore();
+
 	void Draw();
 	void Update(float delta);
 	void Input(float delta);
