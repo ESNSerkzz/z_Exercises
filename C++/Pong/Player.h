@@ -3,7 +3,11 @@
 
 class Player : public Paddles
 {
-	Paddles player1;
-	Paddles player2;
+public:
+	Player(int player_ID);
+
+	int playerID;
+
+	void Input();
 };
 

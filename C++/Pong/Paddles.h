@@ -9,6 +9,7 @@ public:
 	Paddles();
 	Paddles(Vector2 position, Vector2 size, float speed);
 	
+	Color colourSelection;
 
 	void Update();
 	void Draw();

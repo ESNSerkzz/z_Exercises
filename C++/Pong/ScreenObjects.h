@@ -7,7 +7,7 @@ struct GameSpaceInfo
 {
 	Vector2 pos;
 	Vector2 scaleSize;
-	float speed;
+	Vector2 speed;
 };
 
 
@@ -18,8 +18,8 @@ public:
 
 	GameSpaceInfo dataInfo;
 
-	void Draw(void);
-	void Update();
+	virtual void Draw(void);
+	virtual void Update();
 
 };
 

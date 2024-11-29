@@ -1,5 +1,6 @@
 #include "Constants.h"
 #include "Paddles.h"
+#include "Player.h"
 #include "ScreenObjects.h"
 #include <raymath.h>
 #include <raylib.h>
@@ -9,9 +10,12 @@
 
 
 static void SetUp();
-static void Update();
+static void Update(float delta);
 static void Input();
 static void Draw();
+
+Player player1 = Player(1);
+Player player2 = Player(2);
 
 int main(void)
 {
@@ -35,14 +39,18 @@ void SetUp()
 
 }
 
-static void Input(float delta)
+static void Input()
 {
+	player1.Input();
+	player2.Input();
 
 }
 
+
 static void Update(float delta)
 {
-
+	player1.Update();
+	player2.Update();
 }
 
 static void Draw()
@@ -55,6 +63,10 @@ static void Draw()
 	DrawLineV({  0, screenHeight - 50}, {  screenWidth, screenHeight -50}, WHITE);
 	//dividing line
 	DrawLineV({ screenWidth / 2, 50 }, {screenWidth/2, screenHeight-50}, WHITE);
+
+	//Player drawing
+	player1.Draw();
+	player2.Draw();
 
 	EndDrawing();
 }
