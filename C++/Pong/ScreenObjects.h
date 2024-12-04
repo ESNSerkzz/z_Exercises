@@ -1,6 +1,5 @@
 #pragma once
 #include <raylib.h>
-//#include "Paddles.h"
 #include "Constants.h"
 
 struct GameSpaceInfo

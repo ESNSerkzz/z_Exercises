@@ -9,7 +9,7 @@ Player::Player(int player_ID)
 		dataInfo = 
 		{
 			{ 30 , screenHeight / 2 },
-			{20, 60},
+			{dataInfo.scaleSize},
 			paddleSpeed
 
 		};
@@ -20,8 +20,8 @@ Player::Player(int player_ID)
 	{
 		dataInfo =
 		{
-			{screenWidth - 30, screenHeight/2},
-			{20, 60},
+			{screenWidth - dataInfo.scaleSize.x - 20, screenHeight/2},
+			{dataInfo.scaleSize},
 			paddleSpeed
 
 		};

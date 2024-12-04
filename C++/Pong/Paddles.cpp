@@ -9,6 +9,8 @@ Paddles::Paddles(Vector2 position, Vector2 size, float speed)
 {
 	dataInfo.pos = position;
 	dataInfo.scaleSize = size ;
+
+	
 }
 
 void Paddles::Update()

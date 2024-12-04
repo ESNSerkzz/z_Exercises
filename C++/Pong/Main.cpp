@@ -1,3 +1,4 @@
+#include "Ball.h"
 #include "Constants.h"
 #include "Paddles.h"
 #include "Player.h"
@@ -16,6 +17,8 @@ static void Draw();
 
 Player player1 = Player(1);
 Player player2 = Player(2);
+
+Ball ball = Ball();
 
 int main(void)
 {

@@ -5,7 +5,7 @@ ScreenObjects::ScreenObjects()
 	dataInfo =
 	{
 		{100, 100},
-		{20, 60},
+		{20 , 80},
 		paddleSpeed
 		
 	};
