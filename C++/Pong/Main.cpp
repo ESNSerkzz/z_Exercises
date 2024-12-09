@@ -12,13 +12,13 @@
 
 static void SetUp();
 static void Update(float delta);
-static void Input();
+static void Input(float delta);
 static void Draw();
 
 Player player1 = Player(1);
 Player player2 = Player(2);
 
-Ball ball = Ball();
+Ball ball = Ball({250, 30});
 
 int main(void)
 {
@@ -26,9 +26,9 @@ int main(void)
 	SetUp();
 	while (!WindowShouldClose())
 	{
-		//Input(GetFrameTime());
+		Input(GetFrameTime());
 		Draw();
-		//Update(GetFrameTime());
+		Update(GetFrameTime());
 
 
 	}
@@ -42,24 +42,29 @@ void SetUp()
 
 }
 
-static void Input()
+static void Input(float delta)
 {
-	player1.Input();
-	player2.Input();
+	player1.Input(delta);
+	player2.Input(delta);
 
 }
 
 
 static void Update(float delta)
 {
-	player1.Update();
-	player2.Update();
+	player1.Update(delta);
+	player2.Update(delta);
+
+
+
+	ball.Update(delta);
+
 }
 
 static void Draw()
 {
 	BeginDrawing();
-
+	ClearBackground(BLACK);
 	//Map
 	//edges
 	DrawLineV({ 0,50 }, { screenWidth, 50 }, WHITE);
@@ -70,6 +75,8 @@ static void Draw()
 	//Player drawing
 	player1.Draw();
 	player2.Draw();
+
+	ball.Draw();
 
 	EndDrawing();
 }

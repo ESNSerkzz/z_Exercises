@@ -18,7 +18,7 @@ public:
 	GameSpaceInfo dataInfo;
 
 	virtual void Draw(void);
-	virtual void Update();
+	virtual void Update(float delta);
 
 };
 

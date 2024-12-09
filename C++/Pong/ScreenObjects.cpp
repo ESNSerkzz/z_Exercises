@@ -18,7 +18,7 @@ void ScreenObjects::Draw(void)
 
 }
 
-void ScreenObjects::Update()
+void ScreenObjects::Update(float delta)
 {
 
 }
