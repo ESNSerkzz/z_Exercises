@@ -20,5 +20,7 @@ public:
 	virtual void Draw(void);
 	virtual void Update(float delta);
 
+	bool OverLappedBounce();
+
 };
 

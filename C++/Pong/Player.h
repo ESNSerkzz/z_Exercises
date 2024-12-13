@@ -1,5 +1,6 @@
 #pragma once
 #include "Paddles.h"
+#include "AABB.h"
 #include <iostream>
 
 class Player : public Paddles
@@ -10,5 +11,7 @@ public:
 	int playerID;
 	void Update(float delta);
 	void Input(float delta);
+	
+	
 };
 

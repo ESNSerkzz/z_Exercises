@@ -30,11 +30,14 @@ Player::Player(int player_ID)
 		colourSelection = RED;
 	}
 	
+	paddleCollision = AABB(dataInfo.pos, dataInfo.scaleSize);
+
 }
 
 void Player::Update(float delta)
 {
-	
+	paddleCollision.setPos(dataInfo.pos);
+
 }
 
 void Player::Input(float delta)
@@ -42,34 +45,47 @@ void Player::Input(float delta)
 
 	if (playerID == 1)
 	{
-		
-		if (IsKeyDown(KEY_W)) 
+
+		if (dataInfo.pos.y >= borderHeight)
 		{
-			dataInfo.pos.y -= paddleSpeed ;
+			if (IsKeyDown(KEY_W))
+			{
+				dataInfo.pos.y -= paddleSpeed;
+			}
 			
+		}
+		
+		if (dataInfo.pos.y <= screenHeight - borderHeight - dataInfo.scaleSize.y)
+		{
+			if (IsKeyDown(KEY_S))
+			{
+				dataInfo.pos.y += paddleSpeed;
+			}
 		}
 
-		if (IsKeyDown(KEY_S))
-		{
-			dataInfo.pos.y += paddleSpeed;
-			
-		}
 	}
 	
 	if (playerID == 2)
 	{
 		/* send frank Email asking about what i should prepare for Yr2 course and any...
 		curriculum changes i should be aware of.*/
-		if (IsKeyDown(KEY_UP))
+		if (dataInfo.pos.y >= borderHeight)
 		{
-			dataInfo.pos.y -= paddleSpeed;
-			//todo: make IF so it doesn't exceed the border in height
-		}
+			if (IsKeyDown(KEY_UP))
+			{
+				dataInfo.pos.y -= paddleSpeed;
+				//todo: make IF so it doesn't exceed the border in height
+			}
 
-		if (IsKeyDown(KEY_DOWN))
+		}
+		
+		if (dataInfo.pos.y <= screenHeight - borderHeight - dataInfo.scaleSize.y)
 		{
-			dataInfo.pos.y += paddleSpeed;
+			if (IsKeyDown(KEY_DOWN))
+			{
+				dataInfo.pos.y += paddleSpeed;
 			
+			}
 		}
 	}
 }

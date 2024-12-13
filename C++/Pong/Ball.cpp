@@ -11,8 +11,6 @@ Ball::Ball(Vector2 startVel)
 
 void Ball::Draw(void)
 {
-	// create instance of ball in main and draw / update
-	// draw / update it here (good luck with the update)
 
 	DrawCircleV(dataInfo.pos, 25, WHITE);
 
@@ -22,4 +20,11 @@ void Ball::Update(float delta)
 {
 	dataInfo.pos.x += dataInfo.speed.x * delta;
 	dataInfo.pos.y += dataInfo.speed.y * delta;
+
+	if (dataInfo.pos.y <= borderHeight)
+	{
+		dataInfo.pos.y += dataInfo.speed.y;
+		//dataInfo.pos.y += dataInfo.speed.y * delta;
+	}
+
 }

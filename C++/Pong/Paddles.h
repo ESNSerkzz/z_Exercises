@@ -2,6 +2,7 @@
 #include <raylib.h>
 #include "Constants.h"
 #include "ScreenObjects.h"
+#include "AABB.h"
 
 class Paddles : public ScreenObjects
 {
@@ -13,6 +14,8 @@ public:
 
 	void Update();
 	void Draw();
+	
+	AABB paddleCollision;
 
 	//make Player1 and player2 - read sructs & classes and OOP
 

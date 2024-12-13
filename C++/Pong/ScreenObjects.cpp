@@ -22,3 +22,4 @@ void ScreenObjects::Update(float delta)
 {
 
 }
+
