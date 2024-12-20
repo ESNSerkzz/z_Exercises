@@ -1,5 +1,6 @@
 #pragma once
 #include <raylib.h>
+#include "AABB.h"
 #include "Constants.h"
 
 struct GameSpaceInfo
@@ -17,10 +18,13 @@ public:
 
 	GameSpaceInfo dataInfo;
 
+
 	virtual void Draw(void);
 	virtual void Update(float delta);
 
+	
 	bool OverLappedBounce();
+
 
 };
 

@@ -1,4 +1,6 @@
 #include "ScreenObjects.h"
+#include "Ball.h"
+#include "Player.h"
 
 ScreenObjects::ScreenObjects()
 {
@@ -22,4 +24,3 @@ void ScreenObjects::Update(float delta)
 {
 
 }
-

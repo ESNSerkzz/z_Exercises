@@ -1,6 +1,8 @@
 #pragma once
+#include "AABB.h"
 #include "ScreenObjects.h"
 #include "Constants.h"
+
 class Ball : public ScreenObjects
 {
 public:
@@ -9,6 +11,8 @@ public:
 
 	void Draw(void) override;
 	void Update(float delta) override;
+
+	AABB ballCollision;
 	
 };
 

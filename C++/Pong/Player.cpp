@@ -8,7 +8,8 @@ Player::Player(int player_ID)
 	{
 		dataInfo = 
 		{
-			{ 30 , screenHeight / 2 },
+			//{ 30 , screenHeight / 2 },
+			{screenWidth - dataInfo.scaleSize.x - 20, screenHeight/2},
 			{dataInfo.scaleSize},
 			
 			{0,0},
@@ -38,6 +39,11 @@ void Player::Update(float delta)
 {
 	paddleCollision.setPos(dataInfo.pos);
 
+	if (paddleCollision.isOverLapped(paddleCollision))
+	{
+		paddleCollision.isOverLapped();
+	}
+	
 }
 
 void Player::Input(float delta)
@@ -74,7 +80,7 @@ void Player::Input(float delta)
 			if (IsKeyDown(KEY_UP))
 			{
 				dataInfo.pos.y -= paddleSpeed;
-				//todo: make IF so it doesn't exceed the border in height
+				
 			}
 
 		}

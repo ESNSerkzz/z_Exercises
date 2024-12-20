@@ -18,7 +18,7 @@ static void Draw();
 Player player1 = Player(1);
 Player player2 = Player(2);
 
-Ball ball = Ball({30, -250});
+Ball ball = Ball({200, 30});
 
 int main(void)
 {
@@ -55,7 +55,7 @@ static void Update(float delta)
 	player1.Update(delta);
 	player2.Update(delta);
 
-
+	
 	ball.Update(delta);
 }
 
