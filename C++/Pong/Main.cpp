@@ -18,7 +18,10 @@ static void Draw();
 Player player1 = Player(1);
 Player player2 = Player(2);
 
-Ball ball = Ball({200, 30});
+Ball ball = Ball({0, -50});
+
+AABB topBorder = AABB({ 0,0 }, { screenWidth, 50 });
+AABB bottomBorder = AABB({ 0, screenHeight - 50 }, { screenWidth, 50 });
 
 int main(void)
 {
@@ -54,9 +57,15 @@ static void Update(float delta)
 {
 	player1.Update(delta);
 	player2.Update(delta);
-
-	
 	ball.Update(delta);
+
+	//topBorder.isOverLapped(ball.ballCollision);
+	if (topBorder.isOverLapped(ball.ballCollision) || bottomBorder.isOverLapped(ball.ballCollision))
+	{
+		ball.verticalBounce();
+		std::cout << "top" << std::endl;
+	}
+	
 }
 
 static void Draw()
@@ -73,6 +82,9 @@ static void Draw()
 	//Player drawing
 	player1.Draw();
 	player2.Draw();
+
+	topBorder.Draw();
+	bottomBorder.Draw();
 
 	ball.Draw();
 

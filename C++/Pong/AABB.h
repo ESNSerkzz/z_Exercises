@@ -1,14 +1,5 @@
 #pragma once
 #include <raylib.h>
-#include "Ball.h"
-#include "Paddles.h"
-
-enum DirectionalPlacement
-{
-	//which direction it is placed in relation to another box (collision)
-
-	above, bellow, l_side, r_side
-};
 
 class AABB
 {
@@ -16,7 +7,7 @@ public:
 	Vector2 pos;
 	Vector2 size;
 
-	AABB();
+	AABB() {};
 	AABB(Vector2 centre, Vector2 _Size) : pos(centre), size(_Size) {};
 
 	void setPos(Vector2 _pos) { pos = _pos; };
@@ -41,9 +32,11 @@ public:
 			);
 	}
 
-	bool OverLappedBounce(AABB _ballCollision, AABB _paddleBoxCollision)
-	{
-		
-	}
+
+	//depenetrate the ball from the paddles
+
+	void BoxDepenatration();
+	void Draw();
+	
 };
 

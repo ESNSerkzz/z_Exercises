@@ -23,7 +23,7 @@ public:
 	virtual void Update(float delta);
 
 	
-	bool OverLappedBounce();
+	
 
 
 };

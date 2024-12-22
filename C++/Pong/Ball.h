@@ -11,7 +11,7 @@ public:
 
 	void Draw(void) override;
 	void Update(float delta) override;
-
+	void verticalBounce();
 	AABB ballCollision;
 	
 };

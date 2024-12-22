@@ -8,8 +8,7 @@ Player::Player(int player_ID)
 	{
 		dataInfo = 
 		{
-			//{ 30 , screenHeight / 2 },
-			{screenWidth - dataInfo.scaleSize.x - 20, screenHeight/2},
+			{ 30 , screenHeight / 2 },
 			{dataInfo.scaleSize},
 			
 			{0,0},
@@ -41,7 +40,7 @@ void Player::Update(float delta)
 
 	if (paddleCollision.isOverLapped(paddleCollision))
 	{
-		paddleCollision.isOverLapped();
+		//paddleCollision.isOverLapped();
 	}
 	
 }
