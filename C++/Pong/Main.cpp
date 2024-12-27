@@ -18,10 +18,10 @@ static void Draw();
 Player player1 = Player(1);
 Player player2 = Player(2);
 
-Ball ball = Ball({0, -50});
+Ball ball = Ball({-200, 0});
 
-AABB topBorder = AABB({ 0,0 }, { screenWidth, 50 });
-AABB bottomBorder = AABB({ 0, screenHeight - 50 }, { screenWidth, 50 });
+AABB topBorder = AABB({ 0,0 }, { screenWidth, borderHeight });
+AABB bottomBorder = AABB({ 0, screenHeight - borderHeight }, { screenWidth, borderHeight });
 
 int main(void)
 {
@@ -62,10 +62,60 @@ static void Update(float delta)
 	//topBorder.isOverLapped(ball.ballCollision);
 	if (topBorder.isOverLapped(ball.ballCollision) || bottomBorder.isOverLapped(ball.ballCollision))
 	{
-		ball.verticalBounce();
+
+
+		ball.verticalBounce(delta);
+		ball.Update(delta);
+		ball.Update(delta);
 		std::cout << "top" << std::endl;
 	}
-	
+	if (player1.paddleCollision.isOverLapped(ball.ballCollision))
+	{
+		std::cout << "paddle1" << std::endl;
+		Vector2 spaceBetween =
+		{ player1.paddleCollision.pos.x + player1.paddleCollision.size.x / 2 - ball.ballCollision.pos.x + ball.ballCollision.size.x / 2,
+		player1.paddleCollision.pos.y + player1.paddleCollision.size.y / 2 - ball.ballCollision.pos.y + ball.ballCollision.size.y / 2 };
+
+		std::cout << "Distance = " << Vector2Length(spaceBetween) << "\n";
+		
+		Vector2 speed = Vector2Normalize(spaceBetween);
+
+		speed = Vector2Invert(speed);
+
+		std::cout << "Normalized distance = " << Vector2Length(speed) << "\n";
+		ball.dataInfo.speed = {speed.x * ballSpeed, spaceBetween.y * ballSpeed};
+
+		
+		ball.Update(delta);
+		ball.Update(delta);
+		
+	}
+	if (player2.paddleCollision.isOverLapped(ball.ballCollision))
+	{
+		std::cout << "paddle2" << std::endl;
+		
+		Vector2 spaceBetween = Vector2Subtract(player2.paddleCollision.pos, ball.ballCollision.pos);
+		//Vector2 spaceBetween =
+		//{ player2.paddleCollision.pos.x + player2.paddleCollision.size.x / 2 - ball.ballCollision.pos.x + ball.ballCollision.size.x / 2,
+		//player2.paddleCollision.pos.y + player2.paddleCollision.size.y / 2 - ball.ballCollision.pos.y + ball.ballCollision.size.y / 2 };
+
+		std::cout << "Distance = " << Vector2Length(spaceBetween) << "\n";
+
+		Vector2 speed = Vector2Normalize(spaceBetween);
+
+		speed = Vector2Invert(speed);
+
+		
+
+		std::cout << "Normalized distance = " << Vector2Length(speed) << "\n";
+		ball.dataInfo.speed = { speed.x * ballSpeed, spaceBetween.y * ballSpeed };
+
+		ball.Update(delta);
+		ball.Update(delta);
+	}
+
+
+
 }
 
 static void Draw()

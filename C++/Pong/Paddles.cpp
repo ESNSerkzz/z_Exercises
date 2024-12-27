@@ -20,4 +20,5 @@ void Paddles::Update()
 void Paddles::Draw()
 {
 	DrawRectangleV((dataInfo.pos), (dataInfo.scaleSize), colourSelection);
+	paddleCollision.Draw();
 }

@@ -4,10 +4,13 @@
 void DeclaringReference();
 void HowNotToDeclareReference();
 void highScore();
+void Alt();
+
 int main() 
 {
 	//HowNotToDeclareReference();
-	highScore();
+	//highScore();
+	Alt();
 }
 
 void DeclaringReference()
@@ -45,4 +48,15 @@ void highScore()
 	std::cout << "*highscore: " << std::endl;
 	std::cout << *highScore << "\n";
 	std::cout << &highScore;
+}
+
+void Alt()
+{
+	int highScore = 50;
+	int* playerScore = &highScore;
+	//playerScore = 1;
+	std::cout << &highScore << std::endl;
+
+
+
 }

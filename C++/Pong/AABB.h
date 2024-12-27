@@ -35,7 +35,7 @@ public:
 
 	//depenetrate the ball from the paddles
 
-	void BoxDepenatration();
+	//bool BoxDepenatration(Ball);
 	void Draw();
 	
 };

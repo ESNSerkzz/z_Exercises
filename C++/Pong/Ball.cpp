@@ -24,18 +24,26 @@ void Ball::Update(float delta)
 	dataInfo.pos.x += dataInfo.speed.x * delta;
 	dataInfo.pos.y += dataInfo.speed.y * delta;
 
-	if (dataInfo.pos.y <= borderHeight)
-	{
-		dataInfo.pos.y += dataInfo.speed.y;
-		//dataInfo.pos.y += dataInfo.speed.y * delta;
-	}
+	//if (dataInfo.pos.y <= borderHeight)
+	//{
+	//	dataInfo.pos.y += dataInfo.speed.y;
+	//	//dataInfo.pos.y += dataInfo.speed.y * delta;
+	//}
 	
 	//if(ballCollision.isOverLapped())
 
 }
 
-void Ball::verticalBounce()
+void Ball::verticalBounce(float delta)
 {
+	/*if (ballCollision.pos.y == borderHeight)
+	{
+	}*/
 	dataInfo.speed.y = -dataInfo.speed.y;
+	
+	// try a switch case, see what happens
+	
+
+	//dataInfo.pos.y 
 
 }
