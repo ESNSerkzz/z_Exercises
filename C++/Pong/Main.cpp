@@ -63,7 +63,6 @@ static void Update(float delta)
 	if (topBorder.isOverLapped(ball.ballCollision) || bottomBorder.isOverLapped(ball.ballCollision))
 	{
 
-
 		ball.verticalBounce(delta);
 		ball.Update(delta);
 		ball.Update(delta);
