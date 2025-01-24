@@ -4,18 +4,14 @@ RayLine::RayLine()
 {
 }
 
-RayLine::RayLine(Vector2 start, Vector2 end, float rayDir)
+RayLine::RayLine(Vector2 start, Vector2 rayDir)
 {
 	ray_SP = start;
-	ray_EP = end;
-	dir = rayDir;
-	rayDir = start.x, start.y - end.x, end.y;
-
-
+	ray_dir = rayDir;
 }
 
 void RayLine::Draw(Color c)
 {
-	DrawLineV(ray_SP, ray_EP, c);
+	DrawLineV(ray_SP, Vector2Add(ray_SP, ray_dir), c);
 
 }

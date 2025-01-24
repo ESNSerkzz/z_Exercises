@@ -1,12 +1,21 @@
 #pragma once
 #include <raylib.h>
 #include "RayLine.h"
+#include <algorithm>
 
 struct Rect
 {
 	Vector2 pos;
 	Vector2 size;
 
+};
+
+struct rayHitResult
+{
+	bool hit;
+	Vector2 normal;
+	Vector2 hitPos;
+	float t;
 };
 
 class AABB
@@ -41,19 +50,69 @@ public:
 			box.pos.y < r.box.pos.y + r.box.size.y &&
 			box.pos.y + box.size.y > r.box.pos.y
 			);
-
+		
 	}
 
-	bool RayVsRect(RayLine ray, Rect rec, float t)
+	bool RayVsRect(RayLine ray, rayHitResult& hitResult)
 	{
-		t = ray.ray_SP.x, ray.ray_SP.y + ray.dir * t;
 		
-		float nearP = rec.pos.x - ray.ray_SP.x &&  rec.pos.y - ray.ray_SP.y / ray.dir;
-		float farP = rec.pos.x + rec.size.x - ray.ray_SP.x && rec.pos.y + rec.size.y - ray.ray_SP.y / ray.dir;
 		
+		Vector2 nearP = Vector2Subtract(box.pos, ray.ray_SP );
+		nearP = Vector2Divide(nearP, ray.ray_dir);
+		Vector2 farP = Vector2Subtract(Vector2Add(box.pos, box.size), ray.ray_SP); 
+		farP = Vector2Divide(farP, ray.ray_dir);
+
+		if (nearP.x > farP.x)
+		{
+			std::swap(farP.x, nearP.x);
+		}
+		if (nearP.y > farP.y)
+		{
+			std::swap(farP.y, nearP.y);
+		}
+		if (nearP.x > farP.y || nearP.y > farP.x) return false;
+		
+
+		float hitNear = std::max(nearP.x, nearP.y);
+		float hitFar = std::min(farP.x, farP.y);
+
+		if (hitFar < 0) return false;
+		
+		hitResult.hitPos = {
+		ray.ray_SP.x + hitNear * ray.ray_dir.x, ray.ray_SP.y + hitNear * ray.ray_dir.y
+		};
+		if (nearP.x > nearP.y) 
+		{
+			if (ray.ray_dir.x < 0)
+			{
+				hitResult.normal = { 1, 0 };
+
+			}
+			else
+			{
+				hitResult.normal = { -1, 0 };
+			}
+		}
+
+		else 
+		{
+			if (ray.ray_dir.y < 0)
+			{
+				hitResult.normal = { 0,1 };
+			}
+			else 
+			{
+				hitResult.normal = {0, -1};
+			}
+
+		}
+		return (hitNear < 1);
+
+
 		// you were at the part were near point x was less than far point y.
 		// (you were contemplating it like it's a circle, 
 		// where the only time the near point x isn't less than far point y is when its 90 degrees right angle )
+		
 		/*return(
 			
 			);*/
