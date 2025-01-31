@@ -8,8 +8,6 @@ Paddles::Paddles()
 Paddles::Paddles(Vector2 position, Vector2 size, float speed)
 {
 	
-
-	
 }
 
 void Paddles::Update()

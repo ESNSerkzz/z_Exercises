@@ -17,7 +17,7 @@ Player::Player(int player_ID)
 		colourSelection = BLUE;
 
 	}
-	if (playerID == 2) 
+	if (playerID == 2)
 	{
 		dataInfo =
 		{
@@ -37,12 +37,6 @@ Player::Player(int player_ID)
 void Player::Update(float delta)
 {
 	paddleCollision.setPos(dataInfo.pos);
-
-	if (paddleCollision.isOverLapped(paddleCollision))
-	{
-		//paddleCollision.isOverLapped();
-	}
-	
 }
 
 void Player::Input(float delta)
@@ -72,8 +66,7 @@ void Player::Input(float delta)
 	
 	if (playerID == 2)
 	{
-		/* send frank Email asking about what i should prepare for Yr2 course and any...
-		curriculum changes i should be aware of.*/
+		
 		if (dataInfo.pos.y >= borderHeight)
 		{
 			if (IsKeyDown(KEY_UP))

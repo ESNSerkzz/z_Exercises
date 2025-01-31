@@ -39,9 +39,6 @@ void Update(float delta)
 {
 	//visual test (remove later or something)
 
-
-
-
 	pMouse.UpdatePos({ (float) GetMouseX(), (float) GetMouseY() });
 	if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 	{

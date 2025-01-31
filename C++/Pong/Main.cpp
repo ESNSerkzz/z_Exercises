@@ -62,56 +62,65 @@ static void Update(float delta)
 	//topBorder.isOverLapped(ball.ballCollision);
 	if (topBorder.isOverLapped(ball.ballCollision) || bottomBorder.isOverLapped(ball.ballCollision))
 	{
+		if (bottomBorder.isOverLapped(ball.ballCollision))
+		{
+			std::cout << "bottom" << std::endl;
+		}
+		else
+		{
+			std::cout << "top" << std::endl;
+		}
 
-		ball.verticalBounce(delta);
+		ball.Bounce(delta);
 		ball.Update(delta);
 		ball.Update(delta);
-		std::cout << "top" << std::endl;
+		//std::cout << "top" << std::endl;
 	}
+
+	//space between ball and paddle
+	
 	if (player1.paddleCollision.isOverLapped(ball.ballCollision))
 	{
+
+		Vector2 spaceBetween = Vector2Subtract(Vector2Add(player1.paddleCollision.pos, player1.paddleCollision.size), Vector2Divide(ball.ballCollision.size, { 2,2 }));
+		Vector2 speed = Vector2Normalize(spaceBetween);
+		speed = Vector2Invert(spaceBetween);
+		
 		std::cout << "paddle1" << std::endl;
-		Vector2 spaceBetween =
-		{ player1.paddleCollision.pos.x + player1.paddleCollision.size.x / 2 - ball.ballCollision.pos.x + ball.ballCollision.size.x / 2,
-		player1.paddleCollision.pos.y + player1.paddleCollision.size.y / 2 - ball.ballCollision.pos.y + ball.ballCollision.size.y / 2 };
-
 		std::cout << "Distance = " << Vector2Length(spaceBetween) << "\n";
 		
-		Vector2 speed = Vector2Normalize(spaceBetween);
+		
 
-		speed = Vector2Invert(speed);
 
 		std::cout << "Normalized distance = " << Vector2Length(speed) << "\n";
-		ball.dataInfo.speed = {speed.x * ballSpeed, spaceBetween.y * ballSpeed};
-
-		
-		ball.Update(delta);
-		ball.Update(delta);
-		
-	}
-	if (player2.paddleCollision.isOverLapped(ball.ballCollision))
-	{
-		std::cout << "paddle2" << std::endl;
-		
-		Vector2 spaceBetween = Vector2Subtract(player2.paddleCollision.pos, ball.ballCollision.pos);
-		//Vector2 spaceBetween =
-		//{ player2.paddleCollision.pos.x + player2.paddleCollision.size.x / 2 - ball.ballCollision.pos.x + ball.ballCollision.size.x / 2,
-		//player2.paddleCollision.pos.y + player2.paddleCollision.size.y / 2 - ball.ballCollision.pos.y + ball.ballCollision.size.y / 2 };
-
-		std::cout << "Distance = " << Vector2Length(spaceBetween) << "\n";
-
-		Vector2 speed = Vector2Normalize(spaceBetween);
-
-		speed = Vector2Invert(speed);
-
-		
-
-		std::cout << "Normalized distance = " << Vector2Length(speed) << "\n";
-		ball.dataInfo.speed = { speed.x * ballSpeed, spaceBetween.y * ballSpeed };
-
+		ball.dataInfo.speed = { speed.x * spaceBetween.y * ballSpeed };
 		ball.Update(delta);
 		ball.Update(delta);
 	}
+
+	//if (player2.paddleCollision.isOverLapped(ball.ballCollision))
+	//{
+	//	std::cout << "paddle2" << std::endl;
+	//	
+	//	Vector2 spaceBetween = Vector2Subtract(player2.paddleCollision.pos, ball.ballCollision.pos);
+	//	//Vector2 spaceBetween =
+	//	//{ player2.paddleCollision.pos.x + player2.paddleCollision.size.x / 2 - ball.ballCollision.pos.x + ball.ballCollision.size.x / 2,
+	//	//player2.paddleCollision.pos.y + player2.paddleCollision.size.y / 2 - ball.ballCollision.pos.y + ball.ballCollision.size.y / 2 };
+
+	//	std::cout << "Distance = " << Vector2Length(spaceBetween) << "\n";
+
+	//	Vector2 speed = Vector2Normalize(spaceBetween);
+
+	//	speed = Vector2Invert(speed);
+
+	//	
+
+	//	std::cout << "Normalized distance = " << Vector2Length(speed) << "\n";
+	//	ball.dataInfo.speed = { speed.x * ballSpeed, spaceBetween.y * ballSpeed };
+
+	//	ball.Update(delta);
+	//	ball.Update(delta);
+	//}
 
 
 

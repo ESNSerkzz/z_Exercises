@@ -1,5 +1,9 @@
 #include "Ball.h"
 
+Ball::Ball()
+{
+}
+
 Ball::Ball(Vector2 startVel)
 {
 	dataInfo.speed = startVel;
@@ -19,10 +23,11 @@ void Ball::Draw(void)
 void Ball::Update(float delta)
 {
 
-	ballCollision.setPos(dataInfo.pos);
 
 	dataInfo.pos.x += dataInfo.speed.x * delta;
 	dataInfo.pos.y += dataInfo.speed.y * delta;
+
+	ballCollision.setPos(dataInfo.pos);
 
 	//if (dataInfo.pos.y <= borderHeight)
 	//{
@@ -34,16 +39,8 @@ void Ball::Update(float delta)
 
 }
 
-void Ball::verticalBounce(float delta)
+void Ball::Bounce(float delta)
 {
-	/*if (ballCollision.pos.y == borderHeight)
-	{
-	}*/
 	dataInfo.speed.y = -dataInfo.speed.y;
-	
-	// try a switch case, see what happens
-	
-
-	//dataInfo.pos.y 
-
+	//dataInfo.speed.x = -dataInfo.speed.x;
 }

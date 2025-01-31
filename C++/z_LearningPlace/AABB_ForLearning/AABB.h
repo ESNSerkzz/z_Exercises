@@ -78,9 +78,8 @@ public:
 
 		if (hitFar < 0) return false;
 		
-		hitResult.hitPos = {
-		ray.ray_SP.x + hitNear * ray.ray_dir.x, ray.ray_SP.y + hitNear * ray.ray_dir.y
-		};
+		hitResult.hitPos = {ray.ray_SP.x + hitNear * ray.ray_dir.x, ray.ray_SP.y + hitNear * ray.ray_dir.y };
+
 		if (nearP.x > nearP.y) 
 		{
 			if (ray.ray_dir.x < 0)
