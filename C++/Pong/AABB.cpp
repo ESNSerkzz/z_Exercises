@@ -2,5 +2,5 @@
 
 void AABB::Draw()
 {
-	DrawRectangleLines(pos.x, pos.y, size.x, size.y, GREEN);
+	DrawRectangle(pos.x, pos.y, size.x, size.y, DARKPURPLE);
 }

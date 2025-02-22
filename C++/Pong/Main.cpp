@@ -1,5 +1,6 @@
 #include "Ball.h"
 #include "Constants.h"
+#include "FieldAbilities.h"
 #include "Paddles.h"
 #include "Player.h"
 #include "ScreenObjects.h"
@@ -9,6 +10,7 @@
 #include <string>
 #include <iostream>
 
+#define M_PI 3.14159
 
 static void SetUp();
 static void Update(float delta);
@@ -22,6 +24,11 @@ Ball ball = Ball({-200, 0});
 
 AABB topBorder = AABB({ 0,0 }, { screenWidth, borderHeight });
 AABB bottomBorder = AABB({ 0, screenHeight - borderHeight }, { screenWidth, borderHeight });
+
+FieldAbilities PowerUpBox = FieldAbilities();
+
+std::vector <FieldAbilities> PowerUpBoxes;
+int rallyScore;
 
 int main(void)
 {
@@ -42,7 +49,11 @@ void SetUp()
 {
 	InitWindow(screenWidth, screenHeight, "Window");
 	SetTargetFPS(60);
-
+	rallyScore = 0;
+	/*for (int i = 0; i < 1000; i++)
+	{
+		PowerUpBoxes.push_back(FieldAbilities(i));
+	}*/
 }
 
 static void Input(float delta)
@@ -58,6 +69,24 @@ static void Update(float delta)
 	player1.Update(delta);
 	player2.Update(delta);
 	ball.Update(delta);
+	PowerUpBox.Update();
+
+	//reset ball to middle of screen
+	if (ball.dataInfo.pos.x < 0 || ball.dataInfo.pos.x > screenWidth)
+	{
+		//ball.dataInfo.pos.x = screenWidth / 2;
+		rallyScore = 0;
+		if (ball.dataInfo.pos.x < 0)
+		{
+			player2.AddScore(1);
+		}
+		else
+		{
+			player1.AddScore(1);
+		}
+			
+		ball = Ball({ -200, 0 });
+	}
 
 	//topBorder.isOverLapped(ball.ballCollision);
 	if (topBorder.isOverLapped(ball.ballCollision) || bottomBorder.isOverLapped(ball.ballCollision))
@@ -65,11 +94,14 @@ static void Update(float delta)
 		if (bottomBorder.isOverLapped(ball.ballCollision))
 		{
 			std::cout << "bottom" << std::endl;
+		
 		}
 		else
 		{
 			std::cout << "top" << std::endl;
 		}
+		
+
 
 		ball.Bounce(delta);
 		ball.Update(delta);
@@ -77,53 +109,30 @@ static void Update(float delta)
 		//std::cout << "top" << std::endl;
 	}
 
+	
 	//space between ball and paddle
+
 	
 	if (player1.paddleCollision.isOverLapped(ball.ballCollision))
 	{
-
-		Vector2 spaceBetween = Vector2Subtract(Vector2Add(player1.paddleCollision.pos, player1.paddleCollision.size), Vector2Divide(ball.ballCollision.size, { 2,2 }));
-		Vector2 speed = Vector2Normalize(spaceBetween);
-		speed = Vector2Invert(spaceBetween);
-		
-		std::cout << "paddle1" << std::endl;
-		std::cout << "Distance = " << Vector2Length(spaceBetween) << "\n";
-		
-		
-
-
-		std::cout << "Normalized distance = " << Vector2Length(speed) << "\n";
-		ball.dataInfo.speed = { speed.x * spaceBetween.y * ballSpeed };
+		player1.HitBall(ball);
 		ball.Update(delta);
 		ball.Update(delta);
+
+		rallyScore++;
+		player1.PaddleRally(rallyScore);
+		player2.PaddleRally(rallyScore);
 	}
 
-	//if (player2.paddleCollision.isOverLapped(ball.ballCollision))
-	//{
-	//	std::cout << "paddle2" << std::endl;
-	//	
-	//	Vector2 spaceBetween = Vector2Subtract(player2.paddleCollision.pos, ball.ballCollision.pos);
-	//	//Vector2 spaceBetween =
-	//	//{ player2.paddleCollision.pos.x + player2.paddleCollision.size.x / 2 - ball.ballCollision.pos.x + ball.ballCollision.size.x / 2,
-	//	//player2.paddleCollision.pos.y + player2.paddleCollision.size.y / 2 - ball.ballCollision.pos.y + ball.ballCollision.size.y / 2 };
-
-	//	std::cout << "Distance = " << Vector2Length(spaceBetween) << "\n";
-
-	//	Vector2 speed = Vector2Normalize(spaceBetween);
-
-	//	speed = Vector2Invert(speed);
-
-	//	
-
-	//	std::cout << "Normalized distance = " << Vector2Length(speed) << "\n";
-	//	ball.dataInfo.speed = { speed.x * ballSpeed, spaceBetween.y * ballSpeed };
-
-	//	ball.Update(delta);
-	//	ball.Update(delta);
-	//}
-
-
-
+	if (player2.paddleCollision.isOverLapped(ball.ballCollision))
+	{
+		player2.HitBall(ball);
+		ball.Update(delta);
+		ball.Update(delta);
+		rallyScore++;
+		player1.PaddleRally(rallyScore);
+		player2.PaddleRally(rallyScore);
+	}	
 }
 
 static void Draw()
@@ -132,6 +141,7 @@ static void Draw()
 	ClearBackground(BLACK);
 	//Map
 	//edges
+	PowerUpBox.Draw();
 	DrawLineV({ 0,50 }, { screenWidth, 50 }, WHITE);
 	DrawLineV({  0, screenHeight - 50}, {  screenWidth, screenHeight -50}, WHITE);
 	//dividing line
@@ -141,10 +151,21 @@ static void Draw()
 	player1.Draw();
 	player2.Draw();
 
-	topBorder.Draw();
-	bottomBorder.Draw();
+	//topBorder.Draw();
+	//bottomBorder.Draw();
 
 	ball.Draw();
+	
+
+	/*for (auto i : PowerUpBoxes) 
+	{
+		i.Draw();
+	}*/
+
+
+	DrawText(TextFormat("Rally: %03i", rallyScore), screenWidth/ 2 - 100, 10, 50, YELLOW);
+	DrawText(TextFormat("Score: %02i", player1.playerScore), 50, screenHeight - 50, 50, BLUE);
+	DrawText(TextFormat("Score: %02i", player2.playerScore),screenWidth - 350, screenHeight - 50, 50, RED);
 
 	EndDrawing();
 }

@@ -1,7 +1,9 @@
 #include "Player.h"
+#include "Constants.h"
 
 Player::Player(int player_ID)
 {
+	playerScore = 0;
 	playerID = player_ID;
 	
 	if (playerID == 1)
@@ -9,7 +11,7 @@ Player::Player(int player_ID)
 		dataInfo = 
 		{
 			{ 30 , screenHeight / 2 },
-			{dataInfo.scaleSize},
+			{20, PaddleStartHeight},
 			
 			{0,0},
 
@@ -22,7 +24,7 @@ Player::Player(int player_ID)
 		dataInfo =
 		{
 			{screenWidth - dataInfo.scaleSize.x - 20, screenHeight/2},
-			{dataInfo.scaleSize},
+			{20 , PaddleStartHeight},
 			{0,0},
 
 		};
@@ -86,4 +88,29 @@ void Player::Input(float delta)
 			}
 		}
 	}
+}
+
+void Player::PaddleRally(int rallyS)
+{
+	if (rallyS == 3)
+	{
+		paddleCollision.size.y = paddleCollision.size.y / 2;
+		dataInfo.scaleSize.y = dataInfo.scaleSize.y / 2;
+	}
+	/*if (rallyS >= 5)
+	{
+		paddleCollision.size.y = paddleCollision.size.y / 1.2;
+		dataInfo.scaleSize.y = dataInfo.scaleSize.y / 1.2;
+	}
+	if (rallyS >= 7)
+	{
+		paddleCollision.size.y = paddleCollision.size.y / 1.2;
+		dataInfo.scaleSize.y = dataInfo.scaleSize.y / 1.2;
+	}*/
+
+}
+
+void Player::AddScore(int score)
+{
+	playerScore = playerScore + score;
 }

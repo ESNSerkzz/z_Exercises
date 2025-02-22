@@ -33,6 +33,9 @@
     <ClInclude Include="AABB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FieldAbilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Paddles.cpp">
@@ -51,6 +54,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AABB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldAbilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
