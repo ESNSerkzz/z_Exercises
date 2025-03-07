@@ -14,18 +14,18 @@ public:
 
 
 	//currentRandomPos = {randomPosX, randomPosY};
-	//making powerUP boxes and spinlkling them randomly thoughout the field using the "random" info that max sent me.
-	// HINT: constuct it like this - {} {} (for position)
+	//making powerUP boxes and sprinkling them randomly throughout the field using the "random" info that max sent me.
+	// HINT: construct it like this - {} {} (for position)
 	
 	FieldAbilities();
 	FieldAbilities(int seed);
 	void newPos(int seed);
-	void PowerUpAbility(int RandomSeedID);
+	bool PowerUpAbility(int RandomAbilityID);
 
-	void Update();
+	void Update(float delta);
 	void Draw();
 	
-	//~FieldAbilities();
+	~FieldAbilities();
 	
 };
 

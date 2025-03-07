@@ -43,5 +43,5 @@ void Ball::Bounce(float delta)
 {
 	dataInfo.speed.y = -dataInfo.speed.y;
 	//dataInfo.speed.x = -dataInfo.speed.x;
-	dataInfo.speed = Vector2Multiply(dataInfo.speed, {1.2, 1.2});
+	dataInfo.speed = Vector2Multiply(dataInfo.speed, {1.25, 1.25});
 }

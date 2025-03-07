@@ -69,7 +69,7 @@ static void Update(float delta)
 	player1.Update(delta);
 	player2.Update(delta);
 	ball.Update(delta);
-	PowerUpBox.Update();
+	PowerUpBox.Update(delta);
 
 	//reset ball to middle of screen
 	if (ball.dataInfo.pos.x < 0 || ball.dataInfo.pos.x > screenWidth)
@@ -100,8 +100,6 @@ static void Update(float delta)
 		{
 			std::cout << "top" << std::endl;
 		}
-		
-
 
 		ball.Bounce(delta);
 		ball.Update(delta);
@@ -133,6 +131,29 @@ static void Update(float delta)
 		player1.PaddleRally(rallyScore);
 		player2.PaddleRally(rallyScore);
 	}	
+
+
+	if (ball.ballCollision.isOverLapped(PowerUpBox.abilityBox))
+	{
+
+		PowerUpBox.PowerUpAbility(0);
+		if (PowerUpBox.PowerUpAbility(NULL) == PowerUpBox.PowerUpAbility(1))
+		{
+			//ball.dataInfo.speed = Vector2Invert(ball.dataInfo.speed);
+
+			ball.Bounce(delta);
+		}
+		if (PowerUpBox.PowerUpAbility(2))
+		{
+			ball.dataInfo.speed = Vector2Multiply(ball.dataInfo.speed, { 0.125, 0.125 });
+		}
+		 
+		//Push_back idea I had to iterate to the next instance of the PUB'es
+
+		PowerUpBox.~FieldAbilities();
+		
+		//PowerUpBox.~FieldAbilities();
+	}
 }
 
 static void Draw()
@@ -141,12 +162,12 @@ static void Draw()
 	ClearBackground(BLACK);
 	//Map
 	//edges
-	PowerUpBox.Draw();
 	DrawLineV({ 0,50 }, { screenWidth, 50 }, WHITE);
 	DrawLineV({  0, screenHeight - 50}, {  screenWidth, screenHeight -50}, WHITE);
 	//dividing line
 	DrawLineV({ screenWidth / 2, 50 }, {screenWidth/2, screenHeight-50}, WHITE);
 
+	PowerUpBox.Draw();
 	//Player drawing
 	player1.Draw();
 	player2.Draw();
