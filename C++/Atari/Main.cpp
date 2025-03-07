@@ -26,7 +26,7 @@ void SetUp()
 
 void Update()
 {
-
+	player.Update();
 }
 
 void Draw()
