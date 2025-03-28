@@ -1,14 +1,19 @@
 #pragma once
+#include "Constants.h"
+#include "Collisions.h"
+#include "GameSpaceData.h"
 #include "raylib.h"
+#include "raymath.h"
 
-class Ball
+class Ball : public GameDataInfo
 {
-	Vector2 pos;
-	float radius;
+public:
+	CC ballCollision;
 
 	Ball();
+	Ball(Vector2 startVel);
 
-	void Update();
+	void Update(float delta);
 	void Draw();
 };
 

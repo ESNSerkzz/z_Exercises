@@ -5,7 +5,7 @@ struct DataInfo
 {
 	Vector2 pos;
 	Vector2 size;
-	float vel;
+	Vector2 vel;
 	float radius;
 };
 
@@ -13,4 +13,7 @@ class GameDataInfo
 {
 public:
 	DataInfo dataInfo;
+
+	void Draw();
+	void Update(float delta);
 };

@@ -133,6 +133,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="BrickTiles.cpp" />
+    <ClCompile Include="Collisions.cpp" />
     <ClCompile Include="Constants.h" />
     <ClCompile Include="GameSpaceData.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -140,6 +142,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.h" />
+    <ClInclude Include="BrickTiles.h" />
+    <ClInclude Include="Collisions.h" />
     <ClInclude Include="GameSpaceData.h" />
     <ClInclude Include="Paddle.h" />
   </ItemGroup>
