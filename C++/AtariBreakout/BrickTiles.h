@@ -7,7 +7,7 @@
 class BrickTiles : public GameDataInfo
 {
 public:
-	AABB Bricks;
+	AABB BrickCollision;
 	BrickTiles();
 	BrickTiles(Vector2 _pos, Vector2 _size);
 	void Draw();
