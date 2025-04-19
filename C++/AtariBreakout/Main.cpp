@@ -11,14 +11,14 @@
 std::vector<BrickTiles> LoadBricks(Vector2 topLeftCorner, Vector2 bottomRightCorner, const char* string);
 static void SetUp();
 static void Update(float delta);
+static void Collide(float delta);
 static void Draw();
 
 Paddle player = Paddle();
-Ball ball = Ball();
+//Ball ball = Ball();
 
-
-//Ball ball = Ball(Raylib.Vector2(0.0f, 40.0f));
-//BrickTiles brick = BrickTiles({ 50, 50 }, {70, 20});
+hitResult hitCollision;
+Ball ball = Ball({ 0.0f, 40.0f });
 std::vector <BrickTiles> Bricks;
 const char* brickPattern =
 "0000000002"
@@ -32,6 +32,7 @@ int main()
 	SetUp();
 	while (!WindowShouldClose())
 	{
+		Collide(GetFrameTime());
 		Update(GetFrameTime());
 		Draw();
 	}
@@ -42,6 +43,7 @@ std::vector<BrickTiles> LoadBricks(Vector2 _topLeftCorner, Vector2 _bottomRightC
 	std::vector <BrickTiles> returnBricks;
 	returnBricks.push_back(BrickTiles());
 	int columns;
+	int row = 0;
 	Vector2 BrickSize;
 	
 	for (int i = 0; i < (unsigned)strlen(_string); i++)
@@ -51,7 +53,9 @@ std::vector<BrickTiles> LoadBricks(Vector2 _topLeftCorner, Vector2 _bottomRightC
 			std::cout << std::endl << i << std::endl;
 			BrickSize.x = (_bottomRightCorner.x - _topLeftCorner.x)/ i;
 			BrickSize.y = (_bottomRightCorner.y - _topLeftCorner.y) / (strlen(_string) / (i + 1));
-			columns = (strlen(_string)) / (i + 1);
+			columns = (i + 1);
+			
+
 			break;
 		}
 
@@ -62,19 +66,21 @@ std::vector<BrickTiles> LoadBricks(Vector2 _topLeftCorner, Vector2 _bottomRightC
 	{
 		if (_string[i] != '2')
 		{
-
-			returnBricks.push_back(BrickTiles(
-				{
-					_topLeftCorner.x + i * BrickSize.x,
-					_topLeftCorner.y + ()
-
-
-				},
-
-				Vector2Subtract(BrickSize, { 2, 2 })
-
+			if (_string[i] == '0')
+			{
+				returnBricks.push_back(BrickTiles(
+					{
+						(_topLeftCorner.x + i * BrickSize.x) - (row * BrickSize.x * 10) ,
+						_topLeftCorner.y + (row * BrickSize.y)
+					},
+					Vector2Subtract(BrickSize, { 2, 2 })
+				));
+			}
 			
-			));
+		}
+		else
+		{
+			row++;
 		}
 	}
 
@@ -94,23 +100,40 @@ void Update(float delta)
 	player.Input(delta);
 }
 
+void Collide(float delta)
+{
+	if (ball.ballCollision.isOverlapped(player.boxCollision, hitCollision))
+	{
+		ball.dataInfo.pos = Vector2Add(ball.dataInfo.pos, Vector2Multiply(Vector2Scale(hitCollision.normal, 2), ball.dataInfo.vel));
+		ball.dataInfo.vel.y = -ball.dataInfo.vel.y;
+	}
+
+	for (auto i : Bricks)
+	{
+		if (ball.ballCollision.isOverlapped(i.BrickCollision, hitCollision)) 
+		{
+			ball.dataInfo.pos = Vector2Add(ball.dataInfo.pos, Vector2Multiply(Vector2Scale(hitCollision.normal, 2), ball.dataInfo.vel));
+			ball.dataInfo.vel.y = -ball.dataInfo.vel.y;
+		}
+	}
+}
+
 void Draw()
 {
 
 	BeginDrawing();
 	ClearBackground(BLACK);
 
-	ball.ballCollision.isOverlapped(player.boxCollision);
 
 	//Map line.
 	DrawLine(0, windowHeight - 100, windowWidth, windowHeight - 100, WHITE);
 
 	player.Draw();
 	ball.Draw();
-	bricks.Draw();
 
 	for (auto i : Bricks) i.Draw();
 
+	DrawLineV(ball.dataInfo.pos, Vector2Add(ball.dataInfo.pos, Vector2Scale(hitCollision.normal, 50)), RED);
 
 	EndDrawing();
 }

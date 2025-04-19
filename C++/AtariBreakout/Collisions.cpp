@@ -1,4 +1,5 @@
 #include "Collisions.h"
+#include "iostream"
 
 CC::CC()
 {
@@ -12,21 +13,37 @@ CC::CC(Vector2 _pos, float _rad)
 	rad = _rad;
 }
 
-bool CC::isOverlapped(AABB box)
+bool CC::isOverlapped(AABB box, hitResult& hit)
 {
-	Vector2 closetPoint;
+	Vector2 closestPoint;
 
-	closetPoint.x = std::max(box.pos.x, std::min(pos.x, (box.pos.x + box.size.x)));
-	closetPoint.y = std::max(box.pos.y, std::min(box.pos.y + box.size.y, pos.y));
+	closestPoint.x = std::max(box.pos.x, std::min(pos.x, (box.pos.x + box.size.x)));
+	closestPoint.y = std::max(box.pos.y, std::min(box.pos.y + box.size.y, pos.y));
 
-	DrawLineV(pos, closetPoint, YELLOW);
+	DrawLineV(pos, closestPoint, YELLOW);
 
-	Vector2 aabbToNearest = Vector2Subtract(closetPoint, pos);
+	Vector2 aabbToNearest = Vector2Subtract(closestPoint, pos);
 	Vector2 AABBdistToCCdist = Vector2Subtract(pos, box.pos);
 
 
+	if (Vector2Length(aabbToNearest) < rad)
+	{
+		//figure out the where the angle of the ball is in relation to the AABB (player)
+		hit.position = pos;
+		hit.collided = true;
+		//hit.normal = Vector2Rotate(aabbToNearest, PI);
+		hit.normal = Vector2Negate(aabbToNearest);
+		hit.normal = Vector2Normalize(hit.normal);
+		std::cout << hit.normal.x << std::endl;
+		std::cout << hit.normal.y << std::endl;
 
-	return Vector2Length(aabbToNearest) < rad;
+		//if ()
+
+
+		return true;
+	}
+
+	return false;
 }
 
 AABB::AABB()
@@ -41,7 +58,7 @@ AABB::AABB(Vector2 _pos, Vector2 _size)
 	size = _size;
 }
 
-bool AABB::isOverlapped(AABB box)
+bool AABB::isOverlapped(AABB box, hitResult& hit)
 {
 	return(
 		pos.x < box.pos.x + box.size.x &&

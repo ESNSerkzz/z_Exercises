@@ -3,13 +3,22 @@
 #include "algorithm"
 #include "raymath.h"
 
+struct hitResult
+{
+	bool collided;
+	Vector2 normal;
+	Vector2 position;
+	float hitTime;
+};
+
 struct AABB
 {
 	Vector2 pos;
 	Vector2 size;
 	AABB();
 	AABB(Vector2 _pos, Vector2 _size);
-	bool isOverlapped(AABB box);
+	bool isOverlapped(AABB box, hitResult& hit);
+
 
 	void Draw();
 
@@ -21,7 +30,7 @@ struct CC
 	float rad;
 	CC();
 	CC(Vector2 _pos, float _rad);
-	bool isOverlapped(AABB box);
+	bool isOverlapped(AABB box, hitResult& hit);
 
 };
 
