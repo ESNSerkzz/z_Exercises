@@ -88,7 +88,7 @@ static void Update(float delta)
 		ball = Ball({ -200, 0 });
 	}
 
-	//topBorder.isOverLapped(ball.ballCollision);
+
 	if (topBorder.isOverLapped(ball.ballCollision) || bottomBorder.isOverLapped(ball.ballCollision))
 	{
 		if (bottomBorder.isOverLapped(ball.ballCollision))
@@ -104,7 +104,6 @@ static void Update(float delta)
 		ball.Bounce(delta);
 		ball.Update(delta);
 		ball.Update(delta);
-		//std::cout << "top" << std::endl;
 	}
 
 	
@@ -131,6 +130,14 @@ static void Update(float delta)
 		player1.PaddleRally(rallyScore);
 		player2.PaddleRally(rallyScore);
 	}	
+
+	for (auto i : PowerUpBoxes)
+	{
+		if (ball.ballCollision.isOverLapped(i.abilityBox))
+		{
+			std::cout << "its worked?" << std::endl;
+		}
+	}
 
 
 	if (ball.ballCollision.isOverLapped(PowerUpBox.abilityBox))

@@ -9,9 +9,10 @@ FieldAbilities::FieldAbilities()
 	newPos(1);
 	
 	abilityBox.size = { 80, 80 };
+	PowerUpAbility(0);
 
-	std::cout << abilityBox.pos.x << "\n";
-	std::cout << abilityBox.pos.y << "\n";
+	std::cout << "AB pos x" << abilityBox.pos.x << "\n";
+	std::cout << "AB pos y" << abilityBox.pos.y << "\n";
 	//std::sleep(10);
 
 
@@ -61,7 +62,7 @@ FieldAbilities::~FieldAbilities()
 
 void FieldAbilities::Update(float delta)
 {
-	abilityBox.pos;
+	//abilityBox.pos;
 }
 
 void FieldAbilities::Draw()

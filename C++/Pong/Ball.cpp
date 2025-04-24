@@ -24,8 +24,20 @@ void Ball::Update(float delta)
 {
 
 
-	dataInfo.pos.x += dataInfo.speed.x * delta;
-	dataInfo.pos.y += dataInfo.speed.y * delta;
+	
+
+	if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+	{
+		dataInfo.pos.x = GetMouseX();
+		dataInfo.pos.y = GetMouseY();
+	}
+	
+	else
+	{
+		dataInfo.pos.x += dataInfo.speed.x * delta;
+		dataInfo.pos.y += dataInfo.speed.y * delta;
+	}
+
 
 	ballCollision.setPos(dataInfo.pos);
 
