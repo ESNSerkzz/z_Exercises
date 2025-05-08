@@ -37,6 +37,7 @@ public:
 
 	//bool BoxDepenatration(Ball);
 	void Draw();
+	void Draw(Color colour);
 	
 };
 

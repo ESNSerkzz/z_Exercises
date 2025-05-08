@@ -12,6 +12,8 @@
 
 #define M_PI 3.14159
 
+
+
 static void SetUp();
 static void Update(float delta);
 static void Input(float delta);
@@ -50,10 +52,11 @@ void SetUp()
 	InitWindow(screenWidth, screenHeight, "Window");
 	SetTargetFPS(60);
 	rallyScore = 0;
-	/*for (int i = 0; i < 1000; i++)
-	{
-		PowerUpBoxes.push_back(FieldAbilities(i));
-	}*/
+	
+	
+	PowerUpBoxes.push_back(FieldAbilities(0, SPEEDBOOST));
+	PowerUpBoxes.push_back(FieldAbilities(1, BOUNCE));
+	
 }
 
 static void Input(float delta)
@@ -70,6 +73,7 @@ static void Update(float delta)
 	player2.Update(delta);
 	ball.Update(delta);
 	PowerUpBox.Update(delta);
+
 
 	//reset ball to middle of screen
 	if (ball.dataInfo.pos.x < 0 || ball.dataInfo.pos.x > screenWidth)
@@ -131,36 +135,32 @@ static void Update(float delta)
 		player2.PaddleRally(rallyScore);
 	}	
 
-	for (auto i : PowerUpBoxes)
+	/*for (auto i : PowerUpBoxes)
 	{
 		if (ball.ballCollision.isOverLapped(i.abilityBox))
 		{
 			std::cout << "its worked?" << std::endl;
 		}
-	}
+	}*/
 
-
-	if (ball.ballCollision.isOverLapped(PowerUpBox.abilityBox))
+	
+	
+	for (auto i : PowerUpBoxes)
 	{
-
-		PowerUpBox.PowerUpAbility(0);
-		if (PowerUpBox.PowerUpAbility(NULL) == PowerUpBox.PowerUpAbility(1))
-		{
-			//ball.dataInfo.speed = Vector2Invert(ball.dataInfo.speed);
-
-			ball.Bounce(delta);
-		}
-		if (PowerUpBox.PowerUpAbility(2))
-		{
-			ball.dataInfo.speed = Vector2Multiply(ball.dataInfo.speed, { 0.125, 0.125 });
-		}
-		 
-		//Push_back idea I had to iterate to the next instance of the PUB'es
-
-		PowerUpBox.~FieldAbilities();
 		
-		//PowerUpBox.~FieldAbilities();
+		if (i.abilityBox.isOverLapped(ball.ballCollision))
+		{
+			i.PowerUpAbility(&ball);
+		}
+
+		
 	}
+
+		
+		
+	
+
+	
 }
 
 static void Draw()
@@ -175,6 +175,9 @@ static void Draw()
 	DrawLineV({ screenWidth / 2, 50 }, {screenWidth/2, screenHeight-50}, WHITE);
 
 	PowerUpBox.Draw();
+
+	for (auto i : PowerUpBoxes) i.Draw();
+
 	//Player drawing
 	player1.Draw();
 	player2.Draw();
@@ -185,10 +188,10 @@ static void Draw()
 	ball.Draw();
 	
 
-	/*for (auto i : PowerUpBoxes) 
+	for (auto i : PowerUpBoxes) 
 	{
 		i.Draw();
-	}*/
+	}
 
 
 	DrawText(TextFormat("Rally: %03i", rallyScore), screenWidth/ 2 - 100, 10, 50, YELLOW);

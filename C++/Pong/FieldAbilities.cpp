@@ -9,7 +9,6 @@ FieldAbilities::FieldAbilities()
 	newPos(1);
 	
 	abilityBox.size = { 80, 80 };
-	PowerUpAbility(0);
 
 	std::cout << "AB pos x" << abilityBox.pos.x << "\n";
 	std::cout << "AB pos y" << abilityBox.pos.y << "\n";
@@ -18,12 +17,13 @@ FieldAbilities::FieldAbilities()
 
 }
 
-FieldAbilities::FieldAbilities(int seed)
+FieldAbilities::FieldAbilities(int seed, AbilityType newType)
 {
 	newPos(seed);
 
-	abilityBox.size = { 50, 50 };
 
+	abilityBox.size = { 50, 50 };
+	type = newType;
 	
 }
 
@@ -34,22 +34,21 @@ void FieldAbilities::newPos(int seed)
 	abilityBox.pos = { static_cast<float>((rand() % (screenWidth - 200)) + 100) , static_cast<float>((rand() % (screenHeight - borderHeight - borderHeight - 100)) + borderHeight + 50) };
 }
 
-bool FieldAbilities::PowerUpAbility(int RandomAbilityID)
+bool FieldAbilities::PowerUpAbility(Ball* ballA)
 {
 	
-	//RandomSeedID = rand() % 3;
-	RandomAbilityID = 1;
 
-	int AbilityID = RandomAbilityID;
-	switch (AbilityID) 
+
+	switch (type) 
 	{
-	case 1:
-		AbilityID = 1;
+	case SPEEDBOOST:
 		
+		
+		ballA->dataInfo.speed = Vector2Multiply(ballA->dataInfo.speed, { 1.125, 1.125 });
 		break;
-	case 2:
-		AbilityID = 2;
+	case BOUNCE:
 		
+		ballA->dataInfo.speed = Vector2Rotate(ballA->dataInfo.speed, PI);
 		break;
 	}
 	return false;
@@ -69,4 +68,17 @@ void FieldAbilities::Draw()
 {
 	abilityBox.Draw();
 	
+	switch (type)
+	{
+	case SPEEDBOOST:
+
+		abilityBox.Draw(GREEN);
+		
+		
+		break;
+	case BOUNCE:
+
+		abilityBox.Draw(YELLOW);
+		break;
+	}
 }
