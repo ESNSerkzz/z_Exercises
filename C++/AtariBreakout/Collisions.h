@@ -9,6 +9,7 @@ struct hitResult
 	Vector2 normal;
 	Vector2 position;
 	float hitTime;
+	float penetrationDepth;
 };
 
 struct AABB
@@ -24,6 +25,7 @@ struct AABB
 
 };
 
+// CC means Circle Collision
 struct CC
 {
 	Vector2 pos;

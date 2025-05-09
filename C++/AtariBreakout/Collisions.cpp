@@ -25,20 +25,20 @@ bool CC::isOverlapped(AABB box, hitResult& hit)
 	Vector2 aabbToNearest = Vector2Subtract(closestPoint, pos);
 	Vector2 AABBdistToCCdist = Vector2Subtract(pos, box.pos);
 
+	
 
-	if (Vector2Length(aabbToNearest) < rad)
+	if (Vector2Length(aabbToNearest) <= rad)
 	{
 		//figure out the where the angle of the ball is in relation to the AABB (player)
 		hit.position = pos;
 		hit.collided = true;
-		//hit.normal = Vector2Rotate(aabbToNearest, PI);
+		hit.normal = Vector2Rotate(aabbToNearest, PI);
 		hit.normal = Vector2Negate(aabbToNearest);
 		hit.normal = Vector2Normalize(hit.normal);
-		std::cout << hit.normal.x << std::endl;
-		std::cout << hit.normal.y << std::endl;
+		//std::cout << hit.normal.x << std::endl;
+		//std::cout << hit.normal.y << std::endl;
 
-		//if ()
-
+		hit.penetrationDepth = rad - Vector2Length(aabbToNearest);
 
 		return true;
 	}

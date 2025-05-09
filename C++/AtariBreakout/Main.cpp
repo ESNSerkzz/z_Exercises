@@ -18,7 +18,7 @@ Paddle player = Paddle();
 //Ball ball = Ball();
 
 hitResult hitCollision;
-Ball ball = Ball({ 0.0f, 40.0f });
+Ball ball = Ball({ 0.0f, 80.0f });
 std::vector <BrickTiles> Bricks;
 const char* brickPattern =
 "0000000002"
@@ -50,7 +50,7 @@ std::vector<BrickTiles> LoadBricks(Vector2 _topLeftCorner, Vector2 _bottomRightC
 	{
 		if (_string[i] == '2')
 		{
-			std::cout << std::endl << i << std::endl;
+			//std::cout << std::endl << i << std::endl;
 			BrickSize.x = (_bottomRightCorner.x - _topLeftCorner.x)/ i;
 			BrickSize.y = (_bottomRightCorner.y - _topLeftCorner.y) / (strlen(_string) / (i + 1));
 			columns = (i + 1);
@@ -104,16 +104,30 @@ void Collide(float delta)
 {
 	if (ball.ballCollision.isOverlapped(player.boxCollision, hitCollision))
 	{
-		ball.dataInfo.pos = Vector2Add(ball.dataInfo.pos, Vector2Multiply(Vector2Scale(hitCollision.normal, 2), ball.dataInfo.vel));
+		ball.dataInfo.pos = Vector2Add(ball.dataInfo.pos, Vector2Scale(hitCollision.normal, hitCollision.penetrationDepth + 1.0f));
 		ball.dataInfo.vel.y = -ball.dataInfo.vel.y;
+		//std::cout << hitCollision.penetrationDepth << std::endl;
+		Vector2 MiddleOfBox = Vector2Add(player.dataInfo.pos, Vector2Divide(player.dataInfo.size, { 2,2 }));
+		Vector2 BoxToBallNormalise = Vector2Subtract(ball.dataInfo.pos, MiddleOfBox);
+		BoxToBallNormalise = Vector2Normalize(BoxToBallNormalise);
+
+	
+		ball.dataInfo.vel = Vector2Scale(BoxToBallNormalise, Vector2Length(ball.dataInfo.vel));
 	}
 
 	for (auto i : Bricks)
 	{
 		if (ball.ballCollision.isOverlapped(i.BrickCollision, hitCollision)) 
 		{
-			ball.dataInfo.pos = Vector2Add(ball.dataInfo.pos, Vector2Multiply(Vector2Scale(hitCollision.normal, 2), ball.dataInfo.vel));
-			ball.dataInfo.vel.y = -ball.dataInfo.vel.y;
+			ball.dataInfo.pos = Vector2Add(ball.dataInfo.pos, Vector2Scale(hitCollision.normal, hitCollision.penetrationDepth + 1.0f));
+			if (hitCollision.normal.x > 0.5 || hitCollision.normal.x < -0.5)
+			{
+				ball.dataInfo.vel.x *= -1;
+			}
+			else
+			{
+				ball.dataInfo.vel.y *= -1;
+			}
 		}
 	}
 }
@@ -130,6 +144,10 @@ void Draw()
 
 	player.Draw();
 	ball.Draw();
+	Vector2 MiddleOfBox = Vector2Add(player.dataInfo.pos, Vector2Divide(player.dataInfo.size, { 2,2 }));
+	DrawCircleV(MiddleOfBox, 5, RED);
+	
+	DrawLineV(MiddleOfBox, ball.dataInfo.pos, RED);
 
 	for (auto i : Bricks) i.Draw();
 
