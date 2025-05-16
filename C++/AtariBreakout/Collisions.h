@@ -22,7 +22,7 @@ struct AABB
 
 
 	void Draw();
-
+	void Draw(Color c, bool _fill);
 };
 
 // CC means Circle Collision

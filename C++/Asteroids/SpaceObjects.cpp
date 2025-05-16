@@ -1,5 +1,5 @@
-#include "SpaceObjects.h"
 #include "raymath.h"
+#include "SpaceObjects.h"
 
 SpaceObject::SpaceObject()
 {

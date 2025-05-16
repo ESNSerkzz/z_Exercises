@@ -13,7 +13,7 @@ class GameDataInfo
 {
 public:
 	DataInfo dataInfo;
-
+	bool deletable;
 	void Draw();
 	void Update(float delta);
 };

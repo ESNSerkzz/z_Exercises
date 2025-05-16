@@ -8,7 +8,7 @@
 #include <string.h>
 #include <vector>
 
-std::vector<BrickTiles> LoadBricks(Vector2 topLeftCorner, Vector2 bottomRightCorner, const char* string);
+std::vector<BrickTiles*>  LoadBricks(Vector2 topLeftCorner, Vector2 bottomRightCorner, const char* string);
 static void SetUp();
 static void Update(float delta);
 static void Collide(float delta);
@@ -19,12 +19,24 @@ Paddle player = Paddle();
 
 hitResult hitCollision;
 Ball ball = Ball({ 0.0f, 80.0f });
-std::vector <BrickTiles> Bricks;
+std::vector <BrickTiles*> Bricks;
 const char* brickPattern =
 "0000000002"
 "0111111102"
 "0110001102"
 "0111011102";
+
+const char* brickPattern_2 =
+"000000000102"
+"011111110102"
+"011000110102"
+"011101110102"
+"000000000002";
+
+AABB leftBorder = AABB({ 0,0 }, { 2, windowHeight });
+AABB rightBorder = AABB({windowWidth - 2, 0}, {2, windowHeight});
+AABB topBorder = AABB({0,0}, {windowWidth, 2});
+AABB bottomBorder = AABB({0, windowHeight - 100}, {windowWidth, 100});
 
 
 int main()
@@ -38,10 +50,10 @@ int main()
 	}
 }
 
-std::vector<BrickTiles> LoadBricks(Vector2 _topLeftCorner, Vector2 _bottomRightCorner, const char* _string)
+std::vector<BrickTiles*> LoadBricks(Vector2 _topLeftCorner, Vector2 _bottomRightCorner, const char* _string)
 { 
-	std::vector <BrickTiles> returnBricks;
-	returnBricks.push_back(BrickTiles());
+	std::vector <BrickTiles*> returnBricks;
+	returnBricks.push_back(new BrickTiles());
 	int columns;
 	int row = 0;
 	Vector2 BrickSize;
@@ -68,7 +80,7 @@ std::vector<BrickTiles> LoadBricks(Vector2 _topLeftCorner, Vector2 _bottomRightC
 		{
 			if (_string[i] == '0')
 			{
-				returnBricks.push_back(BrickTiles(
+				returnBricks.push_back(new BrickTiles(
 					{
 						(_topLeftCorner.x + i * BrickSize.x) - (row * BrickSize.x * 10) ,
 						_topLeftCorner.y + (row * BrickSize.y)
@@ -90,7 +102,7 @@ std::vector<BrickTiles> LoadBricks(Vector2 _topLeftCorner, Vector2 _bottomRightC
 void SetUp()
 {
 	InitWindow(windowWidth, windowHeight, "WindowScreen");
-	Bricks = LoadBricks({ 50, 50 }, {windowWidth - 50, 500}, brickPattern);
+	Bricks = LoadBricks({ 50, 50 }, {windowWidth - 50, 500}, brickPattern_2);
 }
 
 void Update(float delta)
@@ -117,7 +129,7 @@ void Collide(float delta)
 
 	for (auto i : Bricks)
 	{
-		if (ball.ballCollision.isOverlapped(i.BrickCollision, hitCollision)) 
+		if (ball.ballCollision.isOverlapped(i->BrickCollision, hitCollision)) 
 		{
 			ball.dataInfo.pos = Vector2Add(ball.dataInfo.pos, Vector2Scale(hitCollision.normal, hitCollision.penetrationDepth + 1.0f));
 			if (hitCollision.normal.x > 0.5 || hitCollision.normal.x < -0.5)
@@ -128,7 +140,76 @@ void Collide(float delta)
 			{
 				ball.dataInfo.vel.y *= -1;
 			}
+			//think of the LoadBricks function. think about its parameters.
+			
+			i->deletable = true;
+		
 		}
+		
+	}
+	if (ball.ballCollision.isOverlapped(bottomBorder, hitCollision)) 
+	{
+		std::cout << "lost\n";
+	}
+
+	if (ball.ballCollision.isOverlapped(leftBorder, hitCollision))
+	{
+		ball.dataInfo.pos = Vector2Add(ball.dataInfo.pos, Vector2Scale(hitCollision.normal, hitCollision.penetrationDepth + 1.0f));
+		if (hitCollision.normal.x > 0.5 || hitCollision.normal.x < -0.5)
+		{
+			ball.dataInfo.vel.x *= -1;
+		}
+		else
+		{
+			ball.dataInfo.vel.y *= -1;
+		}
+	}
+	if (ball.ballCollision.isOverlapped(rightBorder, hitCollision))
+	{
+		ball.dataInfo.pos = Vector2Add(ball.dataInfo.pos, Vector2Scale(hitCollision.normal, hitCollision.penetrationDepth + 1.0f));
+		if (hitCollision.normal.x > 0.5 || hitCollision.normal.x < -0.5)
+		{
+			ball.dataInfo.vel.x *= -1;
+		}
+		else
+		{
+			ball.dataInfo.vel.y *= -1;
+		}
+	}
+
+	if (ball.ballCollision.isOverlapped(topBorder, hitCollision))
+	{
+		ball.dataInfo.pos = Vector2Add(ball.dataInfo.pos, Vector2Scale(hitCollision.normal, hitCollision.penetrationDepth + 1.0f));
+		if (hitCollision.normal.x > 0.5 || hitCollision.normal.x < -0.5)
+		{
+			ball.dataInfo.vel.x *= -1;
+		}
+		else
+		{
+			ball.dataInfo.vel.y *= -1;
+		}
+	}
+
+	if (Bricks.size() > 0)
+	{
+		auto i = remove_if(Bricks.begin(), Bricks.end(),
+			[&](BrickTiles* o)
+			{
+				return (o->deletable);
+			}
+		);
+
+		if (i != Bricks.end())
+		{
+			Bricks.erase(i);
+		}
+
+		/*for (auto a : Bricks)
+		{
+			a->deletable = false;
+
+			Bricks.push_back(a);
+		}*/
 	}
 }
 
@@ -141,6 +222,10 @@ void Draw()
 
 	//Map line.
 	DrawLine(0, windowHeight - 100, windowWidth, windowHeight - 100, WHITE);
+	topBorder.Draw(WHITE, true);
+	leftBorder.Draw(WHITE, true);
+	rightBorder.Draw(WHITE, true);
+	bottomBorder.Draw(WHITE, false);
 
 	player.Draw();
 	ball.Draw();
@@ -149,7 +234,7 @@ void Draw()
 	
 	DrawLineV(MiddleOfBox, ball.dataInfo.pos, RED);
 
-	for (auto i : Bricks) i.Draw();
+	for (auto i : Bricks) i->Draw();
 
 	DrawLineV(ball.dataInfo.pos, Vector2Add(ball.dataInfo.pos, Vector2Scale(hitCollision.normal, 50)), RED);
 

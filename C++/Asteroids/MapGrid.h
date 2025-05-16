@@ -1,7 +1,7 @@
 #pragma once
+#include "raylib.h"
 #include <Vector>
 #include "Constants.h"
-#include "raylib.h"
 #include <utility>
 
 enum imageType

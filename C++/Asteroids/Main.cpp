@@ -1,8 +1,8 @@
+#include "Raylib.h"
 #include <iostream>
 #include <algorithm>
 #include <string>
 #include <vector>
-#include "Raylib.h"
 #include "Constants.h"
 #include "SpaceObjects.h"
 #include "Player.h"

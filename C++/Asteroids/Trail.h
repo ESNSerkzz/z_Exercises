@@ -1,6 +1,6 @@
 #pragma once
-#include "vector"
 #include "raylib.h"
+#include "vector"
 #include "raymath.h"
 #include "Constants.h"
 

@@ -20,7 +20,7 @@ bool CC::isOverlapped(AABB box, hitResult& hit)
 	closestPoint.x = std::max(box.pos.x, std::min(pos.x, (box.pos.x + box.size.x)));
 	closestPoint.y = std::max(box.pos.y, std::min(box.pos.y + box.size.y, pos.y));
 
-	DrawLineV(pos, closestPoint, YELLOW);
+	//DrawLineV(pos, closestPoint, YELLOW);
 
 	Vector2 aabbToNearest = Vector2Subtract(closestPoint, pos);
 	Vector2 AABBdistToCCdist = Vector2Subtract(pos, box.pos);
@@ -71,4 +71,16 @@ bool AABB::isOverlapped(AABB box, hitResult& hit)
 void AABB::Draw()
 {
 	DrawRectangleLines(pos.x, pos.y, size.x, size.y, RED);
+}
+
+void AABB::Draw(Color c, bool _fill)
+{
+	if (_fill)
+	{
+		DrawRectangle(pos.x, pos.y, size.x, size.y, c);
+	}
+	else
+	{
+		DrawRectangleLines(pos.x, pos.y, size.x, size.y, c);
+	}
 }

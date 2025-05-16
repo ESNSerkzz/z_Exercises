@@ -10,8 +10,8 @@ BrickTiles::BrickTiles(Vector2 _pos, Vector2 _size)
 	dataInfo.size = _size;
 
 	BrickCollision = AABB(_pos, _size);
+	deletable = false;
 }
-
 
 void BrickTiles::Draw()
 {
