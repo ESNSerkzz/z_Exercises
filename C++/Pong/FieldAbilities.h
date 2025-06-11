@@ -9,8 +9,8 @@
 
 enum AbilityType {
 
-	SPEEDBOOST,
-	BOUNCE
+	SPEEDBOOST = 1,
+	BOUNCE = 2
 };
 
 class FieldAbilities
@@ -18,13 +18,12 @@ class FieldAbilities
 public:
 	AABB abilityBox;
 	AbilityType type;
-
-	//currentRandomPos = {randomPosX, randomPosY};
-	//making powerUP boxes and sprinkling them randomly throughout the field using the "random" info that max sent me.
-	// HINT: construct it like this - {} {} (for position)
+	bool deletable;
+	
 	
 	FieldAbilities();
-	FieldAbilities(int seed, AbilityType NewType);
+	FieldAbilities(int seed, AbilityType typeNumber);
+	FieldAbilities(int seed);
 	void newPos(int seed);
 	bool PowerUpAbility(Ball* ballA);
 

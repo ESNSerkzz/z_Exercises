@@ -5,10 +5,14 @@
 #include "Paddle.h"
 #include "Constants.h"
 #include "iostream"
-#include <string.h>
+#include <fstream>
+#include <string>
 #include <vector>
 
+std::ifstream mapFile;
+
 std::vector<BrickTiles*>  LoadBricks(Vector2 topLeftCorner, Vector2 bottomRightCorner, const char* string);
+void ReloadMap();
 static void SetUp();
 static void Update(float delta);
 static void Collide(float delta);
@@ -18,20 +22,9 @@ Paddle player = Paddle();
 //Ball ball = Ball();
 
 hitResult hitCollision;
-Ball ball = Ball({ 0.0f, 80.0f });
+Ball ball = Ball({ 0.0f, 200.0f });
 std::vector <BrickTiles*> Bricks;
-const char* brickPattern =
-"0000000002"
-"0111111102"
-"0110001102"
-"0111011102";
 
-const char* brickPattern_2 =
-"000000000102"
-"011111110102"
-"011000110102"
-"011101110102"
-"000000000002";
 
 AABB leftBorder = AABB({ 0,0 }, { 2, windowHeight });
 AABB rightBorder = AABB({windowWidth - 2, 0}, {2, windowHeight});
@@ -54,41 +47,37 @@ std::vector<BrickTiles*> LoadBricks(Vector2 _topLeftCorner, Vector2 _bottomRight
 { 
 	std::vector <BrickTiles*> returnBricks;
 	returnBricks.push_back(new BrickTiles());
-	int columns;
+	int columns = 0;
 	int row = 0;
-	Vector2 BrickSize;
+	Vector2 BrickSize = {0, 1};
 	
 	for (int i = 0; i < (unsigned)strlen(_string); i++)
 	{
-		if (_string[i] == '2')
+		if (_string[i] == '\n' || _string[i] == '\0')
 		{
-			//std::cout << std::endl << i << std::endl;
+			std::cout << std::endl << i << std::endl;
 			BrickSize.x = (_bottomRightCorner.x - _topLeftCorner.x)/ i;
 			BrickSize.y = (_bottomRightCorner.y - _topLeftCorner.y) / (strlen(_string) / (i + 1));
 			columns = (i + 1);
-			
-
 			break;
 		}
-
-
 	}
+	std::cout << "BrickSize x " << BrickSize.x << "\n" << "BrickSize y " << BrickSize.y << "\n";
 
 	for (int i = 0; i < (unsigned)strlen(_string); i++)
 	{
-		if (_string[i] != '2')
+		if (_string[i] != '\n' && _string[i] != '\0')
 		{
-			if (_string[i] == '0')
+			if (_string[i] == '1')
 			{
 				returnBricks.push_back(new BrickTiles(
 					{
-						(_topLeftCorner.x + i * BrickSize.x) - (row * BrickSize.x * 10) ,
+						(_topLeftCorner.x + i * BrickSize.x) - (row * BrickSize.x * columns) ,
 						_topLeftCorner.y + (row * BrickSize.y)
 					},
-					Vector2Subtract(BrickSize, { 2, 2 })
+					Vector2Subtract(BrickSize, { gapBetween, gapBetween })
 				));
 			}
-			
 		}
 		else
 		{
@@ -102,7 +91,7 @@ std::vector<BrickTiles*> LoadBricks(Vector2 _topLeftCorner, Vector2 _bottomRight
 void SetUp()
 {
 	InitWindow(windowWidth, windowHeight, "WindowScreen");
-	Bricks = LoadBricks({ 50, 50 }, {windowWidth - 50, 500}, brickPattern_2);
+	ReloadMap();
 }
 
 void Update(float delta)
@@ -118,7 +107,7 @@ void Collide(float delta)
 	{
 		ball.dataInfo.pos = Vector2Add(ball.dataInfo.pos, Vector2Scale(hitCollision.normal, hitCollision.penetrationDepth + 1.0f));
 		ball.dataInfo.vel.y = -ball.dataInfo.vel.y;
-		//std::cout << hitCollision.penetrationDepth << std::endl;
+		
 		Vector2 MiddleOfBox = Vector2Add(player.dataInfo.pos, Vector2Divide(player.dataInfo.size, { 2,2 }));
 		Vector2 BoxToBallNormalise = Vector2Subtract(ball.dataInfo.pos, MiddleOfBox);
 		BoxToBallNormalise = Vector2Normalize(BoxToBallNormalise);
@@ -131,7 +120,16 @@ void Collide(float delta)
 	{
 		if (ball.ballCollision.isOverlapped(i->BrickCollision, hitCollision)) 
 		{
+			if (Bricks.size() == 1)
+			{
+				ball.SetVel({ 0.0f, 250.0f });
+				ball.ResetPos();
+				player.AddScorePoints(150);
+				ReloadMap();
+			}
+
 			ball.dataInfo.pos = Vector2Add(ball.dataInfo.pos, Vector2Scale(hitCollision.normal, hitCollision.penetrationDepth + 1.0f));
+			player.AddScorePoints(25);
 			if (hitCollision.normal.x > 0.5 || hitCollision.normal.x < -0.5)
 			{
 				ball.dataInfo.vel.x *= -1;
@@ -150,6 +148,9 @@ void Collide(float delta)
 	if (ball.ballCollision.isOverlapped(bottomBorder, hitCollision)) 
 	{
 		std::cout << "lost\n";
+		ball.dataInfo.pos = { windowWidth / 2, windowHeight / 2 + 50 };
+		player.playerScore = 0;
+		ReloadMap();
 	}
 
 	if (ball.ballCollision.isOverlapped(leftBorder, hitCollision))
@@ -229,14 +230,40 @@ void Draw()
 
 	player.Draw();
 	ball.Draw();
-	Vector2 MiddleOfBox = Vector2Add(player.dataInfo.pos, Vector2Divide(player.dataInfo.size, { 2,2 }));
-	DrawCircleV(MiddleOfBox, 5, RED);
 	
-	DrawLineV(MiddleOfBox, ball.dataInfo.pos, RED);
 
 	for (auto i : Bricks) i->Draw();
 
-	DrawLineV(ball.dataInfo.pos, Vector2Add(ball.dataInfo.pos, Vector2Scale(hitCollision.normal, 50)), RED);
+	
+
+	DrawText(TextFormat("Score: %02i", player.playerScore), windowWidth/2 - 50, windowHeight - 50, 50, BLUE);
 
 	EndDrawing();
+}
+
+void ReloadMap()
+{
+	srand(time(NULL));
+
+	std::string mapFileName = "AtariMaps/map_";
+	mapFileName.append(std::to_string((std::rand() % 3) + 1));
+	mapFileName.append(".txt");
+	
+
+	mapFile = std::ifstream(mapFileName);
+
+	std::string tempText;
+	std::string brickMap;
+
+	while (getline(mapFile, tempText))
+	{
+		std::cout << tempText << '\n';
+		brickMap.append(tempText);
+		brickMap.append(std::string("\n"));
+
+
+	}
+
+
+	Bricks = LoadBricks({ 50, 50 }, { windowWidth - 50, 500 }, brickMap.c_str());
 }

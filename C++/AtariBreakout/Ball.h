@@ -12,7 +12,8 @@ public:
 
 	Ball();
 	Ball(Vector2 startVel);
-
+	void SetVel(Vector2 rVel);
+	void ResetPos();
 	void Update(float delta);
 	void Draw();
 };

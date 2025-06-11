@@ -3,10 +3,15 @@
 Paddle::Paddle()
 {
 	dataInfo.pos = { windowWidth / 2 - 100, 840 };
-	dataInfo.size = { 200, 30 };
+	dataInfo.size = { 700, 30 };
 	dataInfo.vel = { 100, 100 };
 
 	boxCollision = AABB(dataInfo.pos, dataInfo.size);
+}
+
+void Paddle::AddScorePoints(int points)
+{
+	playerScore = playerScore + points;
 }
 
 void Paddle::Input(float delta)
@@ -34,5 +39,5 @@ void Paddle::Update()
 void Paddle::Draw()
 {
 	DrawRectangleV(dataInfo.pos, dataInfo.size, BLUE);
-	boxCollision.Draw();
+	
 }

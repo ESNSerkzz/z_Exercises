@@ -27,9 +27,7 @@ Ball ball = Ball({-200, 0});
 AABB topBorder = AABB({ 0,0 }, { screenWidth, borderHeight });
 AABB bottomBorder = AABB({ 0, screenHeight - borderHeight }, { screenWidth, borderHeight });
 
-FieldAbilities PowerUpBox = FieldAbilities();
-
-std::vector <FieldAbilities> PowerUpBoxes;
+std::vector <FieldAbilities*> PowerUpBoxes;
 int rallyScore;
 
 int main(void)
@@ -54,8 +52,10 @@ void SetUp()
 	rallyScore = 0;
 	
 	
-	PowerUpBoxes.push_back(FieldAbilities(0, SPEEDBOOST));
-	PowerUpBoxes.push_back(FieldAbilities(1, BOUNCE));
+	PowerUpBoxes.push_back(new FieldAbilities(0));
+	PowerUpBoxes.push_back(new FieldAbilities(10));
+	PowerUpBoxes.push_back(new FieldAbilities(50));
+	PowerUpBoxes.push_back(new FieldAbilities(80));
 	
 }
 
@@ -72,13 +72,12 @@ static void Update(float delta)
 	player1.Update(delta);
 	player2.Update(delta);
 	ball.Update(delta);
-	PowerUpBox.Update(delta);
+	
 
 
 	//reset ball to middle of screen
 	if (ball.dataInfo.pos.x < 0 || ball.dataInfo.pos.x > screenWidth)
 	{
-		//ball.dataInfo.pos.x = screenWidth / 2;
 		rallyScore = 0;
 		if (ball.dataInfo.pos.x < 0)
 		{
@@ -135,32 +134,34 @@ static void Update(float delta)
 		player2.PaddleRally(rallyScore);
 	}	
 
-	/*for (auto i : PowerUpBoxes)
-	{
-		if (ball.ballCollision.isOverLapped(i.abilityBox))
-		{
-			std::cout << "its worked?" << std::endl;
-		}
-	}*/
-
-	
 	
 	for (auto i : PowerUpBoxes)
 	{
 		
-		if (i.abilityBox.isOverLapped(ball.ballCollision))
+		if (i->abilityBox.isOverLapped(ball.ballCollision))
 		{
-			i.PowerUpAbility(&ball);
+			i->PowerUpAbility(&ball);
+			i->deletable = true;
 		}
 
 		
 	}
+	if (PowerUpBoxes.size() > 0)
+	{
+		auto i = remove_if(PowerUpBoxes.begin(), PowerUpBoxes.end(),
+			[&](FieldAbilities* o)
+			{
+				return (o->deletable);
+			}
+		);
+
+		if (i != PowerUpBoxes.end())
+		{
+			PowerUpBoxes.erase(i);
+		}
 
 		
-		
-	
-
-	
+	}
 }
 
 static void Draw()
@@ -174,26 +175,16 @@ static void Draw()
 	//dividing line
 	DrawLineV({ screenWidth / 2, 50 }, {screenWidth/2, screenHeight-50}, WHITE);
 
-	PowerUpBox.Draw();
+	//PowerUpBox.Draw();
 
-	for (auto i : PowerUpBoxes) i.Draw();
+	for (auto i : PowerUpBoxes) i->Draw();
 
 	//Player drawing
 	player1.Draw();
 	player2.Draw();
 
-	//topBorder.Draw();
-	//bottomBorder.Draw();
-
 	ball.Draw();
 	
-
-	for (auto i : PowerUpBoxes) 
-	{
-		i.Draw();
-	}
-
-
 	DrawText(TextFormat("Rally: %03i", rallyScore), screenWidth/ 2 - 100, 10, 50, YELLOW);
 	DrawText(TextFormat("Score: %02i", player1.playerScore), 50, screenHeight - 50, 50, BLUE);
 	DrawText(TextFormat("Score: %02i", player2.playerScore),screenWidth - 350, screenHeight - 50, 50, RED);

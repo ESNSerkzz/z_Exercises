@@ -3,34 +3,45 @@
 
 FieldAbilities::FieldAbilities()
 {
-	/*abilityBox.pos = { screenWidth / 2 , screenHeight / 2 + 50 };
-	abilityBox.pos = currentRandomPos;
-	abilityBox.size = { 50, 50 };*/
+	
 	newPos(1);
 	
 	abilityBox.size = { 80, 80 };
 
+	
 	std::cout << "AB pos x" << abilityBox.pos.x << "\n";
 	std::cout << "AB pos y" << abilityBox.pos.y << "\n";
-	//std::sleep(10);
-
+	
+	deletable = false;
 
 }
 
-FieldAbilities::FieldAbilities(int seed, AbilityType newType)
+FieldAbilities::FieldAbilities(int seed, AbilityType typeNumber)
 {
 	newPos(seed);
 
 
-	abilityBox.size = { 50, 50 };
-	type = newType;
+	abilityBox.size = { 60, 60 };
 	
+	type = typeNumber;
+	deletable = false;
+	
+}
+
+FieldAbilities::FieldAbilities(int seed)
+{
+	newPos(seed);
+	abilityBox.size = {60, 60};
+	srand(time(NULL) * (100 * seed));
+	type = AbilityType ((rand()% 2) + 1) ;
+	std::cout << type << "\n";
+	deletable = false;
 }
 
 void FieldAbilities::newPos(int seed)
 {
-	srand(time(NULL) * (100 + seed));
-
+	srand(time(NULL) * (100 * seed));
+	deletable = false;
 	abilityBox.pos = { static_cast<float>((rand() % (screenWidth - 200)) + 100) , static_cast<float>((rand() % (screenHeight - borderHeight - borderHeight - 100)) + borderHeight + 50) };
 }
 
@@ -44,7 +55,7 @@ bool FieldAbilities::PowerUpAbility(Ball* ballA)
 	case SPEEDBOOST:
 		
 		
-		ballA->dataInfo.speed = Vector2Multiply(ballA->dataInfo.speed, { 1.125, 1.125 });
+		ballA->dataInfo.speed = Vector2Multiply(ballA->dataInfo.speed, { 2.125, 2.125 });
 		break;
 	case BOUNCE:
 		
@@ -61,12 +72,12 @@ FieldAbilities::~FieldAbilities()
 
 void FieldAbilities::Update(float delta)
 {
-	//abilityBox.pos;
+
 }
 
 void FieldAbilities::Draw()
 {
-	abilityBox.Draw();
+	
 	
 	switch (type)
 	{

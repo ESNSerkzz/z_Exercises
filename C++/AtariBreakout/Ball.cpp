@@ -6,14 +6,24 @@ Ball::Ball()
 
 Ball::Ball(Vector2 startVel)
 {
-	dataInfo.pos = { windowWidth / 2, (windowHeight / 2) + 50 };
+	ResetPos();
 	//dataInfo.pos = GetMousePosition();
 
-	dataInfo.radius = 20;
+	dataInfo.radius = ballRadius;
 	dataInfo.vel = startVel;
-	startVel = { 0, 40 };
+	//startVel = { 0, 40 };
 
 	ballCollision = CC(dataInfo.pos, dataInfo.radius);
+}
+
+void Ball::SetVel(Vector2 rVel)
+{
+	dataInfo.vel = rVel;
+}
+
+void Ball::ResetPos()
+{
+	dataInfo.pos = { windowWidth / 2, (windowHeight / 2) + 50 };
 }
 
 void Ball::Update(float delta)

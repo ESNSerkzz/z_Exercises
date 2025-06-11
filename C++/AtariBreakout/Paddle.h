@@ -12,6 +12,9 @@ public:
 
 	Paddle();
 
+	int playerScore;
+
+	void AddScorePoints(int points);
 	void Input(float delta);
 	void Update();
 	void Draw();
