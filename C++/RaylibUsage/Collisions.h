@@ -7,6 +7,13 @@ enum Direction
 	Up, Right, Down, Left
 };
 
+struct CollisionResults
+{
+	bool collisionDetection;
+	Vector2 pos;
+	Vector2 normal;
+
+};
 
 typedef class AABB
 {

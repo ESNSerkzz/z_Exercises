@@ -1,40 +1,42 @@
 #include "Pacman.h"
 Pacman::Pacman() 
 {
-	box.halfSize = { 50,50 };
-	box.pos = { 130, 150 };
+	box.halfSize = { 14,14 };
+	box.pos = { screenWidth/2, screenHeight/2 };
 	dir = Down;
 	
-	speed = .55;
+	velocity = .55;
 	score = 0;
 }
 
-void Pacman::Update(bool canMove) 
+void Pacman::Update() 
 {
-	if (canMove) 
+	bool canMove = false;
+	if (IsKeyPressed(KEY_W)) dir = Up;
+	if (IsKeyPressed(KEY_D)) dir = Right;
+	if (IsKeyPressed(KEY_S)) dir = Down;
+	if (IsKeyPressed(KEY_A)) dir = Left;
+	
+	if (canMove = true) 
 	{
 	switch (dir)
 		{
 		case Up:
-			box.pos.y = box.pos.y - speed;
+			box.pos.y = box.pos.y - velocity;
 			break;
 		case Right:
-			box.pos.x = box.pos.x + speed;
+			box.pos.x = box.pos.x + velocity;
 			break;
 		case Down:
-			box.pos.y = box.pos.y + speed;
+			box.pos.y = box.pos.y + velocity;
 			break;
 		case Left:
-			box.pos.x = box.pos.x - speed;
+			box.pos.x = box.pos.x - velocity;
 		}
 	}
 
 	
 
-	if (IsKeyDown(KEY_W)) dir = Up;
-	if (IsKeyDown(KEY_D)) dir = Right;
-	if (IsKeyDown(KEY_S)) dir = Down;
-	if (IsKeyDown(KEY_A)) dir = Left;
 
 	/*if (AABB::GetDir = true)
 	{
@@ -43,14 +45,15 @@ void Pacman::Update(bool canMove)
 	
 
 }
-void Pacman::scoreAdder(int points)
-{
-	score = score + points;
-}
-void Pacman::Draw() 
+//void Pacman::scoreAdder(int points)
+//{
+//	score = score + points;
+//}
+void Pacman::Draw()
 {
 	//Bootleg Pac-man
 	DrawCircle(box.pos.x, box.pos.y, box.halfSize.x, YELLOW);
+
+	DrawTriangle(Vector2{ box.pos }, Vector2{ box.pos  }, Vector2{ box.pos.x - 15, box.pos.y - 15 }, BLUE);
 	//Pac-man mouth
-	//DrawTriangle(Vector2{ 100, 200 }, Vector2{ 300, 400 }, Vector2{ 500, 600 }, RED);
 }

@@ -21,10 +21,16 @@
     <ClCompile Include="Pacman.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AABB.cpp">
+    <ClCompile Include="Collisions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Pallates.cpp">
+    <ClCompile Include="Palletes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Constants.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MapGrid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,11 +38,14 @@
     <ClInclude Include="Pacman.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AABB.h">
+    <ClInclude Include="Collisions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Pallates.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="Palletes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapGrid.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

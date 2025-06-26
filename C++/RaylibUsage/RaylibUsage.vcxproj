@@ -133,15 +133,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AABB.cpp" />
+    <ClCompile Include="Collisions.cpp" />
+    <ClCompile Include="Constants.h" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MapGrid.cpp" />
     <ClCompile Include="Pacman.cpp" />
-    <ClCompile Include="Pallates.cpp" />
+    <ClCompile Include="Palletes.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AABB.h" />
+    <ClInclude Include="Collisions.h" />
+    <ClInclude Include="MapGrid.h" />
     <ClInclude Include="Pacman.h" />
-    <ClInclude Include="Pallates.h" />
+    <ClInclude Include="Palletes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
