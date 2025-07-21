@@ -14,6 +14,17 @@ struct CollisionResults
 	Vector2 normal;
 
 };
+class CC
+{
+public:
+	Vector2 pos;
+	float size;
+
+	CC(Vector2 _pos, float _size);
+	void Update(Vector2 _pos);
+	void Draw();
+
+};
 
 typedef class AABB
 {
@@ -24,7 +35,7 @@ public:
 
 	AABB() {}
 	AABB(Vector2 centre, Vector2 _halfSize) : pos(centre), halfSize(_halfSize) {};
-
+	void Draw();
 	//Overlapping func
 	//messuring VEc2 point - does vect2 overlap?
 	//AABB- if one box overlaps with another?

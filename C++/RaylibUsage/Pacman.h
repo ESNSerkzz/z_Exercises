@@ -3,19 +3,21 @@
 #include "raymath.h"
 #include "Collisions.h"
 #include "Constants.h"
+#include "MapGrid.h"
 
 class Pacman
 {
 public:
-	AABB box;
-	
+	CC circle;
 	Direction dir;
 	float velocity;
 	int score;
 
+	MapGrid surroundingAOE = MapGrid(3,3,30);
 	
 	Pacman();
 
+	void Input();
 	void Update();
 	
 	//void scoreAdder(int score);

@@ -13,14 +13,16 @@ static void Draw(void);
 
 
 Pacman ePacman = Pacman();
+MapGrid grid = MapGrid(28, 36, 32, "./map.txt");
+MapGrid surroundingAOE = MapGrid(3, 3, 30);
 
-MapGrid grid = MapGrid(28, 36, 32);
 
 int main(void)
 {
 	SetUp();
 	while (!WindowShouldClose())
 	{
+		Update();
 		Draw();
 
 	}
@@ -30,19 +32,19 @@ int main(void)
 static void SetUp(void) 
 {
 	InitWindow(screenWidth, screenHeight, "Window");
-
-
 	SetTargetFPS(60);
 
+	
 }
 
 void Update(void)
 {
 	//TODO
-	// 1)get pacman moving/ movement
-	// 2.) map parts assignments.
+	// AABB that surrounds the boxes near pacman, then draw that box
+	// start checking tiles with said box
 
 	ePacman.Update();
+	ePacman.Input();
 }
 
 static void Draw(void)
@@ -52,6 +54,22 @@ static void Draw(void)
 
 	ePacman.Draw();
 	grid.Draw();
+	
+	int pacmanPosX = ePacman.box.pos.x / 32;
+	int pacmanPosY = ePacman.box.pos.y / 32;
+
+	
+
+	grid.DrawBox(pacmanPosX, pacmanPosY);
+	grid.DrawBox(pacmanPosX - 1, pacmanPosY);
+	grid.DrawBox(pacmanPosX + 1, pacmanPosY);
+	grid.DrawBox(pacmanPosX, pacmanPosY- 1);
+	grid.DrawBox(pacmanPosX, pacmanPosY + 1);
+	grid.DrawBox(pacmanPosX+1, pacmanPosY- 1);
+	grid.DrawBox(pacmanPosX-1, pacmanPosY - 1);
+	grid.DrawBox(pacmanPosX+1, pacmanPosY + 1);
+	grid.DrawBox(pacmanPosX - 1, pacmanPosY + 1);
+
 	DrawFPS(10, 10);
 
 	EndDrawing();

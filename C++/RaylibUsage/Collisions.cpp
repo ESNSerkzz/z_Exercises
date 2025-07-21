@@ -29,3 +29,24 @@ Direction AABB::GetDir(AABB box)
 	}
 
 }
+
+void AABB::Draw()
+{
+	DrawRectangleLines(pos.x, pos.y, halfSize.x * 2, halfSize.y * 2, PURPLE);
+}
+
+CC::CC(Vector2 _pos, float _size)
+{
+	pos = _pos;
+	size = _size;
+}
+
+void CC::Update(Vector2 _pos)
+{
+	pos = _pos;
+}
+
+void CC::Draw()
+{
+	DrawCircleLinesV(pos, size, RED);
+}

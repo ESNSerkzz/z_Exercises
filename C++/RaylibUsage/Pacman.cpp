@@ -1,41 +1,70 @@
 #include "Pacman.h"
-Pacman::Pacman() 
+
+Pacman::Pacman()
 {
-	box.halfSize = { 14,14 };
-	box.pos = { screenWidth/2, screenHeight/2 };
+	circle = CC({ screenWidth / 2, screenHeight / 2 }, 14 );
 	dir = Down;
 	
-	velocity = .55;
+	velocity = 2.55f;
 	score = 0;
-}
+	
 
-void Pacman::Update() 
+}
+void Pacman::Input()
 {
-	bool canMove = false;
-	if (IsKeyPressed(KEY_W)) dir = Up;
+	
+	if (IsKeyPressed(KEY_W) || IsKeyDown(KEY_W)) dir = Up;
 	if (IsKeyPressed(KEY_D)) dir = Right;
 	if (IsKeyPressed(KEY_S)) dir = Down;
 	if (IsKeyPressed(KEY_A)) dir = Left;
-	
-	if (canMove = true) 
-	{
-	switch (dir)
-		{
-		case Up:
-			box.pos.y = box.pos.y - velocity;
-			break;
-		case Right:
-			box.pos.x = box.pos.x + velocity;
-			break;
-		case Down:
-			box.pos.y = box.pos.y + velocity;
-			break;
-		case Left:
-			box.pos.x = box.pos.x - velocity;
-		}
-	}
+	//if (IsKeyDown(KEY_D)) dir = Right;
 
 	
+}
+void Pacman::Update()
+{
+	for (int i = 0; i < surroundingAOE.listOfTiles.size(); i++)
+	{
+
+	}
+
+
+	bool canMove = true;
+	if (canMove == true)
+	{
+		switch (dir)
+		{
+		case Up:
+			circle.pos.y = circle.pos.y -= velocity;
+			//box.GetDir(box.pos);
+			break;
+		case Right:
+			circle.pos.x = circle.pos.x += velocity;
+			break;
+		case Down:
+			circle.pos.y = circle.pos.y += velocity;
+			break;
+		case Left:
+			circle.pos.x = circle.pos.x -= velocity;
+		}
+	}
+	if (circle.pos.x < 0)
+	{
+		circle.pos.x = screenWidth;
+	}
+	if (circle.pos.x > screenWidth)
+	{
+		circle.pos.x = 0;
+	}
+
+	if (circle.pos.y < 0)
+	{
+		circle.pos.y = screenHeight;
+	}
+	if (circle.pos.y > screenHeight)
+	{
+		circle.pos.y = 0;
+	}
 
 
 	/*if (AABB::GetDir = true)
@@ -52,8 +81,8 @@ void Pacman::Update()
 void Pacman::Draw()
 {
 	//Bootleg Pac-man
-	DrawCircle(box.pos.x, box.pos.y, box.halfSize.x, YELLOW);
+	DrawCircle(circle.pos.x, circle.pos.y, circle.size, YELLOW);
 
-	DrawTriangle(Vector2{ box.pos }, Vector2{ box.pos  }, Vector2{ box.pos.x - 15, box.pos.y - 15 }, BLUE);
+	DrawTriangle(Vector2{ circle.pos }, Vector2{ circle.pos  }, Vector2{ circle.pos.x - 15, circle.pos.y - 15 }, BLUE);
 	//Pac-man mouth
 }
