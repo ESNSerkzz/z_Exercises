@@ -1,6 +1,7 @@
 #pragma once
 #include "raylib.h"
 #include "raymath.h"
+#include "algorithm"
 
 enum Direction
 {
@@ -12,17 +13,8 @@ struct CollisionResults
 	bool collisionDetection;
 	Vector2 pos;
 	Vector2 normal;
+	float pDepth;
 
-};
-class CC
-{
-public:
-	Vector2 pos;
-	float size;
-
-	CC(Vector2 _pos, float _size);
-	void Update(Vector2 _pos);
-	void Draw();
 
 };
 
@@ -33,7 +25,7 @@ public:
 	Vector2 halfSize;
 
 
-	AABB() {}
+	AABB() {};
 	AABB(Vector2 centre, Vector2 _halfSize) : pos(centre), halfSize(_halfSize) {};
 	void Draw();
 	//Overlapping func
@@ -63,3 +55,17 @@ public:
 	}
 };
 
+class CC
+{
+public:
+	Vector2 pos;
+	float size;
+
+	CC();
+	CC(Vector2 _pos, float _size);
+
+	bool isOverlapped(AABB box, CollisionResults hit);
+	void Update(Vector2 _pos);
+	void Draw();
+
+};

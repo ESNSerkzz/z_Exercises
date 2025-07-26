@@ -2,7 +2,7 @@
 
 Pacman::Pacman()
 {
-	circle = CC({ screenWidth / 2, screenHeight / 2 }, 14 );
+	circle = CC({ screenWidth / 2, screenHeight / 2 }, 14.0f );
 	dir = Down;
 	
 	velocity = 2.55f;

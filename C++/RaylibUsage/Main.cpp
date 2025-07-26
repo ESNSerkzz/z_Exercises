@@ -43,6 +43,8 @@ void Update(void)
 	// AABB that surrounds the boxes near pacman, then draw that box
 	// start checking tiles with said box
 
+	
+
 	ePacman.Update();
 	ePacman.Input();
 }
@@ -52,23 +54,12 @@ static void Draw(void)
 	BeginDrawing();
 	ClearBackground(BLACK);
 
+
 	ePacman.Draw();
 	grid.Draw();
+	// loops through tiles and draw;
+	std::vector<Tile> drawBAP = grid.BoxesAroundPoint(ePacman.circle.pos);
 	
-	int pacmanPosX = ePacman.box.pos.x / 32;
-	int pacmanPosY = ePacman.box.pos.y / 32;
-
-	
-
-	grid.DrawBox(pacmanPosX, pacmanPosY);
-	grid.DrawBox(pacmanPosX - 1, pacmanPosY);
-	grid.DrawBox(pacmanPosX + 1, pacmanPosY);
-	grid.DrawBox(pacmanPosX, pacmanPosY- 1);
-	grid.DrawBox(pacmanPosX, pacmanPosY + 1);
-	grid.DrawBox(pacmanPosX+1, pacmanPosY- 1);
-	grid.DrawBox(pacmanPosX-1, pacmanPosY - 1);
-	grid.DrawBox(pacmanPosX+1, pacmanPosY + 1);
-	grid.DrawBox(pacmanPosX - 1, pacmanPosY + 1);
 
 	DrawFPS(10, 10);
 

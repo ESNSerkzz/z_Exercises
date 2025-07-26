@@ -6,9 +6,10 @@ MapGrid::MapGrid()
 
 }
 
-MapGrid::MapGrid(int columns, int rows, int tileSize)
+MapGrid::MapGrid(int _columns, int _rows, int tileSize)
 {
-	
+	columns = _columns;
+	rows = _rows;
 	for (int x = 0; x < columns; x++) 
 	{
 		listOfTiles.push_back(std::vector<Tile>());
@@ -32,8 +33,11 @@ MapGrid::MapGrid(int columns, int rows, int tileSize)
 	}
 }
 
-MapGrid::MapGrid(int columns, int rows, int tileSize, std::string filePath)
+MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 {
+	columns = _columns;
+	rows = _rows;
+
 	std::fstream file;
 	file.open(filePath);
 
@@ -89,11 +93,71 @@ MapGrid::MapGrid(int columns, int rows, int tileSize, std::string filePath)
 	}
 }
 
+std::vector<Tile> MapGrid::BoxesAroundPoint(Vector2 pos)
+{
+	int posX = pos.x / 32;
+	int posY = pos.y / 32;
+
+	std::vector<Tile> listOfBAP;
+	if (posX < columns && posX >= 0 && posY < rows && posY >= 0)
+	{
+		if (posX != 0)
+		{
+			if (posY != 0)
+			{
+				listOfBAP.push_back(listOfTiles[posX - 1] [posY - 1]);
+			}
+			if (posY != rows - 1)
+			{
+				listOfBAP.push_back(listOfTiles[posX - 1] [posY + 1]);
+
+			}
+			listOfBAP.push_back(listOfTiles[posX - 1] [posY]);
+			
+
+		}
+		if (posX != columns - 1)
+		{
+			if (posY != 0)
+			{
+				
+				listOfBAP.push_back(listOfTiles[posX + 1] [posY - 1]);
+
+			}
+			if (posY != rows - 1)
+			{
+				listOfBAP.push_back(listOfTiles[posX + 1] [posY + 1]);
+			}
+			listOfBAP.push_back(listOfTiles[posX + 1] [posY]);
+		}
+		listOfBAP.push_back(listOfTiles[posX][posY]);
+		if (posY != 0)
+		{	
+			listOfBAP.push_back(listOfTiles[posX][posY - 1]);
+
+		}
+		if (posY != rows - 1) 
+		{
+			listOfBAP.push_back(listOfTiles[posX] [posY + 1]);
+		}
+		
+		
+	}
+
+	
+	return listOfBAP;
+}
+
 void MapGrid::DrawBox(int x, int y)
 {
-	Tile tile = listOfTiles[x][y];
+	if (x < columns && x >= 0 && y < rows && y >= 0)
+	{
+		Tile tile = listOfTiles[x][y];
 	
-	DrawRectangleLines(tile.x, tile.y, tile.size, tile.size, WHITE);
+		DrawRectangleLines(tile.x, tile.y, tile.size, tile.size, WHITE);
+	}
+
+	
 }
 
 void MapGrid::Draw()

@@ -23,10 +23,15 @@ struct Tile
 class MapGrid
 {
 public:
+	int columns = 28;
+	int rows = 36;
 
 	MapGrid();
-	MapGrid(int columns, int rows, int tileSize);
-	MapGrid(int columns, int rows, int tileSize, std::string filePath);
+	MapGrid(int _columns, int _rows, int tileSize);
+	MapGrid(int _columns, int _rows, int tileSize, std::string filePath);
+
+	std::vector<Tile> BoxesAroundPoint(Vector2 pos);
+
 	std::vector<std::vector <Tile>> listOfTiles;
 	
 	void DrawBox(int x, int y);
