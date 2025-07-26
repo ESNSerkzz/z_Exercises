@@ -59,7 +59,10 @@ static void Draw(void)
 	grid.Draw();
 	// loops through tiles and draw;
 	std::vector<Tile> drawBAP = grid.BoxesAroundPoint(ePacman.circle.pos);
-	
+	for(int i = 0; i < drawBAP.size(); i++)
+	{
+			
+	}
 
 	DrawFPS(10, 10);
 
