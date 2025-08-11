@@ -13,9 +13,9 @@ public:
 	float velocity;
 	int score;
 
-	MapGrid surroundingAOE = MapGrid(3,3,30);
-	
-	Pacman();
+	MapGrid* pacToMap;
+		
+	Pacman(MapGrid*_pacToMap);
 
 	void Input();
 	void Update();

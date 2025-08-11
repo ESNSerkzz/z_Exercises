@@ -12,9 +12,9 @@ static void Update(void);
 static void Draw(void);
 
 
-Pacman ePacman = Pacman();
 MapGrid grid = MapGrid(28, 36, 32, "./map.txt");
 MapGrid surroundingAOE = MapGrid(3, 3, 30);
+Pacman ePacman = Pacman(&grid);
 
 
 int main(void)
@@ -22,8 +22,9 @@ int main(void)
 	SetUp();
 	while (!WindowShouldClose())
 	{
-		Update();
 		Draw();
+		Update();
+		EndDrawing();
 
 	}
 
@@ -55,16 +56,11 @@ static void Draw(void)
 	ClearBackground(BLACK);
 
 
-	ePacman.Draw();
 	grid.Draw();
-	// loops through tiles and draw;
-	std::vector<Tile> drawBAP = grid.BoxesAroundPoint(ePacman.circle.pos);
-	for(int i = 0; i < drawBAP.size(); i++)
-	{
-			
-	}
+	ePacman.Draw();
+	// loop through tiles and draw;
+	
 
 	DrawFPS(10, 10);
 
-	EndDrawing();
 }

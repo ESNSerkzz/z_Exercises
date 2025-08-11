@@ -1,15 +1,16 @@
 #include "Pacman.h"
 
-Pacman::Pacman()
+Pacman::Pacman(MapGrid* _pacToMap)
 {
 	circle = CC({ screenWidth / 2, screenHeight / 2 }, 14.0f );
 	dir = Down;
 	
 	velocity = 2.55f;
 	score = 0;
-	
+	pacToMap = _pacToMap;
 
 }
+
 void Pacman::Input()
 {
 	
@@ -23,10 +24,7 @@ void Pacman::Input()
 }
 void Pacman::Update()
 {
-	for (int i = 0; i < surroundingAOE.listOfTiles.size(); i++)
-	{
-
-	}
+	
 
 
 	bool canMove = true;
@@ -66,12 +64,23 @@ void Pacman::Update()
 		circle.pos.y = 0;
 	}
 
-
-	/*if (AABB::GetDir = true)
-	{
-		;
-	}*/
 	
+	std::vector<Tile> brickColliding = pacToMap->BoxesAroundPoint(circle.pos);
+	
+	for (int i = 0; i < brickColliding.size(); i++)
+	{
+		if (brickColliding[i].type == BRICK)
+		{
+			CollisionResults pacmanHitResult = { false, {0, 0}, {0,0}, 0.0f };
+			if (circle.isOverlapped(brickColliding[i].TileCollision, pacmanHitResult))
+			{
+				brickColliding[i].TileCollision.Draw();
+				circle.pos = Vector2Subtract(circle.pos, Vector2Scale(pacmanHitResult.normal, pacmanHitResult.pDepth));
+				std::cout << pacmanHitResult.pDepth << "\n";
+			}
+		}
+	}
+
 
 }
 //void Pacman::scoreAdder(int points)

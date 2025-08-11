@@ -65,11 +65,12 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 		{
 			//Palletes palletIndex;
 			//palletIndex = Palletes({(float)x *tileSize, (float)y * tileSize}, 2.0f);
-			listOfTiles[x][y] = { AABB({(float)x * tileSize, (float)y * tileSize}, {tileSize/2.0f, tileSize/2.0f}), x * tileSize, y * tileSize, tileSize, nullptr };
+			listOfTiles[x][y] = { AABB(), x * tileSize, y * tileSize, tileSize, nullptr };
 	
 			if (allText[x + y * columns ] == '1')
 			{
 				listOfTiles[x][y].type = BRICK;
+				listOfTiles[x][y].TileCollision = AABB({ (float)x * tileSize, (float)y * tileSize }, { tileSize / 2.0f, tileSize / 2.0f });
 			}
 
 			if (allText[x + y * columns] == '2')
@@ -98,54 +99,51 @@ std::vector<Tile> MapGrid::BoxesAroundPoint(Vector2 pos)
 	int posX = pos.x / 32;
 	int posY = pos.y / 32;
 
-	std::vector<Tile> listOfBAP;
+	std::vector<Tile> BAP;
 	if (posX < columns && posX >= 0 && posY < rows && posY >= 0)
 	{
 		if (posX != 0)
 		{
 			if (posY != 0)
-			{
-				listOfBAP.push_back(listOfTiles[posX - 1] [posY - 1]);
+			{				
+				BAP.push_back(listOfTiles[posX - 1] [posY - 1]); //top left corner
 			}
 			if (posY != rows - 1)
 			{
-				listOfBAP.push_back(listOfTiles[posX - 1] [posY + 1]);
-
+				BAP.push_back(listOfTiles[posX - 1] [posY + 1]); //bottom left
 			}
-			listOfBAP.push_back(listOfTiles[posX - 1] [posY]);
-			
 
+			BAP.push_back(listOfTiles[posX - 1] [posY]); //middle left
 		}
 		if (posX != columns - 1)
 		{
 			if (posY != 0)
 			{
-				
-				listOfBAP.push_back(listOfTiles[posX + 1] [posY - 1]);
-
+				BAP.push_back(listOfTiles[posX + 1] [posY - 1]); //top right
 			}
 			if (posY != rows - 1)
 			{
-				listOfBAP.push_back(listOfTiles[posX + 1] [posY + 1]);
+				BAP.push_back(listOfTiles[posX + 1] [posY + 1]); //bottom right
 			}
-			listOfBAP.push_back(listOfTiles[posX + 1] [posY]);
+			BAP.push_back(listOfTiles[posX + 1] [posY]); //middle right
 		}
-		listOfBAP.push_back(listOfTiles[posX][posY]);
+		//Centre piece (middle, where Pac-man is).
+		BAP.push_back(listOfTiles[posX][posY]);
 		if (posY != 0)
 		{	
-			listOfBAP.push_back(listOfTiles[posX][posY - 1]);
+			BAP.push_back(listOfTiles[posX][posY - 1]);
 
 		}
 		if (posY != rows - 1) 
 		{
-			listOfBAP.push_back(listOfTiles[posX] [posY + 1]);
+			BAP.push_back(listOfTiles[posX] [posY + 1]);
 		}
 		
 		
 	}
 
 	
-	return listOfBAP;
+	return BAP;
 }
 
 void MapGrid::DrawBox(int x, int y)
