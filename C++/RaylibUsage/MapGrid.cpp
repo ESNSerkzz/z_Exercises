@@ -168,6 +168,8 @@ void MapGrid::Draw()
 			{
 			case(BRICK):
 				DrawRectangleV({ (float)tile.x,(float)tile.y }, { (float)tile.size, (float)tile.size }, BLUE);
+				
+
 				break;
 
 			case(POWERPALLETE):

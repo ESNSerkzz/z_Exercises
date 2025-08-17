@@ -1,4 +1,5 @@
 #include "Collisions.h"
+#include <iostream>
 
 Direction AABB::GetDir(AABB box)
 {
@@ -42,36 +43,36 @@ CC::CC()
 CC::CC(Vector2 _pos, float _size)
 {
 	pos = _pos;
-	size = _size;
+	rad = _size;
 }
 
-bool CC::isOverlapped(AABB box, CollisionResults hit)
+bool CC::isOverlapped(AABB box, CollisionResults& hit)
 {
 	Vector2 closestPoint;
 
-	closestPoint.x = std::max(box.pos.x, std::min(pos.x, (box.pos.x + box.halfSize.x)));
-	closestPoint.y = std::max(box.pos.y, std::min(box.pos.y + box.halfSize.y, pos.y));
+	closestPoint.x = std::max(box.pos.x ,std::min(pos.x, (box.pos.x + box.halfSize.x *2)));
+	closestPoint.y = std::max(box.pos.y , std::min(box.pos.y + box.halfSize.y*2, pos.y));
 
-	//DrawLineV(pos, closestPoint, YELLOW);
-
+	DrawLineV(pos, closestPoint, RED);
+	DrawCircleV(box.pos, 5.0f, RED);
 	Vector2 aabbToNearest = Vector2Subtract(closestPoint, pos);
 	Vector2 AABBdistToCCdist = Vector2Subtract(pos, box.pos);
 
-
-
-	if (Vector2Length(aabbToNearest) <= (float)size)
+	
+	if (Vector2Length(aabbToNearest) <= (float)rad)
 	{
-		
-		hit.pos = pos;
+	
+		hit.pos = closestPoint;
 		hit.collisionDetection = true;
 		hit.normal = Vector2Rotate(aabbToNearest, PI);
 		hit.normal = Vector2Negate(aabbToNearest);
 		hit.normal = Vector2Normalize(hit.normal);
-		//std::cout << hit.normal.x << std::endl;
-		//std::cout << hit.normal.y << std::endl;
+		//std::cout << "AABB to CC dist: " << AABBdistToCCdist.x <<" "<<AABBdistToCCdist.y << std::endl;
+		//std::cout << "hit normal Y: " << hit.normal.y << std::endl;
 
-		hit.pDepth = size - Vector2Length(aabbToNearest);
-		
+		hit.pDepth = rad - Vector2Length(aabbToNearest);
+		std::cout << "Depth is: " << hit.pDepth << std::endl;
+
 		return true;
 	}
 	return false;
@@ -84,5 +85,5 @@ void CC::Update(Vector2 _pos)
 
 void CC::Draw()
 {
-	DrawCircleLinesV(pos, size, RED);
+	DrawCircleLinesV(pos, rad, WHITE);
 }

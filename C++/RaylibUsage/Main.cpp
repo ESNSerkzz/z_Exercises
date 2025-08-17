@@ -9,11 +9,11 @@
 
 static void SetUp(void);
 static void Update(void);
+//static void Depenetration(void);
 static void Draw(void);
 
 
 MapGrid grid = MapGrid(28, 36, 32, "./map.txt");
-MapGrid surroundingAOE = MapGrid(3, 3, 30);
 Pacman ePacman = Pacman(&grid);
 
 
@@ -49,6 +49,11 @@ void Update(void)
 	ePacman.Update();
 	ePacman.Input();
 }
+
+//void Depenetration(void)
+//{
+//	for(auto i)
+//}
 
 static void Draw(void)
 {

@@ -5,7 +5,7 @@ Pacman::Pacman(MapGrid* _pacToMap)
 	circle = CC({ screenWidth / 2, screenHeight / 2 }, 14.0f );
 	dir = Down;
 	
-	velocity = 2.55f;
+	velocity = 5.55f;
 	score = 0;
 	pacToMap = _pacToMap;
 
@@ -14,19 +14,20 @@ Pacman::Pacman(MapGrid* _pacToMap)
 void Pacman::Input()
 {
 	
-	if (IsKeyPressed(KEY_W) || IsKeyDown(KEY_W)) dir = Up;
+	/*if (IsKeyPressed(KEY_W) || IsKeyDown(KEY_W)) dir = Up;
 	if (IsKeyPressed(KEY_D)) dir = Right;
 	if (IsKeyPressed(KEY_S)) dir = Down;
-	if (IsKeyPressed(KEY_A)) dir = Left;
+	if (IsKeyPressed(KEY_A)) dir = Left;*/
 	//if (IsKeyDown(KEY_D)) dir = Right;
 
+	if (IsKeyDown(KEY_W)) dir = Up;
+	if (IsKeyDown(KEY_D)) dir = Right;
+	if (IsKeyDown(KEY_S)) dir = Down;
+	if (IsKeyDown(KEY_A)) dir = Left;
 	
 }
 void Pacman::Update()
 {
-	
-
-
 	bool canMove = true;
 	if (canMove == true)
 	{
@@ -71,12 +72,16 @@ void Pacman::Update()
 	{
 		if (brickColliding[i].type == BRICK)
 		{
-			CollisionResults pacmanHitResult = { false, {0, 0}, {0,0}, 0.0f };
+			CollisionResults pacmanHitResult = { false, {0,0}, {50,50}, 0.0f };
 			if (circle.isOverlapped(brickColliding[i].TileCollision, pacmanHitResult))
 			{
+
 				brickColliding[i].TileCollision.Draw();
-				circle.pos = Vector2Subtract(circle.pos, Vector2Scale(pacmanHitResult.normal, pacmanHitResult.pDepth));
-				std::cout << pacmanHitResult.pDepth << "\n";
+				circle.pos = Vector2Subtract(circle.pos, Vector2Scale(pacmanHitResult.normal, pacmanHitResult.pDepth * -1));
+				DrawCircleLinesV(circle.pos, 0.5f, RED);
+				DrawLineV(Vector2Add(Vector2Scale (pacmanHitResult.normal, 50), pacmanHitResult.pos), pacmanHitResult.pos , GREEN);
+				
+				//the pDepth. have a look at pongs and atariBreakout and compare/ 
 			}
 		}
 	}
@@ -90,8 +95,8 @@ void Pacman::Update()
 void Pacman::Draw()
 {
 	//Bootleg Pac-man
-	DrawCircle(circle.pos.x, circle.pos.y, circle.size, YELLOW);
-
+	DrawCircle(circle.pos.x, circle.pos.y, circle.rad, YELLOW);
+	circle.Draw();
 	DrawTriangle(Vector2{ circle.pos }, Vector2{ circle.pos  }, Vector2{ circle.pos.x - 15, circle.pos.y - 15 }, BLUE);
 	//Pac-man mouth
 }

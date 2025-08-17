@@ -59,12 +59,12 @@ class CC
 {
 public:
 	Vector2 pos;
-	float size;
+	float rad;
 
 	CC();
-	CC(Vector2 _pos, float _size);
+	CC(Vector2 _pos, float _rad);
 
-	bool isOverlapped(AABB box, CollisionResults hit);
+	bool isOverlapped(AABB box, CollisionResults& hit);
 	void Update(Vector2 _pos);
 	void Draw();
 
