@@ -63,9 +63,9 @@ static void Draw(void)
 
 	grid.Draw();
 	ePacman.Draw();
-	// loop through tiles and draw;
 	
-
+	
 	DrawFPS(10, 10);
-
+	DrawText("HIGH SCORE", {screenWidth/2 - 100},  10, 32, WHITE);
+	DrawText(TextFormat("%02i", ePacman.score), { 32 * 5 }, 32, 32, WHITE);
 }

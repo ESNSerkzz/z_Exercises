@@ -28,6 +28,7 @@ public:
 	AABB() {};
 	AABB(Vector2 centre, Vector2 _halfSize) : pos(centre), halfSize(_halfSize) {};
 	void Draw();
+	void Draw(Color _color);
 	//Overlapping func
 	//messuring VEc2 point - does vect2 overlap?
 	//AABB- if one box overlaps with another?
@@ -67,5 +68,6 @@ public:
 	bool isOverlapped(AABB box, CollisionResults& hit);
 	void Update(Vector2 _pos);
 	void Draw();
+	void Draw(Color _color);
 
 };

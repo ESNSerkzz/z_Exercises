@@ -12,6 +12,8 @@ public:
 	Direction dir;
 	float velocity;
 	int score;
+	bool mouthIsOpen;
+	int mouthOpenFrames;
 
 	MapGrid* pacToMap;
 		
@@ -20,7 +22,7 @@ public:
 	void Input();
 	void Update();
 	
-	//void scoreAdder(int score);
+	void scoreAdder(int _score);
 
 	void Draw();
 

@@ -36,6 +36,11 @@ void AABB::Draw()
 	DrawRectangleLines(pos.x, pos.y, halfSize.x * 2, halfSize.y * 2, PURPLE);
 }
 
+void AABB::Draw(Color _color)
+{
+	DrawRectangleLines(pos.x, pos.y, halfSize.x * 2, halfSize.y * 2, _color);
+}
+
 CC::CC()
 {
 }
@@ -53,8 +58,8 @@ bool CC::isOverlapped(AABB box, CollisionResults& hit)
 	closestPoint.x = std::max(box.pos.x ,std::min(pos.x, (box.pos.x + box.halfSize.x *2)));
 	closestPoint.y = std::max(box.pos.y , std::min(box.pos.y + box.halfSize.y*2, pos.y));
 
-	DrawLineV(pos, closestPoint, RED);
-	DrawCircleV(box.pos, 5.0f, RED);
+	/*DrawLineV(pos, closestPoint, RED);
+	DrawCircleV(box.pos, 5.0f, RED);*/
 	Vector2 aabbToNearest = Vector2Subtract(closestPoint, pos);
 	Vector2 AABBdistToCCdist = Vector2Subtract(pos, box.pos);
 
@@ -71,7 +76,7 @@ bool CC::isOverlapped(AABB box, CollisionResults& hit)
 		//std::cout << "hit normal Y: " << hit.normal.y << std::endl;
 
 		hit.pDepth = rad - Vector2Length(aabbToNearest);
-		std::cout << "Depth is: " << hit.pDepth << std::endl;
+		
 
 		return true;
 	}
@@ -86,4 +91,9 @@ void CC::Update(Vector2 _pos)
 void CC::Draw()
 {
 	DrawCircleLinesV(pos, rad, WHITE);
+}
+
+void CC::Draw(Color _color)
+{
+	DrawCircleLinesV(pos, rad, _color);
 }

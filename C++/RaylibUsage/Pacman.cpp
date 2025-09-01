@@ -1,24 +1,28 @@
 #include "Pacman.h"
 
+//TODO - make another boxes around point but for the pallets instead and tie it to the score if you can
+
+
+
 Pacman::Pacman(MapGrid* _pacToMap)
 {
-	circle = CC({ screenWidth / 2, screenHeight / 2 }, 14.0f );
-	dir = Down;
+	circle = CC({ screenWidth / 2, screenHeight / 2 }, 16.0f );
+	dir = Right;
+	mouthOpenFrames = 5;
 	
-	velocity = 5.55f;
+	velocity = 1.55f;
 	score = 0;
 	pacToMap = _pacToMap;
-
 }
 
 void Pacman::Input()
 {
 	
-	/*if (IsKeyPressed(KEY_W) || IsKeyDown(KEY_W)) dir = Up;
-	if (IsKeyPressed(KEY_D)) dir = Right;
-	if (IsKeyPressed(KEY_S)) dir = Down;
-	if (IsKeyPressed(KEY_A)) dir = Left;*/
-	//if (IsKeyDown(KEY_D)) dir = Right;
+	//if (IsKeyPressed(KEY_W)) dir = Up;; // || IsKeyDown(KEY_W)) dir = Up;
+	//if (IsKeyPressed(KEY_D)) dir = Right;
+	//if (IsKeyPressed(KEY_S)) dir = Down;
+	//if (IsKeyPressed(KEY_A)) dir = Left;
+	
 
 	if (IsKeyDown(KEY_W)) dir = Up;
 	if (IsKeyDown(KEY_D)) dir = Right;
@@ -70,33 +74,99 @@ void Pacman::Update()
 	
 	for (int i = 0; i < brickColliding.size(); i++)
 	{
+		CollisionResults pacmanHitResult = { false, {0,0}, {50,50}, 0.0f };
 		if (brickColliding[i].type == BRICK)
 		{
-			CollisionResults pacmanHitResult = { false, {0,0}, {50,50}, 0.0f };
 			if (circle.isOverlapped(brickColliding[i].TileCollision, pacmanHitResult))
 			{
 
-				brickColliding[i].TileCollision.Draw();
-				circle.pos = Vector2Subtract(circle.pos, Vector2Scale(pacmanHitResult.normal, pacmanHitResult.pDepth * -1));
-				DrawCircleLinesV(circle.pos, 0.5f, RED);
-				DrawLineV(Vector2Add(Vector2Scale (pacmanHitResult.normal, 50), pacmanHitResult.pos), pacmanHitResult.pos , GREEN);
 				
-				//the pDepth. have a look at pongs and atariBreakout and compare/ 
+				circle.pos = Vector2Subtract(circle.pos, Vector2Scale(pacmanHitResult.normal, pacmanHitResult.pDepth * -1));
+				
+				
+				
 			}
+		}
+		if (brickColliding[i].type == PALLETE || brickColliding[i].type == POWERPALLETE)
+		{
+			
+			if (circle.isOverlapped(brickColliding[i].pallet->box, pacmanHitResult))
+			{
+				pacToMap->listOfTiles[brickColliding[i].x / 32][brickColliding[i].y/32].type = EMPTY;
+				
+
+
+				switch (brickColliding[i].pallet->pType)
+				{
+				case(Pallete):
+					scoreAdder(10);
+					break;
+
+				case(PowerPallete):
+					scoreAdder(50);
+					break;
+				case(Fruit):
+					scoreAdder(100);
+					break;
+				default:
+					break;
+				}
+			
+				
+			}
+
+			
 		}
 	}
 
 
 }
-//void Pacman::scoreAdder(int points)
-//{
-//	score = score + points;
-//}
+
+void Pacman::scoreAdder(int _score)
+{
+	score = score + _score;
+}
 void Pacman::Draw()
 {
 	//Bootleg Pac-man
 	DrawCircle(circle.pos.x, circle.pos.y, circle.rad, YELLOW);
 	circle.Draw();
-	DrawTriangle(Vector2{ circle.pos }, Vector2{ circle.pos  }, Vector2{ circle.pos.x - 15, circle.pos.y - 15 }, BLUE);
 	//Pac-man mouth
+
+	
+
+
+	mouthOpenFrames--;
+	if (mouthOpenFrames == 0)
+	{
+		mouthOpenFrames = 20;
+		//flips booleans
+		mouthIsOpen = !mouthIsOpen;
+
+	}
+
+	if (mouthIsOpen)
+	{
+		switch (dir)
+		{
+		case Right:
+			DrawTriangle(circle.pos, { circle.pos.x + circle.rad + 2 , circle.pos.y + 15 }, { circle.pos.x + circle.rad + 2, circle.pos.y - 15 }, BLACK);
+			break;
+		case Left:
+			DrawTriangle(circle.pos,  { circle.pos.x - circle.rad - 2, circle.pos.y - 15 }, { circle.pos.x - circle.rad - 2 , circle.pos.y + 15 }, BLACK);
+			break;
+		case Down:
+			DrawTriangle(circle.pos,  { circle.pos.x - 15 , circle.pos.y + circle.rad + 2}, { circle.pos.x + 15, circle.pos.y + circle.rad + 2 }, BLACK);
+			break;
+		case Up:
+			DrawTriangle(circle.pos,  { circle.pos.x + 15, circle.pos.y - circle.rad - 2 }, { circle.pos.x - 15 , circle.pos.y - circle.rad - 2 }, BLACK);
+			break;
+
+		default:
+			break;
+
+		}
+
+	}
+	else;
 }

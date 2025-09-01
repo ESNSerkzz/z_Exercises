@@ -11,8 +11,8 @@ Palletes::Palletes()
 
 Palletes::Palletes(Vector2 _pos, float _size)
 {
-
-	box = AABB(_pos, {_size,_size});
+	Vector2 pos = { _pos.x - _size,_pos.y - _size };
+	box = AABB(pos, {_size,_size});
 	pType = Pallete;
 }
 
@@ -28,12 +28,13 @@ void Palletes::Update()
 
 void Palletes::Draw()
 {
-
+	Vector2 pos;
 	switch (pType)
 	{
 
 	case(Pallete):
-		DrawCircleV(box.pos, palletSize, WHITE);
+		pos = { box.pos.x + box.halfSize.x, box.pos.y + box.halfSize.y };
+		DrawCircleV(pos, palletSize, WHITE);
 		break;
 
 	case(PowerPallete):
