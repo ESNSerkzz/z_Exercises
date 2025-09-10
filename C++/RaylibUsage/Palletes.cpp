@@ -24,6 +24,7 @@ Palletes::Palletes(Vector2 _pos, float _size, PalleteType type)
 
 void Palletes::Update()
 {
+
 }
 
 void Palletes::Draw()

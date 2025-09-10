@@ -4,14 +4,20 @@
 
 
 
+Pacman::Pacman()
+{
+}
+
 Pacman::Pacman(MapGrid* _pacToMap)
 {
 	circle = CC({ screenWidth / 2, screenHeight / 2 }, 16.0f );
 	dir = Right;
+	currentFrame = 0;
 	mouthOpenFrames = 5;
 	
 	velocity = 1.55f;
 	score = 0;
+	pacmanSprite = LoadTexture("./PacmanAssets/assets.png");
 	pacToMap = _pacToMap;
 }
 
@@ -77,6 +83,7 @@ void Pacman::Update()
 		CollisionResults pacmanHitResult = { false, {0,0}, {50,50}, 0.0f };
 		if (brickColliding[i].type == BRICK)
 		{
+			brickColliding[i].TileCollision.Draw();
 			if (circle.isOverlapped(brickColliding[i].TileCollision, pacmanHitResult))
 			{
 
@@ -128,45 +135,58 @@ void Pacman::scoreAdder(int _score)
 }
 void Pacman::Draw()
 {
-	//Bootleg Pac-man
-	DrawCircle(circle.pos.x, circle.pos.y, circle.rad, YELLOW);
-	circle.Draw();
-	//Pac-man mouth
-
-	
-
 
 	mouthOpenFrames--;
 	if (mouthOpenFrames == 0)
 	{
-		mouthOpenFrames = 20;
+		mouthOpenFrames = 10;
 		//flips booleans
-		mouthIsOpen = !mouthIsOpen;
-
-	}
-
-	if (mouthIsOpen)
-	{
-		switch (dir)
+		currentFrame++;
+		if (currentFrame > 4)
 		{
-		case Right:
-			DrawTriangle(circle.pos, { circle.pos.x + circle.rad + 2 , circle.pos.y + 15 }, { circle.pos.x + circle.rad + 2, circle.pos.y - 15 }, BLACK);
-			break;
-		case Left:
-			DrawTriangle(circle.pos,  { circle.pos.x - circle.rad - 2, circle.pos.y - 15 }, { circle.pos.x - circle.rad - 2 , circle.pos.y + 15 }, BLACK);
-			break;
-		case Down:
-			DrawTriangle(circle.pos,  { circle.pos.x - 15 , circle.pos.y + circle.rad + 2}, { circle.pos.x + 15, circle.pos.y + circle.rad + 2 }, BLACK);
-			break;
-		case Up:
-			DrawTriangle(circle.pos,  { circle.pos.x + 15, circle.pos.y - circle.rad - 2 }, { circle.pos.x - 15 , circle.pos.y - circle.rad - 2 }, BLACK);
-			break;
-
-		default:
-			break;
-
+			currentFrame = 1;
 		}
-
 	}
-	else;
+	float angle = 0;
+	Rectangle source = { 488, 0, 15, 15 };
+	Rectangle destPos = { circle.pos.x, circle.pos.y, 32,32 };
+	if (currentFrame == 1)
+	{
+		source = { 488, 0, 15, 15 };
+	}
+	if (currentFrame == 2)
+	{
+		source = { 472, 0, 15, 15 };
+	}
+	if (currentFrame == 3)
+	{
+		source = { 456, 0, 15, 15 };
+	}
+	if (currentFrame == 4)
+	{
+		source = { 472, 0, 15, 15 };
+	}
+	
+	switch (dir)
+	{
+	case Right:
+		angle = 0;
+		break;
+	case Left:
+		angle = 180;
+		break;
+	case Down:
+		angle = 90;
+		break;
+	case Up:
+		angle = 270;
+		break;
+
+	default:
+		break;
+	}
+
+	DrawTexturePro(pacmanSprite, source, destPos, { circle.rad , circle.rad }, angle, WHITE);
+	
+	
 }

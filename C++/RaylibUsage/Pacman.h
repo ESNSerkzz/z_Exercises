@@ -12,11 +12,12 @@ public:
 	Direction dir;
 	float velocity;
 	int score;
-	bool mouthIsOpen;
+	int currentFrame;
 	int mouthOpenFrames;
-
+	Texture2D pacmanSprite;
 	MapGrid* pacToMap;
 		
+	Pacman();
 	Pacman(MapGrid*_pacToMap);
 
 	void Input();

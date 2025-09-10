@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="Collisions.cpp" />
     <ClCompile Include="Constants.h" />
+    <ClCompile Include="Ghosts.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MapGrid.cpp" />
     <ClCompile Include="Pacman.cpp" />
@@ -142,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collisions.h" />
+    <ClInclude Include="Ghosts.h" />
     <ClInclude Include="MapGrid.h" />
     <ClInclude Include="Pacman.h" />
     <ClInclude Include="Palletes.h" />
