@@ -9,14 +9,14 @@
 
 
 static void SetUp(void);
-static void Update(void);
-//static void Depenetration(void);
+static void Update(float delta);
 static void Draw(void);
 
 
 MapGrid grid = MapGrid(28, 36, 32, "./map.txt");
 Pacman ePacman;
-Ghosts eGhost ;
+Ghosts eGhost;
+
 
 int main(void)
 {
@@ -25,7 +25,7 @@ int main(void)
 	{
 
 		Draw();
-		Update();
+		Update(GetFrameTime());
 		EndDrawing();
 
 	}
@@ -38,21 +38,16 @@ static void SetUp(void)
 	SetTargetFPS(60);
 	ePacman = Pacman(&grid);
 	eGhost = Ghosts(AABB({ screenWidth / 2, screenHeight / 2 }, {ghostSize, ghostSize}), RED_GHOST, &grid, "./PacmanAssets/assets.png");
-	
+	eGhost.pacman = &ePacman;
 }
 
-void Update(void)
+void Update(float delta)
 {
-	//TODO
-	// AABB that surrounds the boxes near pacman, then draw that box
-	// start checking tiles with said box
-
-	
 
 	ePacman.Update();
 	ePacman.Input();
 
-	eGhost.Update();
+	eGhost.Update(delta);
 }
 
 //void Depenetration(void)
@@ -69,6 +64,7 @@ static void Draw(void)
 	grid.Draw();
 	ePacman.Draw();
 	eGhost.Draw();
+
 	
 	DrawFPS(10, 10);
 	DrawText("HIGH SCORE", {screenWidth/2 - 100},  10, 32, WHITE);

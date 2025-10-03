@@ -18,6 +18,17 @@ struct Tile
 	int size;
 	Palletes* pallet;
 	TileType type = (TileType) 0;
+
+	//Pathfinding
+	std::vector <Tile*> allNeighbours;
+	Tile* prevTile;
+	bool explored;
+	float cost;
+};
+struct tileCoords
+{
+	int x;
+	int y;
 };
 
 class MapGrid
@@ -31,6 +42,8 @@ public:
 	MapGrid(int _columns, int _rows, int tileSize, std::string filePath);
 
 	std::vector<Tile> BoxesAroundPoint(Vector2 pos);
+	std::vector<tileCoords> GetBricklessSpaceAroundOrigin(tileCoords _N);
+	std::vector<tileCoords> dijkstrasPathing(tileCoords startPos, tileCoords endPos);
 
 	std::vector<std::vector <Tile>> listOfTiles;
 	

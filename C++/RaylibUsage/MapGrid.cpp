@@ -92,6 +92,20 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 		}
 
 	}
+	for (int i = 0; i < columns; i++)
+	{
+		for (int j = 0; j < rows; j++)
+		{
+			if (listOfTiles[i][j].type != BRICK)
+			{
+				std::vector<tileCoords> bricklessSpaces = GetBricklessSpaceAroundOrigin({ i,j });
+				for (int a = 0; a < bricklessSpaces.size(); a++)
+				{
+					listOfTiles[i][j].allNeighbours.push_back(&listOfTiles[bricklessSpaces[a].x][bricklessSpaces[a].y]);
+				}
+			}
+		}
+	}
 }
 
 std::vector<Tile> MapGrid::BoxesAroundPoint(Vector2 pos)
@@ -99,7 +113,7 @@ std::vector<Tile> MapGrid::BoxesAroundPoint(Vector2 pos)
 	int posX = pos.x / 32;
 	int posY = pos.y / 32;
 
-	std::vector<Tile> BAP;
+	std::vector<Tile> BAP; 
 	if (posX < columns && posX >= 0 && posY < rows && posY >= 0)
 	{
 		if (posX != 0)
@@ -139,12 +153,138 @@ std::vector<Tile> MapGrid::BoxesAroundPoint(Vector2 pos)
 			BAP.push_back(listOfTiles[posX] [posY + 1]);
 		}
 		
-		
 	}
-
-	
 	return BAP;
 }
+
+std::vector<tileCoords> MapGrid::GetBricklessSpaceAroundOrigin(tileCoords _origin)
+{
+	std::vector<tileCoords> list;
+	
+	
+	
+		if (_origin.x != 0)
+		{
+			if (listOfTiles[_origin.x - 1][_origin.y].type != BRICK)
+			{
+				//left
+				list.push_back({ _origin.x - 1, _origin.y });
+
+			}
+		}
+		if (_origin.x != columns - 1)
+		{
+			if (listOfTiles[_origin.x + 1][_origin.y].type != BRICK)
+			{
+				//right
+				list.push_back({ _origin.x + 1,_origin.y });
+
+			}
+			
+		}
+		
+		if (_origin.y != 0)
+		{
+			if (listOfTiles[_origin.x][_origin.y - 1].type != BRICK)
+			{
+				//top
+				list.push_back({ _origin.x, _origin.y - 1 });
+
+			}
+
+		}
+		if (_origin.y != rows - 1)
+		{
+			if (listOfTiles[_origin.x][_origin.y + 1].type != BRICK)
+			{
+				//bottom
+				list.push_back({ _origin.x,_origin.y + 1 });
+
+			}
+		}
+	
+		
+	
+		
+	
+
+		
+	return std::vector<tileCoords>();
+}
+
+std::vector<tileCoords> MapGrid::dijkstrasPathing(tileCoords startPos, tileCoords endPos)
+{
+	std::vector<Tile*> openList;
+	std::vector<Tile*> closedList;
+	Tile* currentTile = &listOfTiles[startPos.x][startPos.y];
+	for (int i = 0; i < listOfTiles.size(); i++)
+	{
+		for (int j = 0; j < listOfTiles[i].size(); j++)
+		{
+			openList.push_back(&listOfTiles[i][j]);
+		}
+
+	}
+
+	for (int i = 0; i < openList.size(); i++)
+	{
+
+		openList[i]->cost = std::numeric_limits<float>::max();
+		openList[i]->explored = false;
+
+	}
+
+	currentTile->cost = 0;
+	currentTile->explored = true;
+	bool pathImcomplete = true;
+	while (pathImcomplete)
+	{
+		for (int i = 0; i < currentTile->allNeighbours.size(); i++)
+		{
+			if (currentTile->allNeighbours[i]->cost > Vector2Distance(currentTile->TileCollision.pos, currentTile->allNeighbours[i]->TileCollision.pos) + currentTile->cost)
+			{
+				currentTile->allNeighbours[i]->cost = Vector2Distance(currentTile->TileCollision.pos, currentTile->allNeighbours[i]->TileCollision.pos) + currentTile->cost;
+			}
+		}
+		currentTile->explored = true;
+		Tile* cheapestTile = nullptr;
+
+		//finding the cheapest unexplored tile
+		for (int i = 0; i < openList.size(); i++)
+		{
+			if (cheapestTile == nullptr)
+			{
+				if (openList[i]->explored == false)
+				{
+					cheapestTile = openList[i];
+				}
+			}
+			if (openList[i]->cost < cheapestTile->cost)
+			{
+				cheapestTile = openList[i];
+			}
+		}
+
+		cheapestTile->prevTile = currentTile;
+		currentTile = cheapestTile;
+
+		if (currentTile == &listOfTiles[endPos.x][endPos.y])
+		{
+			pathImcomplete = false;
+		}
+
+	}
+
+	std::vector <tileCoords> pathComplete;
+
+	while (currentTile != &listOfTiles[startPos.x][startPos.y])
+	{
+		pathComplete.push_back({ currentTile->x / 32, currentTile->y });
+	}
+
+	return pathComplete;
+}
+
 
 void MapGrid::DrawBox(int x, int y)
 {
@@ -154,8 +294,6 @@ void MapGrid::DrawBox(int x, int y)
 	
 		DrawRectangleLines(tile.x, tile.y, tile.size, tile.size, WHITE);
 	}
-
-	
 }
 
 void MapGrid::Draw()

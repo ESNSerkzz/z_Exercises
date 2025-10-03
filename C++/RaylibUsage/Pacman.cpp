@@ -10,7 +10,7 @@ Pacman::Pacman()
 
 Pacman::Pacman(MapGrid* _pacToMap)
 {
-	circle = CC({ screenWidth / 2, screenHeight / 2 }, 16.0f );
+	circle = CC({ 13*32, 20.5*32 }, 16.0f );
 	dir = Right;
 	currentFrame = 0;
 	mouthOpenFrames = 5;
@@ -24,17 +24,45 @@ Pacman::Pacman(MapGrid* _pacToMap)
 void Pacman::Input()
 {
 	
-	//if (IsKeyPressed(KEY_W)) dir = Up;; // || IsKeyDown(KEY_W)) dir = Up;
-	//if (IsKeyPressed(KEY_D)) dir = Right;
-	//if (IsKeyPressed(KEY_S)) dir = Down;
-	//if (IsKeyPressed(KEY_A)) dir = Left;
+
+	std::vector<Tile> brickColliding = pacToMap->BoxesAroundPoint(circle.pos);
+	int posX = circle.pos.x / 32;
+	int posY = circle.pos.y / 32;
 	
 
-	if (IsKeyDown(KEY_W)) dir = Up;
-	if (IsKeyDown(KEY_D)) dir = Right;
-	if (IsKeyDown(KEY_S)) dir = Down;
-	if (IsKeyDown(KEY_A)) dir = Left;
+	if (IsKeyDown(KEY_W))
+	{
+		if (pacToMap->listOfTiles[posX][posY - 1].type != BRICK)
+		{
+			dir = Up;
+		}
+	}
+
+	if (IsKeyDown(KEY_D))
+	{
+		if (pacToMap->listOfTiles[posX + 1][posY].type != BRICK)
+		{
+			dir = Right;
+		}
+	}
+	if (IsKeyDown(KEY_S))
+	{
+		if (pacToMap->listOfTiles[posX][posY + 1].type != BRICK)
+		{
+
+			dir = Down;
+		}
+	}
+	if (IsKeyDown(KEY_A))
+	{
+		if (pacToMap->listOfTiles[posX- 1][posY].type != BRICK)
+		{
+
+			dir = Left;
+		}
+	}
 	
+
 }
 void Pacman::Update()
 {
@@ -78,7 +106,8 @@ void Pacman::Update()
 	
 	std::vector<Tile> brickColliding = pacToMap->BoxesAroundPoint(circle.pos);
 	
-	for (int i = 0; i < brickColliding.size(); i++)
+	
+	for (int i = 0; i < brickColliding.size() -1; i++)
 	{
 		CollisionResults pacmanHitResult = { false, {0,0}, {50,50}, 0.0f };
 		if (brickColliding[i].type == BRICK)
@@ -94,6 +123,8 @@ void Pacman::Update()
 				
 			}
 		}
+
+
 		if (brickColliding[i].type == PALLETE || brickColliding[i].type == POWERPALLETE)
 		{
 			
@@ -139,7 +170,7 @@ void Pacman::Draw()
 	mouthOpenFrames--;
 	if (mouthOpenFrames == 0)
 	{
-		mouthOpenFrames = 10;
+		mouthOpenFrames = 5;
 		//flips booleans
 		currentFrame++;
 		if (currentFrame > 4)
