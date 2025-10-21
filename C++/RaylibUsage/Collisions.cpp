@@ -15,7 +15,6 @@ Direction AABB::GetDir(AABB box)
 		{
 			return Left;
 		}
-
 	}
 	else
 	{
@@ -28,7 +27,6 @@ Direction AABB::GetDir(AABB box)
 			return Up;
 		}
 	}
-
 }
 
 void AABB::Draw()
@@ -63,7 +61,6 @@ bool CC::isOverlapped(AABB box, CollisionResults& hit)
 	Vector2 aabbToNearest = Vector2Subtract(closestPoint, pos);
 	Vector2 AABBdistToCCdist = Vector2Subtract(pos, box.pos);
 
-	
 	if (Vector2Length(aabbToNearest) <= (float)rad)
 	{
 	
@@ -77,7 +74,6 @@ bool CC::isOverlapped(AABB box, CollisionResults& hit)
 
 		hit.pDepth = rad - Vector2Length(aabbToNearest);
 		
-
 		return true;
 	}
 	return false;

@@ -21,7 +21,7 @@ public:
 	Pacman(MapGrid*_pacToMap);
 
 	void Input();
-	void Update();
+	void Update(float delta);
 	
 	void scoreAdder(int _score);
 

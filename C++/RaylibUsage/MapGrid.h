@@ -19,14 +19,17 @@ struct Tile
 	Palletes* pallet;
 	TileType type = (TileType) 0;
 
+	void DrawTile();
 	//Pathfinding
 	std::vector <Tile*> allNeighbours;
 	Tile* prevTile;
 	bool explored;
 	float cost;
+
 };
 struct tileCoords
 {
+
 	int x;
 	int y;
 };
@@ -47,6 +50,7 @@ public:
 
 	std::vector<std::vector <Tile>> listOfTiles;
 	
+	Tile GetTile(tileCoords coord);
 	void DrawBox(int x, int y);
 	void Draw();
 

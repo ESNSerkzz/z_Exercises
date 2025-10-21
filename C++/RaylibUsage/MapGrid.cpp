@@ -29,7 +29,6 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize)
 			listOfTiles[x][y].pallet->box.pos = { (float)x * tileSize + tileSize/2, (float)y * tileSize + tileSize/2 };
 
 		}
-
 	}
 }
 
@@ -161,8 +160,6 @@ std::vector<tileCoords> MapGrid::GetBricklessSpaceAroundOrigin(tileCoords _origi
 {
 	std::vector<tileCoords> list;
 	
-	
-	
 		if (_origin.x != 0)
 		{
 			if (listOfTiles[_origin.x - 1][_origin.y].type != BRICK)
@@ -172,6 +169,7 @@ std::vector<tileCoords> MapGrid::GetBricklessSpaceAroundOrigin(tileCoords _origi
 
 			}
 		}
+
 		if (_origin.x != columns - 1)
 		{
 			if (listOfTiles[_origin.x + 1][_origin.y].type != BRICK)
@@ -180,7 +178,6 @@ std::vector<tileCoords> MapGrid::GetBricklessSpaceAroundOrigin(tileCoords _origi
 				list.push_back({ _origin.x + 1,_origin.y });
 
 			}
-			
 		}
 		
 		if (_origin.y != 0)
@@ -191,8 +188,8 @@ std::vector<tileCoords> MapGrid::GetBricklessSpaceAroundOrigin(tileCoords _origi
 				list.push_back({ _origin.x, _origin.y - 1 });
 
 			}
-
 		}
+
 		if (_origin.y != rows - 1)
 		{
 			if (listOfTiles[_origin.x][_origin.y + 1].type != BRICK)
@@ -202,14 +199,8 @@ std::vector<tileCoords> MapGrid::GetBricklessSpaceAroundOrigin(tileCoords _origi
 
 			}
 		}
-	
-		
-	
-		
-	
 
-		
-	return std::vector<tileCoords>();
+	return list;
 }
 
 std::vector<tileCoords> MapGrid::dijkstrasPathing(tileCoords startPos, tileCoords endPos)
@@ -223,7 +214,6 @@ std::vector<tileCoords> MapGrid::dijkstrasPathing(tileCoords startPos, tileCoord
 		{
 			openList.push_back(&listOfTiles[i][j]);
 		}
-
 	}
 
 	for (int i = 0; i < openList.size(); i++)
@@ -237,54 +227,85 @@ std::vector<tileCoords> MapGrid::dijkstrasPathing(tileCoords startPos, tileCoord
 	currentTile->cost = 0;
 	currentTile->explored = true;
 	bool pathImcomplete = true;
+	
+
 	while (pathImcomplete)
 	{
 		for (int i = 0; i < currentTile->allNeighbours.size(); i++)
 		{
 			if (currentTile->allNeighbours[i]->cost > Vector2Distance(currentTile->TileCollision.pos, currentTile->allNeighbours[i]->TileCollision.pos) + currentTile->cost)
 			{
-				currentTile->allNeighbours[i]->cost = Vector2Distance(currentTile->TileCollision.pos, currentTile->allNeighbours[i]->TileCollision.pos) + currentTile->cost;
+				float newCost;
+				newCost = Vector2Distance(
+					{(float)currentTile->x, (float)currentTile->y},
+					{ (float)currentTile->allNeighbours[i]->x, (float)currentTile->allNeighbours[i]->y});
+				currentTile->allNeighbours[i]->cost = newCost + currentTile->cost;
+
+				//currentTile->prevTile = currentTile->allNeighbours[i];
+				currentTile->allNeighbours[i]->prevTile = currentTile;
 			}
 		}
+
 		currentTile->explored = true;
 		Tile* cheapestTile = nullptr;
-
+		int toDelete = -1;
+		for (int i = 0; i < openList.size(); i++)
+		{
+			if (currentTile == openList[i])
+			{
+				toDelete = i;
+			}
+		}
+		openList.erase(openList.begin() + toDelete);
 		//finding the cheapest unexplored tile
 		for (int i = 0; i < openList.size(); i++)
 		{
 			if (cheapestTile == nullptr)
 			{
-				if (openList[i]->explored == false)
-				{
-					cheapestTile = openList[i];
-				}
+				cheapestTile = openList[i];
+				
 			}
 			if (openList[i]->cost < cheapestTile->cost)
 			{
 				cheapestTile = openList[i];
 			}
 		}
-
-		cheapestTile->prevTile = currentTile;
-		currentTile = cheapestTile;
-
-		if (currentTile == &listOfTiles[endPos.x][endPos.y])
+	
+		if (cheapestTile->y /32  == endPos.y && cheapestTile->x /32 == endPos.x)
 		{
+			//cheapestTile->prevTile = currentTile;
 			pathImcomplete = false;
 		}
-
+		currentTile = cheapestTile;
 	}
 
 	std::vector <tileCoords> pathComplete;
 
 	while (currentTile != &listOfTiles[startPos.x][startPos.y])
 	{
-		pathComplete.push_back({ currentTile->x / 32, currentTile->y });
+
+		
+		pathComplete.push_back({ currentTile->x / 32, currentTile->y /32 });
+		if (currentTile->prevTile == nullptr)
+		{
+			std::cout << "Error" << std::endl;
+			break;
+		}
+		currentTile = currentTile->prevTile;
 	}
+
+
+	
 
 	return pathComplete;
 }
 
+Tile MapGrid::GetTile(tileCoords coord)
+{
+
+	return listOfTiles[coord.x][coord.y];
+	
+}
 
 void MapGrid::DrawBox(int x, int y)
 {
@@ -306,8 +327,6 @@ void MapGrid::Draw()
 			{
 			case(BRICK):
 				DrawRectangleV({ (float)tile.x,(float)tile.y }, { (float)tile.size, (float)tile.size }, BLUE);
-				
-
 				break;
 
 			case(POWERPALLETE):
@@ -319,10 +338,11 @@ void MapGrid::Draw()
 			default:
 				break;
 			}
-
-			//tile.TileCollision.Draw();
-
-			
 		}
 	}
+}
+
+void Tile::DrawTile()
+{
+	DrawRectangleLines(x, y, size, size, GREEN);
 }

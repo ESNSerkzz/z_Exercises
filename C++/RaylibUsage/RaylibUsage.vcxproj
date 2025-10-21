@@ -149,6 +149,7 @@
     <ClInclude Include="Palletes.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="emptyMap.txt" />
     <Text Include="Map.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

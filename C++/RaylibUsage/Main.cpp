@@ -44,7 +44,7 @@ static void SetUp(void)
 void Update(float delta)
 {
 
-	ePacman.Update();
+	ePacman.Update(delta);
 	ePacman.Input();
 
 	eGhost.Update(delta);

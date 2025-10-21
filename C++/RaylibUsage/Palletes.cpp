@@ -48,6 +48,4 @@ void Palletes::Draw()
 		break;
 	}
 
-	
-
 };

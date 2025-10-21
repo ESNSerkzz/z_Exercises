@@ -17,9 +17,6 @@ Ghosts::Ghosts(AABB _box, GhostType _gType, MapGrid* _ghostToMap, std::string fi
 	
 	ghostSprite =  LoadTexture(filePath.c_str());
 	
-	
-	
-	
 }
 
 //std::vector<tileCoords> Ghosts::dijkstra(tileCoords _targetPos)
@@ -35,17 +32,7 @@ void Ghosts::PathingMovement()
 
 void Ghosts::Update(float delta)
 {
-	tileCoords pacmanCoords = { (int)pacman->circle.pos.x /32, (int)pacman->circle.pos.y/32 };
-	std::vector<tileCoords> path = ghostToMap->dijkstrasPathing(
-		{ (int)box.pos.x / 32, (int)box.pos.y / 32 },
-		pacmanCoords
-	);
-
-	for (int i = 0 ; i < path.size(); i++)
-	{
-		ghostToMap->listOfTiles[path[i].x][path[i].y].TileCollision.Draw();
-		
-	}
+	
 
 	switch (currentBehaviour)
 	{
@@ -270,6 +257,21 @@ void Ghosts::Draw()
 		}
 		break;*/
 	}
+
+	tileCoords pacmanCoords = { (int)pacman->circle.pos.x / 32, (int)pacman->circle.pos.y / 32 };
+	tileCoords ghostCoords = { (int)box.pos.x / 32, (int)box.pos.y / 32 };
+	std::vector<tileCoords> path = ghostToMap->dijkstrasPathing(
+		pacmanCoords,
+		ghostCoords
+	);
+
+	for (int i = 0; i < path.size(); i++)
+	{
+		ghostToMap->GetTile(path[i]).DrawTile();
+		
+
+	}
+	
 
 	DrawTexturePro(ghostSprite, source, destPos, box.halfSize, 0, WHITE);
 	//DrawTexture(ghostSprite, box.pos.x, box.pos.y, WHITE);

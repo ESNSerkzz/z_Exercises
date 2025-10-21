@@ -15,7 +15,7 @@ Pacman::Pacman(MapGrid* _pacToMap)
 	currentFrame = 0;
 	mouthOpenFrames = 5;
 	
-	velocity = 1.55f;
+	velocity = 120.55f;
 	score = 0;
 	pacmanSprite = LoadTexture("./PacmanAssets/assets.png");
 	pacToMap = _pacToMap;
@@ -23,13 +23,10 @@ Pacman::Pacman(MapGrid* _pacToMap)
 
 void Pacman::Input()
 {
-	
-
 	std::vector<Tile> brickColliding = pacToMap->BoxesAroundPoint(circle.pos);
 	int posX = circle.pos.x / 32;
 	int posY = circle.pos.y / 32;
 	
-
 	if (IsKeyDown(KEY_W))
 	{
 		if (pacToMap->listOfTiles[posX][posY - 1].type != BRICK)
@@ -62,9 +59,8 @@ void Pacman::Input()
 		}
 	}
 	
-
 }
-void Pacman::Update()
+void Pacman::Update(float delta)
 {
 	bool canMove = true;
 	if (canMove == true)
@@ -72,17 +68,17 @@ void Pacman::Update()
 		switch (dir)
 		{
 		case Up:
-			circle.pos.y = circle.pos.y -= velocity;
+			circle.pos.y = circle.pos.y -= velocity * delta;
 			//box.GetDir(box.pos);
 			break;
 		case Right:
-			circle.pos.x = circle.pos.x += velocity;
+			circle.pos.x = circle.pos.x += velocity * delta;
 			break;
 		case Down:
-			circle.pos.y = circle.pos.y += velocity;
+			circle.pos.y = circle.pos.y += velocity * delta;
 			break;
 		case Left:
-			circle.pos.x = circle.pos.x -= velocity;
+			circle.pos.x = circle.pos.x -= velocity * delta;
 		}
 	}
 	if (circle.pos.x < 0)
@@ -102,11 +98,9 @@ void Pacman::Update()
 	{
 		circle.pos.y = 0;
 	}
-
 	
 	std::vector<Tile> brickColliding = pacToMap->BoxesAroundPoint(circle.pos);
-	
-	
+		
 	for (int i = 0; i < brickColliding.size() -1; i++)
 	{
 		CollisionResults pacmanHitResult = { false, {0,0}, {50,50}, 0.0f };
@@ -115,15 +109,10 @@ void Pacman::Update()
 			brickColliding[i].TileCollision.Draw();
 			if (circle.isOverlapped(brickColliding[i].TileCollision, pacmanHitResult))
 			{
-
-				
 				circle.pos = Vector2Subtract(circle.pos, Vector2Scale(pacmanHitResult.normal, pacmanHitResult.pDepth * -1));
-				
-				
-				
+			
 			}
 		}
-
 
 		if (brickColliding[i].type == PALLETE || brickColliding[i].type == POWERPALLETE)
 		{
@@ -132,8 +121,6 @@ void Pacman::Update()
 			{
 				pacToMap->listOfTiles[brickColliding[i].x / 32][brickColliding[i].y/32].type = EMPTY;
 				
-
-
 				switch (brickColliding[i].pallet->pType)
 				{
 				case(Pallete):
@@ -149,15 +136,9 @@ void Pacman::Update()
 				default:
 					break;
 				}
-			
-				
 			}
-
-			
 		}
 	}
-
-
 }
 
 void Pacman::scoreAdder(int _score)
@@ -218,6 +199,4 @@ void Pacman::Draw()
 	}
 
 	DrawTexturePro(pacmanSprite, source, destPos, { circle.rad , circle.rad }, angle, WHITE);
-	
-	
 }

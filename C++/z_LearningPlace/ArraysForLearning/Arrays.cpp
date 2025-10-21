@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-//void FixedArrays();
+void FixedArrays();
 void DynamicArrays();
 void MultiDimArrays();
 
@@ -67,7 +67,7 @@ void DynamicArrays()
 
 	int* numbers = new int[5];
 	int differentNumbers = 3;
-	int* anotherSetOfNumbers = new int[differentNumbers];
+	int *anotherSetOfNumbers = new int[differentNumbers];
 	int* dereference = &differentNumbers;
 
 	for (int i = 0; i < differentNumbers; i++)
@@ -77,7 +77,7 @@ void DynamicArrays()
 	}
 	std::cout << anotherSetOfNumbers << "\n";
 	
-	std::cout << &dereference << "\n";
+	std::cout << dereference << "\n";
 
 
 	delete[] numbers;

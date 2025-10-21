@@ -15,7 +15,6 @@ struct CollisionResults
 	Vector2 normal;
 	float pDepth;
 
-
 };
 
 typedef class AABB
@@ -23,7 +22,6 @@ typedef class AABB
 public:
 	Vector2 pos;
 	Vector2 halfSize;
-
 
 	AABB() {};
 	AABB(Vector2 centre, Vector2 _halfSize) : pos(centre), halfSize(_halfSize) {};
@@ -35,7 +33,6 @@ public:
 
 	bool overlaps(AABB box)
 	{
-
 		return(
 			pos.x - halfSize.x < box.pos.x + box.halfSize.x &&
 			pos.x + halfSize.x > box.pos.x - box.halfSize.x &&
