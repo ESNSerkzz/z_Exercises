@@ -110,7 +110,7 @@ void Pacman::Update(float delta)
 			if (circle.isOverlapped(brickColliding[i].TileCollision, pacmanHitResult))
 			{
 				circle.pos = Vector2Subtract(circle.pos, Vector2Scale(pacmanHitResult.normal, pacmanHitResult.pDepth * -1));
-			
+				DrawCircleV(pacmanHitResult.pos, 3, GREEN);
 			}
 		}
 
@@ -197,6 +197,6 @@ void Pacman::Draw()
 	default:
 		break;
 	}
-
 	DrawTexturePro(pacmanSprite, source, destPos, { circle.rad , circle.rad }, angle, WHITE);
+	circle.Draw();
 }

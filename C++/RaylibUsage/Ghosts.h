@@ -11,7 +11,7 @@
 enum GhostType
 {
 	//BLINKY , PINKY     , INKY      , CLYDE
-	RED_GHOST, PINK_GHOST, CYAN_GHOST, ORAGANE_GHOST
+	RED_GHOST, PINK_GHOST, CYAN_GHOST, ORANGE_GHOST
 };
 enum Behaviour
 {
@@ -33,6 +33,7 @@ public:
 	int frameTimeLength;
 	Pacman* pacman;
 
+
 	Ghosts();
 	Ghosts(AABB _box, GhostType _gType, MapGrid* _ghostToMap , std::string filePath);
 
@@ -41,6 +42,8 @@ public:
 	void Update(float delta);
 	void Draw();
 
-
+private:
+	void HandleColisions();
+	std::vector<tileCoords> path;
 };
 

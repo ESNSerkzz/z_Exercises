@@ -218,7 +218,7 @@ std::vector<tileCoords> MapGrid::dijkstrasPathing(tileCoords startPos, tileCoord
 
 	for (int i = 0; i < openList.size(); i++)
 	{
-
+		//before being explored. Setting cost to highest possible values in of every element of openlist to begin with
 		openList[i]->cost = std::numeric_limits<float>::max();
 		openList[i]->explored = false;
 
@@ -233,6 +233,8 @@ std::vector<tileCoords> MapGrid::dijkstrasPathing(tileCoords startPos, tileCoord
 	{
 		for (int i = 0; i < currentTile->allNeighbours.size(); i++)
 		{
+			//if the cost of the neighbouring tile is greater than the distance of the currentTile
+			// and the next neighboring tile in line (refering to allNeighbour)
 			if (currentTile->allNeighbours[i]->cost > Vector2Distance(currentTile->TileCollision.pos, currentTile->allNeighbours[i]->TileCollision.pos) + currentTile->cost)
 			{
 				float newCost;
@@ -293,10 +295,7 @@ std::vector<tileCoords> MapGrid::dijkstrasPathing(tileCoords startPos, tileCoord
 		}
 		currentTile = currentTile->prevTile;
 	}
-
-
-	
-
+	std::reverse(pathComplete.begin(), pathComplete.end());
 	return pathComplete;
 }
 
@@ -305,6 +304,21 @@ Tile MapGrid::GetTile(tileCoords coord)
 
 	return listOfTiles[coord.x][coord.y];
 	
+}
+
+tileCoords MapGrid::GetCoords(Vector2 tilePos)
+{
+	tileCoords returnTileCoords;
+	returnTileCoords.x = tilePos.x/32;
+	returnTileCoords.y = tilePos.y/32;
+	return returnTileCoords;
+}
+
+Vector2 MapGrid::tileToPos(tileCoords pos)
+{
+
+
+	return { (float)32 * pos.x + 16, (float)32 * pos.y + 16 };
 }
 
 void MapGrid::DrawBox(int x, int y)
@@ -345,4 +359,15 @@ void MapGrid::Draw()
 void Tile::DrawTile()
 {
 	DrawRectangleLines(x, y, size, size, GREEN);
+}
+
+tileCoords::tileCoords()
+{
+}
+
+tileCoords::tileCoords(int _x, int _y)
+{
+	x = _x;
+	y = _y;
+
 }

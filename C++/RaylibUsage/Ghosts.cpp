@@ -19,21 +19,11 @@ Ghosts::Ghosts(AABB _box, GhostType _gType, MapGrid* _ghostToMap, std::string fi
 	
 }
 
-//std::vector<tileCoords> Ghosts::dijkstra(tileCoords _targetPos)
-//{
-//	std::vector<Tile> tilePath;
-//	
-//	
-//}
-
-void Ghosts::PathingMovement()
-{
-}
-
 void Ghosts::Update(float delta)
 {
 	
-
+	tileCoords ghostCoords = ghostToMap->GetCoords({ box.pos.x, box.pos.y + 48 });
+	
 	switch (currentBehaviour)
 	{
 	case SCATTER:
@@ -41,7 +31,41 @@ void Ghosts::Update(float delta)
 		{
 		case RED_GHOST:
 			//TODO walk to 26 , 4
+			path = ghostToMap->dijkstrasPathing(ghostCoords, { 26, 5 });
 			break;
+
+		case PINK_GHOST:
+			path = ghostToMap->dijkstrasPathing(ghostCoords, { 2,5 });
+			break;
+		case CYAN_GHOST:
+			path = ghostToMap->dijkstrasPathing(ghostCoords, { 2, 32 });
+			break;
+		case ORANGE_GHOST:
+			path = ghostToMap->dijkstrasPathing(ghostCoords,{ 26, 32 });
+			break;
+		default:
+			break;
+		}
+
+		break;
+
+	case CHASE:
+
+
+		switch (gType)
+		{
+		case RED_GHOST:
+			path = ghostToMap->dijkstrasPathing(ghostToMap->GetCoords(box.pos), ghostToMap->GetCoords(pacman->circle.pos));
+			break;
+		case PINK_GHOST:
+			if (pacman->dir == Right)
+			path = ghostToMap->dijkstrasPathing(ghostToMap->GetCoords(box.pos), ghostToMap->GetCoords(pacman->circle.pos));
+			break;
+		case CYAN_GHOST:
+			//path = ghostToMap->dijkstrasPathing(ghostToMap->GetCoords(box.pos), { 2, 32 });
+			break;
+		case ORANGE_GHOST:
+			//path = ghostToMap->dijkstrasPathing(ghostToMap->GetCoords(box.pos), { 26, 32 });
 		default:
 			break;
 		}
@@ -50,10 +74,84 @@ void Ghosts::Update(float delta)
 	default:
 		break;
 	}
+
+
+	if (path.size() > 1)
+	{
+		
+		Vector2 ghostDistToTile = Vector2Subtract(ghostToMap->tileToPos(path[1]), box.pos);
+		tileCoords pathDir;
+		//the paths order is backwards
+		pathDir.x = path[1].x - path[0].x;
+		pathDir.y = path[1].y - path[0].y; 
+		if (std::abs(ghostDistToTile.y) > std::abs(ghostDistToTile.x))
+		{
+			if (ghostDistToTile.y <= 0)
+			{
+				dir = Up;
+			}
+			else
+			{
+				dir = Down;
+			}
+
+		}
+		else
+		{
+			if (ghostDistToTile.x <= 0)
+			{
+				dir = Left;
+
+			}
+			else
+			{
+				dir = Right;
+			}
+		}
+
+		/*if (pathDir.x == 0 && pathDir.y == 1)
+		{
+			dir = Down;
+		}
+		if (pathDir.x == -1 && pathDir.y == 0)
+		{
+			dir = Left;
+		}
+		if (pathDir.x == 1 && pathDir.y == 0)
+		{
+			dir = Right;
+		}*/
+
+	}
+
+
+	switch (dir)
+	{
+	case Up:
+		box.pos.y = box.pos.y - velocity;
+		break;
+	case Down: 
+		box.pos.y = box.pos.y + velocity;
+		break;
+	case Left:
+		box.pos.x = box.pos.x - velocity;
+		break;
+	case Right:
+		box.pos.x = box.pos.x + velocity;
+		break;
+
+	}
+
 }
 
 void Ghosts::Draw()
 {
+
+	float topPos;
+	if (gType == RED_GHOST) topPos = 64;
+	if (gType == PINK_GHOST) topPos = 80;
+	if (gType == CYAN_GHOST) topPos = 96;
+	if (gType == ORANGE_GHOST) topPos = 112;
 	frameTimeLength--;
 	if (frameTimeLength == 0)
 	{
@@ -65,205 +163,53 @@ void Ghosts::Draw()
 		}
 	}
 	Rectangle source = {456, 64, 16, 16 };
-	Rectangle destPos = { box.pos.x, box.pos.y, 32,32 };
+	Rectangle destPos = { box.pos.x + box.halfSize.x, box.pos.y + box.halfSize.y, 32,32 };
 
-	switch (gType)
-	{
-	case RED_GHOST:
+	
+	
 		switch (dir)
 		{
 		case Right:
 			if (currentFrame == 0)
 			{
-				source = { 456, 64, 16, 16 };
+				source = { 456, topPos, 16, 16 };
 			}
 			if (currentFrame == 1)
 			{
-				source = { 472, 64, 16, 16 };
+				source = { 472, topPos, 16, 16 };
 			}
 			break;
 		case Left:
 			if (currentFrame == 0)
 			{
-				source = { 488, 64, 16, 16 };
+				source = { 488, topPos, 16, 16 };
 			}
 			if (currentFrame == 1)
 			{
-				source = { 504, 64, 16, 16 };
+				source = { 504, topPos, 16, 16 };
 			}
 			break;
 		case Up:
 			if (currentFrame == 0)
 			{
-				source = { 520, 64, 16, 16 };
+				source = { 520, topPos, 16, 16 };
 			}
 			if (currentFrame == 1)
 			{
-				source = { 536, 64, 16, 16 };
+				source = { 536, topPos, 16, 16 };
 			}
 			break;
 		case Down:
 			if (currentFrame == 0)
 			{
-				source = { 552, 64, 16, 16 };
+				source = { 552, topPos, 16, 16 };
 			}
 			if (currentFrame == 1)
 			{
-				source = { 568, 64, 16, 16 };
+				source = { 568, topPos, 16, 16 };
 			}
 			break;
 		}
-	case PINK_GHOST:
-		switch (dir)
-		{
-		case Right:
-			if (currentFrame == 0)
-			{
-				source = { 456, 80, 16, 16 };
-			}
-			if (currentFrame == 1)
-			{
-				source = { 472, 80, 16, 16 };
-			}
-			break;
-		case Left:
-			if (currentFrame == 0)
-			{
-				source = { 488, 80, 16, 16 };
-			}
-			if (currentFrame == 1)
-			{
-				source = { 504, 80, 16, 16 };
-			}
-			break;
-		case Up:
-			if (currentFrame == 0)
-			{
-				source = { 520, 80, 16, 16 };
-			}
-			if (currentFrame == 1)
-			{
-				source = { 536, 80, 16, 16 };
-			}
-			break;
-		case Down:
-			if (currentFrame == 0)
-			{
-				source = { 552, 80, 16, 16 };
-			}
-			if (currentFrame == 1)
-			{
-				source = { 568, 80, 16, 16 };
-			}
-			break;
-		}
-	case CYAN_GHOST:
-		switch (dir)
-		{
-		case Right:
-			if (currentFrame == 0)
-			{
-				source = { 456, 96, 16, 16 };
-			}
-			if (currentFrame == 1)
-			{
-				source = { 472, 96, 16, 16 };
-			}
-			break;
-		case Left:
-			if (currentFrame == 0)
-			{
-				source = { 488, 96, 16, 16 };
-			}
-			if (currentFrame == 1)
-			{
-				source = { 504, 96, 16, 16 };
-			}
-			break;
-		case Up:
-			if (currentFrame == 0)
-			{
-				source = { 520, 96, 16, 16 };
-			}
-			if (currentFrame == 1)
-			{
-				source = { 536, 96, 16, 16 };
-			}
-			break;
-		case Down:
-			if (currentFrame == 0)
-			{
-				source = { 552, 96, 16, 16 };
-			}
-			if (currentFrame == 1)
-			{
-				source = { 568, 96, 16, 16 };
-			}
-			break;
-		}
-	case ORAGANE_GHOST:
-		switch (dir)
-		{
-		case Right:
-			if (currentFrame == 0)
-			{
-				source = { 456, 112, 16, 16 };
-			}
-			if (currentFrame == 1)
-			{
-				source = { 472, 112, 16, 16 };
-			}
-			break;
-		case Left:
-			if (currentFrame == 0)
-			{
-				source = { 488, 112, 16, 16 };
-			}
-			if (currentFrame == 1)
-			{
-				source = { 504, 112, 16, 16 };
-			}
-			break;
-		case Up:
-			if (currentFrame == 0)
-			{
-				source = { 520, 112, 16, 16 };
-			}
-			if (currentFrame == 1)
-			{
-				source = { 536, 112, 16, 16 };
-			}
-			break;
-		case Down:
-			if (currentFrame == 0)
-			{
-				source = { 552, 112, 16, 16 };
-			}
-			if (currentFrame == 1)
-			{
-				source = { 568, 112, 16, 16 };
-			}
-			break;
-		}
-		/*if (currentFrame = 1)
-		{
-			switch (dir)
-			{
-			case Right:
-				source = { 472, 64, 16, 16 };
-				break;
-			case Left:
-			}
-		}
-		break;*/
-	}
-
-	tileCoords pacmanCoords = { (int)pacman->circle.pos.x / 32, (int)pacman->circle.pos.y / 32 };
-	tileCoords ghostCoords = { (int)box.pos.x / 32, (int)box.pos.y / 32 };
-	std::vector<tileCoords> path = ghostToMap->dijkstrasPathing(
-		pacmanCoords,
-		ghostCoords
-	);
 
 	for (int i = 0; i < path.size(); i++)
 	{
@@ -272,7 +218,18 @@ void Ghosts::Draw()
 
 	}
 	
-
 	DrawTexturePro(ghostSprite, source, destPos, box.halfSize, 0, WHITE);
+	box.Draw();
 	//DrawTexture(ghostSprite, box.pos.x, box.pos.y, WHITE);
+}
+
+void Ghosts::HandleColisions()
+{
+	std::vector<Tile> CollideableBricks = ghostToMap->BoxesAroundPoint(box.pos);
+	
+	for (auto brick : CollideableBricks)
+	{
+
+	}
+
 }

@@ -32,6 +32,8 @@ struct tileCoords
 
 	int x;
 	int y;
+	tileCoords();
+	tileCoords(int _x, int _y);
 };
 
 class MapGrid
@@ -51,6 +53,8 @@ public:
 	std::vector<std::vector <Tile>> listOfTiles;
 	
 	Tile GetTile(tileCoords coord);
+	tileCoords GetCoords(Vector2 tilePos);
+	Vector2 tileToPos(tileCoords pos);
 	void DrawBox(int x, int y);
 	void Draw();
 

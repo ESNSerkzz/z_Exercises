@@ -28,7 +28,49 @@ Direction AABB::GetDir(AABB box)
 		}
 	}
 }
+bool AABB::isOverlapped(AABB box, CollisionResults& hit)
+{
+	if (overlaps(box))
+	{
+		
+		if (box.pos.x <= pos.x && box.pos.y <= pos.y)
+		{
+			hit.pos.x = box.pos.x + box.halfSize.x;
+			hit.pos.y = box.pos.y + box.halfSize.y;
+		}
+		if (box.pos.x >= pos.x && box.pos.y >= pos.y)
+		{
+			hit.pos.x = box.pos.x - box.halfSize.x;
+			hit.pos.y = box.pos.y - box.halfSize.y;
+		}
+		//min (pos.x, box.pos.x + box.halfsize.x)
+		//max =  (pos. x + pos.size )
 
+		/*if (box.pos.x <= pos.x)
+		{
+			hit.pos.x = box.pos.x + box.halfSize.x;
+		}
+		if (box.pos.x >= pos.x)
+		{
+			hit.pos.x = box.pos.x - box.halfSize.x;
+		}
+
+		if (box.pos.y <= pos.y)
+		{
+			hit.pos.y = box.pos.y + box.halfSize.y;
+		}
+		if (box.pos.y >= pos.y)
+		{
+			hit.pos.y = box.pos.y - box.halfSize.y;
+		}*/
+		//TODO
+		//get the hitcollision accurate.
+
+
+
+	}
+	return true;
+}
 void AABB::Draw()
 {
 	DrawRectangleLines(pos.x, pos.y, halfSize.x * 2, halfSize.y * 2, PURPLE);
@@ -86,7 +128,7 @@ void CC::Update(Vector2 _pos)
 
 void CC::Draw()
 {
-	DrawCircleLinesV(pos, rad, WHITE);
+	DrawCircleLinesV(pos, rad, RED);
 }
 
 void CC::Draw(Color _color)

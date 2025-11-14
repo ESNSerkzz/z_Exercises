@@ -25,6 +25,7 @@ public:
 
 	AABB() {};
 	AABB(Vector2 centre, Vector2 _halfSize) : pos(centre), halfSize(_halfSize) {};
+	bool isOverlapped(AABB box, CollisionResults& hit);
 	void Draw();
 	void Draw(Color _color);
 	//Overlapping func

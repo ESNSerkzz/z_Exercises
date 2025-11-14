@@ -13,7 +13,7 @@ static void Update(float delta);
 static void Draw(void);
 
 
-MapGrid grid = MapGrid(28, 36, 32, "./map.txt");
+MapGrid grid;
 Pacman ePacman;
 Ghosts eGhost;
 
@@ -36,8 +36,10 @@ static void SetUp(void)
 {
 	InitWindow(screenWidth, screenHeight, "Window");
 	SetTargetFPS(60);
+
+	grid = MapGrid(28, 36, 32, "./emptyMap.txt");
 	ePacman = Pacman(&grid);
-	eGhost = Ghosts(AABB({ screenWidth / 2, screenHeight / 2 }, {ghostSize, ghostSize}), RED_GHOST, &grid, "./PacmanAssets/assets.png");
+	eGhost = Ghosts(AABB(grid.tileToPos({ 13 ,17 }), { ghostSize, ghostSize }), CYAN_GHOST, &grid, "./PacmanAssets/assets.png");
 	eGhost.pacman = &ePacman;
 }
 
