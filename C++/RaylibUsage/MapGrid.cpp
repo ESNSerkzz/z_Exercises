@@ -26,7 +26,7 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize)
 			//Palletes palletIndex;
 			//palletIndex = Palletes({(float)x *tileSize, (float)y * tileSize}, 2.0f);
 			listOfTiles[x][y] = {AABB({(float)x * tileSize, (float)y * tileSize}, {tileSize / 2.0f, tileSize / 2.0f}), x * tileSize, y * tileSize, tileSize, new Palletes()};
-			listOfTiles[x][y].pallet->box.pos = { (float)x * tileSize + tileSize/2, (float)y * tileSize + tileSize/2 };
+			listOfTiles[x][y].pallet->collision.pos = { (float)x * tileSize + tileSize/2, (float)y * tileSize + tileSize/2 };
 
 		}
 	}
@@ -88,6 +88,7 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 				listOfTiles[x][y].type = FRUIT;
 				listOfTiles[x][y].pallet = new Palletes({ (float)x * tileSize + tileSize / 2, (float)y * tileSize + tileSize / 2 }, powerPalletSize, Fruit);
 			}
+			
 		}
 
 	}
@@ -281,13 +282,13 @@ std::vector<tileCoords> MapGrid::dijkstrasPathing(tileCoords startPos, tileCoord
 		currentTile = cheapestTile;
 	}
 
-	std::vector <tileCoords> pathComplete;
+	std::vector <tileCoords> completePath;
 
 	while (currentTile != &listOfTiles[startPos.x][startPos.y])
 	{
 
 		
-		pathComplete.push_back({ currentTile->x / 32, currentTile->y /32 });
+		completePath.push_back({ currentTile->x / 32, currentTile->y /32 });
 		if (currentTile->prevTile == nullptr)
 		{
 			std::cout << "Error" << std::endl;
@@ -295,8 +296,9 @@ std::vector<tileCoords> MapGrid::dijkstrasPathing(tileCoords startPos, tileCoord
 		}
 		currentTile = currentTile->prevTile;
 	}
-	std::reverse(pathComplete.begin(), pathComplete.end());
-	return pathComplete;
+	completePath.push_back(startPos);
+	std::reverse(completePath.begin(), completePath.end());
+	return completePath;
 }
 
 Tile MapGrid::GetTile(tileCoords coord)
@@ -314,11 +316,11 @@ tileCoords MapGrid::GetCoords(Vector2 tilePos)
 	return returnTileCoords;
 }
 
-Vector2 MapGrid::tileToPos(tileCoords pos)
+Vector2 MapGrid::posToCoords(tileCoords pos)
 {
 
 
-	return { (float)32 * pos.x + 16, (float)32 * pos.y + 16 };
+	return { (float)32 * pos.x, (float)32 * pos.y };
 }
 
 void MapGrid::DrawBox(int x, int y)
@@ -337,6 +339,8 @@ void MapGrid::Draw()
 	{
 		for (auto tile : column)
 		{
+
+			//tile.DrawTile();
 			switch (tile.type)
 			{
 			case(BRICK):
@@ -367,6 +371,8 @@ tileCoords::tileCoords()
 
 tileCoords::tileCoords(int _x, int _y)
 {
+
+	//int distToCenter = 32 / 2;
 	x = _x;
 	y = _y;
 

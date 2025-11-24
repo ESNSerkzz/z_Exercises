@@ -10,7 +10,7 @@ Pacman::Pacman()
 
 Pacman::Pacman(MapGrid* _pacToMap)
 {
-	circle = CC({ 13*32, 20.5*32 }, 16.0f );
+	circle = CC({ 13.5*32, 20.5*32 }, 16.0f );
 	dir = Right;
 	currentFrame = 0;
 	mouthOpenFrames = 5;
@@ -23,7 +23,7 @@ Pacman::Pacman(MapGrid* _pacToMap)
 
 void Pacman::Input()
 {
-	std::vector<Tile> brickColliding = pacToMap->BoxesAroundPoint(circle.pos);
+	
 	int posX = circle.pos.x / 32;
 	int posY = circle.pos.y / 32;
 	
@@ -106,18 +106,20 @@ void Pacman::Update(float delta)
 		CollisionResults pacmanHitResult = { false, {0,0}, {50,50}, 0.0f };
 		if (brickColliding[i].type == BRICK)
 		{
-			brickColliding[i].TileCollision.Draw();
+			
 			if (circle.isOverlapped(brickColliding[i].TileCollision, pacmanHitResult))
 			{
 				circle.pos = Vector2Subtract(circle.pos, Vector2Scale(pacmanHitResult.normal, pacmanHitResult.pDepth * -1));
 				DrawCircleV(pacmanHitResult.pos, 3, GREEN);
+				std::cout << "Normal X : " << pacmanHitResult.normal.x<< "\n";
+				std::cout << "Normal Y : " << pacmanHitResult.normal.y << "\n";
 			}
 		}
 
 		if (brickColliding[i].type == PALLETE || brickColliding[i].type == POWERPALLETE)
 		{
 			
-			if (circle.isOverlapped(brickColliding[i].pallet->box, pacmanHitResult))
+			if (circle.isOverlapped(brickColliding[i].pallet->collision, pacmanHitResult))
 			{
 				pacToMap->listOfTiles[brickColliding[i].x / 32][brickColliding[i].y/32].type = EMPTY;
 				

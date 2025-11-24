@@ -37,9 +37,14 @@ static void SetUp(void)
 	InitWindow(screenWidth, screenHeight, "Window");
 	SetTargetFPS(60);
 
-	grid = MapGrid(28, 36, 32, "./emptyMap.txt");
+	//grid = MapGrid(28, 36, 32, "./emptyMap.txt");
+	grid = MapGrid(28, 36, 32, "./map.txt");
 	ePacman = Pacman(&grid);
-	eGhost = Ghosts(AABB(grid.tileToPos({ 13 ,17 }), { ghostSize, ghostSize }), CYAN_GHOST, &grid, "./PacmanAssets/assets.png");
+	eGhost = Ghosts(
+		CC(Vector2Add(grid.posToCoords({ 13,17 }), {ghostSize,ghostSize}), ghostSize),
+		CYAN_GHOST,
+		&grid,
+		"./PacmanAssets/assets.png");
 	eGhost.pacman = &ePacman;
 }
 
@@ -49,7 +54,7 @@ void Update(float delta)
 	ePacman.Update(delta);
 	ePacman.Input();
 
-	eGhost.Update(delta);
+	//eGhost.Update(delta);
 }
 
 //void Depenetration(void)

@@ -4,16 +4,16 @@ Ghosts::Ghosts()
 {
 }
 
-Ghosts::Ghosts(AABB _box, GhostType _gType, MapGrid* _ghostToMap, std::string filePath)
+Ghosts::Ghosts(CC _collision, GhostType _gType, MapGrid* _ghostToMap, std::string filePath)
 {
-	box = _box;
+	collision = _collision;
 	dir = Up;
-	velocity = 2.0f;
+	velocity = speed;
 	currentFrame = 0;
 	frameTimeLength = 5;
 	gType = _gType;
 	ghostToMap = _ghostToMap;
-	currentBehaviour = SCATTER;
+	currentBehaviour = CHASE;
 	
 	ghostSprite =  LoadTexture(filePath.c_str());
 	
@@ -22,7 +22,7 @@ Ghosts::Ghosts(AABB _box, GhostType _gType, MapGrid* _ghostToMap, std::string fi
 void Ghosts::Update(float delta)
 {
 	
-	tileCoords ghostCoords = ghostToMap->GetCoords({ box.pos.x, box.pos.y + 48 });
+	tileCoords ghostCoords = ghostToMap->GetCoords({ collision.pos.x, collision.pos.y});
 	
 	switch (currentBehaviour)
 	{
@@ -55,17 +55,17 @@ void Ghosts::Update(float delta)
 		switch (gType)
 		{
 		case RED_GHOST:
-			path = ghostToMap->dijkstrasPathing(ghostToMap->GetCoords(box.pos), ghostToMap->GetCoords(pacman->circle.pos));
+			path = ghostToMap->dijkstrasPathing(ghostToMap->GetCoords(collision.pos), ghostToMap->GetCoords(pacman->circle.pos));
 			break;
 		case PINK_GHOST:
 			if (pacman->dir == Right)
-			path = ghostToMap->dijkstrasPathing(ghostToMap->GetCoords(box.pos), ghostToMap->GetCoords(pacman->circle.pos));
+			path = ghostToMap->dijkstrasPathing(ghostToMap->GetCoords(collision.pos), ghostToMap->GetCoords(pacman->circle.pos));
 			break;
 		case CYAN_GHOST:
-			//path = ghostToMap->dijkstrasPathing(ghostToMap->GetCoords(box.pos), { 2, 32 });
+			path = ghostToMap->dijkstrasPathing(ghostToMap->GetCoords(collision.pos), ghostToMap->GetCoords(pacman->circle.pos));
 			break;
 		case ORANGE_GHOST:
-			//path = ghostToMap->dijkstrasPathing(ghostToMap->GetCoords(box.pos), { 26, 32 });
+			path = ghostToMap->dijkstrasPathing(ghostToMap->GetCoords(collision.pos), ghostToMap->GetCoords(pacman->circle.pos));
 		default:
 			break;
 		}
@@ -79,16 +79,17 @@ void Ghosts::Update(float delta)
 	if (path.size() > 1)
 	{
 		
-		Vector2 ghostDistToTile = Vector2Subtract(ghostToMap->tileToPos(path[1]), box.pos);
+		Vector2 ghostDistToTile = Vector2Subtract(Vector2Add(ghostToMap->posToCoords(path[1]), {16,16}), collision.pos);
 		tileCoords pathDir;
 		//the paths order is backwards
 		pathDir.x = path[1].x - path[0].x;
 		pathDir.y = path[1].y - path[0].y; 
 		if (std::abs(ghostDistToTile.y) > std::abs(ghostDistToTile.x))
 		{
-			if (ghostDistToTile.y <= 0)
+			if (ghostDistToTile.y < 0)
 			{
 				dir = Up;
+				
 			}
 			else
 			{
@@ -98,7 +99,7 @@ void Ghosts::Update(float delta)
 		}
 		else
 		{
-			if (ghostDistToTile.x <= 0)
+			if (ghostDistToTile.x < 0)
 			{
 				dir = Left;
 
@@ -109,39 +110,27 @@ void Ghosts::Update(float delta)
 			}
 		}
 
-		/*if (pathDir.x == 0 && pathDir.y == 1)
-		{
-			dir = Down;
-		}
-		if (pathDir.x == -1 && pathDir.y == 0)
-		{
-			dir = Left;
-		}
-		if (pathDir.x == 1 && pathDir.y == 0)
-		{
-			dir = Right;
-		}*/
-
 	}
 
 
 	switch (dir)
 	{
 	case Up:
-		box.pos.y = box.pos.y - velocity;
+		collision.pos.y = collision.pos.y - velocity * delta;
 		break;
 	case Down: 
-		box.pos.y = box.pos.y + velocity;
+		collision.pos.y = collision.pos.y + velocity * delta;
 		break;
 	case Left:
-		box.pos.x = box.pos.x - velocity;
+		collision.pos.x = collision.pos.x - velocity * delta;
 		break;
 	case Right:
-		box.pos.x = box.pos.x + velocity;
+		collision.pos.x = collision.pos.x + velocity * delta;
 		break;
 
 	}
 
+	HandleColisions();
 }
 
 void Ghosts::Draw()
@@ -163,7 +152,7 @@ void Ghosts::Draw()
 		}
 	}
 	Rectangle source = {456, 64, 16, 16 };
-	Rectangle destPos = { box.pos.x + box.halfSize.x, box.pos.y + box.halfSize.y, 32,32 };
+	Rectangle destPos = { collision.pos.x, collision.pos.y, 32,32 };
 
 	
 	
@@ -218,18 +207,25 @@ void Ghosts::Draw()
 
 	}
 	
-	DrawTexturePro(ghostSprite, source, destPos, box.halfSize, 0, WHITE);
-	box.Draw();
+	DrawTexturePro(ghostSprite, source, destPos, { collision.rad, collision.rad }, 0, WHITE);
+	collision.Draw();
 	//DrawTexture(ghostSprite, box.pos.x, box.pos.y, WHITE);
 }
 
 void Ghosts::HandleColisions()
 {
-	std::vector<Tile> CollideableBricks = ghostToMap->BoxesAroundPoint(box.pos);
-	
+	std::vector<Tile> CollideableBricks = ghostToMap->BoxesAroundPoint(collision.pos);
+	CollisionResults hitResult;
+
 	for (auto brick : CollideableBricks)
 	{
-
+		if (brick.type == BRICK)
+		{
+			if (collision.isOverlapped(brick.TileCollision, hitResult))
+			{
+				collision.pos = Vector2Subtract(collision.pos, Vector2Scale(hitResult.normal, hitResult.pDepth * -1));
+			}
+		}
 	}
 
 }

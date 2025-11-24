@@ -22,7 +22,7 @@ class Ghosts
 {
 public:
 
-	AABB box;
+	CC collision;
 	Direction dir;
 	float velocity;
 	GhostType gType;
@@ -35,7 +35,7 @@ public:
 
 
 	Ghosts();
-	Ghosts(AABB _box, GhostType _gType, MapGrid* _ghostToMap , std::string filePath);
+	Ghosts(CC _collision, GhostType _gType, MapGrid* _ghostToMap , std::string filePath);
 
 //	std::vector<tileCoords> dijkstra(tileCoords _targetPos);
 	void PathingMovement();

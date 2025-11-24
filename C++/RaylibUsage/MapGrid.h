@@ -52,9 +52,10 @@ public:
 
 	std::vector<std::vector <Tile>> listOfTiles;
 	
+	//gets Tile USING tileCoords
 	Tile GetTile(tileCoords coord);
 	tileCoords GetCoords(Vector2 tilePos);
-	Vector2 tileToPos(tileCoords pos);
+	Vector2 posToCoords(tileCoords pos);
 	void DrawBox(int x, int y);
 	void Draw();
 

@@ -96,7 +96,7 @@ bool CC::isOverlapped(AABB box, CollisionResults& hit)
 	Vector2 closestPoint;
 
 	closestPoint.x = std::max(box.pos.x ,std::min(pos.x, (box.pos.x + box.halfSize.x *2)));
-	closestPoint.y = std::max(box.pos.y , std::min(box.pos.y + box.halfSize.y*2, pos.y));
+	closestPoint.y = std::max(box.pos.y ,std::min(box.pos.y + box.halfSize.y*2, pos.y));
 
 	/*DrawLineV(pos, closestPoint, RED);
 	DrawCircleV(box.pos, 5.0f, RED);*/
@@ -111,6 +111,12 @@ bool CC::isOverlapped(AABB box, CollisionResults& hit)
 		hit.normal = Vector2Rotate(aabbToNearest, PI);
 		hit.normal = Vector2Negate(aabbToNearest);
 		hit.normal = Vector2Normalize(hit.normal);
+
+		if (pos.y < box.pos.y) 
+		{
+			std::cout << "normal: "<< std::endl;
+			hit.normal.y = -1;
+		}
 		//std::cout << "AABB to CC dist: " << AABBdistToCCdist.x <<" "<<AABBdistToCCdist.y << std::endl;
 		//std::cout << "hit normal Y: " << hit.normal.y << std::endl;
 

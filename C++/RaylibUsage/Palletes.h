@@ -11,7 +11,7 @@ class Palletes
 {
 public:
 	PalleteType pType;
-	AABB box;
+	AABB collision;
 	Palletes();
 	Palletes(Vector2 _pos, float _size);
 	Palletes(Vector2 _pos, float _size, PalleteType type);
