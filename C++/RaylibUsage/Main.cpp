@@ -54,7 +54,7 @@ void Update(float delta)
 	ePacman.Update(delta);
 	ePacman.Input();
 
-	//eGhost.Update(delta);
+	eGhost.Update(delta);
 }
 
 //void Depenetration(void)
