@@ -98,7 +98,7 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 		{
 			if (listOfTiles[i][j].type != BRICK)
 			{
-				std::vector<tileCoords> bricklessSpaces = GetBricklessSpaceAroundOrigin({ i,j });
+				std::vector<TileCoords> bricklessSpaces = GetBricklessSpaceAroundOrigin({ i,j });
 				for (int a = 0; a < bricklessSpaces.size(); a++)
 				{
 					listOfTiles[i][j].allNeighbours.push_back(&listOfTiles[bricklessSpaces[a].x][bricklessSpaces[a].y]);
@@ -120,7 +120,7 @@ std::vector<Tile> MapGrid::BoxesAroundPoint(Vector2 pos)
 		{
 			if (posY != 0)
 			{				
-				BAP.push_back(listOfTiles[posX - 1] [posY - 1]); //top left corner
+				BAP.push_back(listOfTiles[posX - 1] [posY - 1]); //top left
 			}
 			if (posY != rows - 1)
 			{
@@ -134,32 +134,35 @@ std::vector<Tile> MapGrid::BoxesAroundPoint(Vector2 pos)
 			if (posY != 0)
 			{
 				BAP.push_back(listOfTiles[posX + 1] [posY - 1]); //top right
+				
 			}
 			if (posY != rows - 1)
 			{
 				BAP.push_back(listOfTiles[posX + 1] [posY + 1]); //bottom right
+				
 			}
 			BAP.push_back(listOfTiles[posX + 1] [posY]); //middle right
 		}
 		//Centre piece (middle, where Pac-man is).
+		
 		BAP.push_back(listOfTiles[posX][posY]);
 		if (posY != 0)
 		{	
-			BAP.push_back(listOfTiles[posX][posY - 1]);
+			BAP.push_back(listOfTiles[posX][posY + 1]); //bottom middle
 
 		}
 		if (posY != rows - 1) 
 		{
-			BAP.push_back(listOfTiles[posX] [posY + 1]);
+			BAP.push_back(listOfTiles[posX][posY - 1]); //top middle
 		}
 		
 	}
 	return BAP;
 }
 
-std::vector<tileCoords> MapGrid::GetBricklessSpaceAroundOrigin(tileCoords _origin)
+std::vector<TileCoords> MapGrid::GetBricklessSpaceAroundOrigin(TileCoords _origin)
 {
-	std::vector<tileCoords> list;
+	std::vector<TileCoords> list;
 	
 		if (_origin.x != 0)
 		{
@@ -204,7 +207,7 @@ std::vector<tileCoords> MapGrid::GetBricklessSpaceAroundOrigin(tileCoords _origi
 	return list;
 }
 
-std::vector<tileCoords> MapGrid::dijkstrasPathing(tileCoords startPos, tileCoords endPos)
+std::vector<TileCoords> MapGrid::dijkstrasPathing(TileCoords startPos, TileCoords endPos)
 {
 	std::vector<Tile*> openList;
 	std::vector<Tile*> closedList;
@@ -282,7 +285,7 @@ std::vector<tileCoords> MapGrid::dijkstrasPathing(tileCoords startPos, tileCoord
 		currentTile = cheapestTile;
 	}
 
-	std::vector <tileCoords> completePath;
+	std::vector <TileCoords> completePath;
 
 	while (currentTile != &listOfTiles[startPos.x][startPos.y])
 	{
@@ -301,22 +304,22 @@ std::vector<tileCoords> MapGrid::dijkstrasPathing(tileCoords startPos, tileCoord
 	return completePath;
 }
 
-Tile MapGrid::GetTile(tileCoords coord)
+Tile MapGrid::GetTile(TileCoords coord)
 {
 
 	return listOfTiles[coord.x][coord.y];
 	
 }
 
-tileCoords MapGrid::GetCoords(Vector2 tilePos)
+TileCoords MapGrid::GetCoordsV(Vector2 tilePos)
 {
-	tileCoords returnTileCoords;
+	TileCoords returnTileCoords;
 	returnTileCoords.x = tilePos.x/32;
 	returnTileCoords.y = tilePos.y/32;
 	return returnTileCoords;
 }
 
-Vector2 MapGrid::posToCoords(tileCoords pos)
+Vector2 MapGrid::VposToCoords(TileCoords pos)
 {
 
 
@@ -350,6 +353,7 @@ void MapGrid::Draw()
 			case(POWERPALLETE):
 				//pallet->box.pos = { (float)x * tileSize + tileSize / 2, (float)y * tileSize + tileSize / 2 };
 				tile.pallet->Draw();
+				tile.pallet->collision.Draw();
 				break;
 			case(PALLETE):
 				tile.pallet->Draw();
@@ -360,20 +364,45 @@ void MapGrid::Draw()
 	}
 }
 
-void Tile::DrawTile()
+void Tile::DrawTile(Color colour)
 {
-	DrawRectangleLines(x, y, size, size, GREEN);
+	DrawRectangleLines(x, y, size, size, colour);
 }
 
-tileCoords::tileCoords()
+TileCoords::TileCoords()
 {
 }
 
-tileCoords::tileCoords(int _x, int _y)
+TileCoords::TileCoords(int _x, int _y)
 {
 
 	//int distToCenter = 32 / 2;
 	x = _x;
 	y = _y;
 
+}
+
+TileCoords TileCoords::operator+(const TileCoords& tileToADD)
+{
+	TileCoords addedTiles;
+	addedTiles.x = x + tileToADD.x;
+	addedTiles.y = y + tileToADD.y;
+	return addedTiles;
+}
+
+TileCoords TileCoords::operator-(const TileCoords& tileToSUB)
+{
+	TileCoords subtactTiles;
+	subtactTiles.x = x + tileToSUB.x;
+	subtactTiles.y = y + tileToSUB.y;
+	return subtactTiles;
+}
+
+bool TileCoords::operator==(TileCoords tileComparason)
+{
+	if (x == tileComparason.x && y == tileComparason.y)
+	{
+		return true;
+	}
+	return false;
 }

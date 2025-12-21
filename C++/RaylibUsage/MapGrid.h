@@ -19,7 +19,7 @@ struct Tile
 	Palletes* pallet;
 	TileType type = (TileType) 0;
 
-	void DrawTile();
+	void DrawTile(Color colour);
 	//Pathfinding
 	std::vector <Tile*> allNeighbours;
 	Tile* prevTile;
@@ -27,13 +27,16 @@ struct Tile
 	float cost;
 
 };
-struct tileCoords
+struct TileCoords
 {
 
 	int x;
 	int y;
-	tileCoords();
-	tileCoords(int _x, int _y);
+	TileCoords();
+	TileCoords(int _x, int _y);
+	TileCoords operator+ (const TileCoords &tileToADD);
+	TileCoords operator- (const TileCoords& tileToSUB);
+	bool operator==(TileCoords tileComparason);
 };
 
 class MapGrid
@@ -47,15 +50,16 @@ public:
 	MapGrid(int _columns, int _rows, int tileSize, std::string filePath);
 
 	std::vector<Tile> BoxesAroundPoint(Vector2 pos);
-	std::vector<tileCoords> GetBricklessSpaceAroundOrigin(tileCoords _N);
-	std::vector<tileCoords> dijkstrasPathing(tileCoords startPos, tileCoords endPos);
+	std::vector<TileCoords> GetBricklessSpaceAroundOrigin(TileCoords _N);
+	std::vector<TileCoords> dijkstrasPathing(TileCoords startPos, TileCoords endPos);
 
 	std::vector<std::vector <Tile>> listOfTiles;
 	
 	//gets Tile USING tileCoords
-	Tile GetTile(tileCoords coord);
-	tileCoords GetCoords(Vector2 tilePos);
-	Vector2 posToCoords(tileCoords pos);
+	Tile GetTile(TileCoords coord);
+	TileCoords GetCoordsV(Vector2 tilePos);
+	Vector2 VposToCoords(TileCoords pos);
+	
 	void DrawBox(int x, int y);
 	void Draw();
 

@@ -7,16 +7,14 @@
 #include "Constants.h"
 #include "Palletes.h"
 
-
 static void SetUp(void);
 static void Update(float delta);
 static void Draw(void);
 
-
 MapGrid grid;
 Pacman ePacman;
-Ghosts eGhost;
 
+std::vector<Ghosts> ghosts;
 
 int main(void)
 {
@@ -40,12 +38,31 @@ static void SetUp(void)
 	//grid = MapGrid(28, 36, 32, "./emptyMap.txt");
 	grid = MapGrid(28, 36, 32, "./map.txt");
 	ePacman = Pacman(&grid);
-	eGhost = Ghosts(
-		CC(Vector2Add(grid.posToCoords({ 13,17 }), {ghostSize,ghostSize}), ghostSize),
-		CYAN_GHOST,
-		&grid,
-		"./PacmanAssets/assets.png");
-	eGhost.pacman = &ePacman;
+
+		
+		ghosts.push_back(Ghosts(CC(Vector2Add(grid.VposToCoords({ 13,14 }), { ghostSize,ghostSize }), ghostSize),
+			RED_GHOST,
+			&grid,
+			"./PacmanAssets/assets.png",
+			&ePacman));
+		ghosts.push_back(Ghosts(CC(Vector2Add(grid.VposToCoords({ 13,17 }), { ghostSize,ghostSize }), ghostSize),
+			PINK_GHOST,
+			&grid,
+			"./PacmanAssets/assets.png",
+			&ePacman));
+		ghosts.push_back(Ghosts(CC(Vector2Add(grid.VposToCoords({ 11,17 }), { ghostSize,ghostSize }), ghostSize),
+			CYAN_GHOST,
+			&grid,
+			"./PacmanAssets/assets.png",
+			&ePacman));
+		ghosts.push_back(Ghosts(CC(Vector2Add(grid.VposToCoords({ 15,17 }), { ghostSize,ghostSize }), ghostSize),
+			ORANGE_GHOST,
+			&grid,
+			"./PacmanAssets/assets.png",
+			&ePacman));
+	
+
+	
 }
 
 void Update(float delta)
@@ -53,8 +70,15 @@ void Update(float delta)
 
 	ePacman.Update(delta);
 	ePacman.Input();
-
-	eGhost.Update(delta);
+	if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) 
+	{
+		std::cout << "Mouse POS: " << grid.GetCoordsV(GetMousePosition()).x << " " << grid.GetCoordsV(GetMousePosition()).y << std::endl;
+	}
+	
+	for (auto & i : ghosts)
+	{
+		i.Update(delta);
+	}
 }
 
 //void Depenetration(void)
@@ -70,8 +94,11 @@ static void Draw(void)
 
 	grid.Draw();
 	ePacman.Draw();
-	eGhost.Draw();
-
+	
+	for (int i = 0; i < ghosts.size(); i++)
+	{
+		ghosts[i].Draw();
+	}
 	
 	DrawFPS(10, 10);
 	DrawText("HIGH SCORE", {screenWidth/2 - 100},  10, 32, WHITE);

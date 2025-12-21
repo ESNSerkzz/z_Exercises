@@ -32,18 +32,19 @@ public:
 	int currentFrame;
 	int frameTimeLength;
 	Pacman* pacman;
-
+	TileCoords currentTarget;
+	Ghosts* redGhost;
 
 	Ghosts();
-	Ghosts(CC _collision, GhostType _gType, MapGrid* _ghostToMap , std::string filePath);
+	Ghosts(CC _collision, GhostType _gType, MapGrid* _ghostToMap, std::string filePath, Pacman* _pacman);
 
-//	std::vector<tileCoords> dijkstra(tileCoords _targetPos);
+	//std::vector<tileCoords> dijkstra(tileCoords _targetPos);
 	void PathingMovement();
 	void Update(float delta);
 	void Draw();
 
 private:
-	void HandleColisions();
-	std::vector<tileCoords> path;
+	void HandleCollisions();
+	std::vector<TileCoords> path;
 };
 

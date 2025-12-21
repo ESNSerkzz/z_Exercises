@@ -101,17 +101,17 @@ bool CC::isOverlapped(AABB box, CollisionResults& hit)
 
 	DrawLineV(pos, closestPoint, RED);
 	//DrawCircleV(box.pos, 5.0f, RED);
-	Vector2 aabbToNearest = Vector2Subtract(closestPoint, pos);
-	Vector2 AABBdistToCCdist = Vector2Subtract(pos, Vector2Add(box.pos, box.halfSize));
+	Vector2 aabbToClosest = Vector2Subtract(closestPoint, pos);
+	Vector2 CCdistToAABB = Vector2Subtract(pos, Vector2Add(box.pos, box.halfSize));
 
-	if (Vector2Length(aabbToNearest) <= (float)rad)
+	if (Vector2Length(aabbToClosest) <= (float)rad)
 	{
 	
 		hit.pos = closestPoint;
 		hit.collisionDetection = true;
-		if (fabs(AABBdistToCCdist.x) > fabs(AABBdistToCCdist.y))
+		if (fabs(CCdistToAABB.x) > fabs(CCdistToAABB.y))
 		{
-			if (AABBdistToCCdist.x < 0)
+			if (CCdistToAABB.x < 0)
 			{
 				hit.normal = { -1, 0 };
 			}
@@ -122,7 +122,7 @@ bool CC::isOverlapped(AABB box, CollisionResults& hit)
 		}
 		else
 		{
-			if (AABBdistToCCdist.y > 0)
+			if (CCdistToAABB.y > 0)
 			{
 				hit.normal = { 0, 1 };
 			}
@@ -132,6 +132,7 @@ bool CC::isOverlapped(AABB box, CollisionResults& hit)
 			}
 		}
 
+		hit.normal = Vector2Normalize(CCdistToAABB);
 		/*hit.normal = Vector2Rotate(aabbToNearest, PI);
 		hit.normal = Vector2Negate(aabbToNearest);
 		hit.normal = Vector2Normalize(hit.normal);*/
@@ -146,7 +147,7 @@ bool CC::isOverlapped(AABB box, CollisionResults& hit)
 		//std::cout << "AABB to CC dist: " << AABBdistToCCdist.x <<" "<<AABBdistToCCdist.y << std::endl;
 		//std::cout << "hit normal Y: " << hit.normal.y << std::endl;
 
-		hit.pDepth = rad - Vector2Length(aabbToNearest);
+		hit.pDepth = rad - Vector2Length(aabbToClosest);
 		
 		return true;
 	}
@@ -160,7 +161,8 @@ void CC::Update(Vector2 _pos)
 
 void CC::Draw()
 {
-	DrawCircleLinesV(pos, rad, RED);
+	DrawCircleLinesV(pos, rad+2, RED);
+	
 }
 
 void CC::Draw(Color _color)

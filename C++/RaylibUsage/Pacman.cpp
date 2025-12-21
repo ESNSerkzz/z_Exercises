@@ -101,18 +101,19 @@ void Pacman::Update(float delta)
 	
 	std::vector<Tile> brickColliding = pacToMap->BoxesAroundPoint(circle.pos);
 		
-	for (int i = 0; i < brickColliding.size() -1; i++)
+	for (int i = 0; i < brickColliding.size(); i++)
 	{
 		CollisionResults pacmanHitResult = { false, {0,0}, {50,50}, 0.0f };
 		if (brickColliding[i].type == BRICK)
 		{
-			
+			DrawCircleV(brickColliding[i].TileCollision.pos, 3, GREEN);
+			DrawRectangleLines(brickColliding[i].TileCollision.pos.x, brickColliding[i].TileCollision.pos.y, 32, 32, RED);
 			if (circle.isOverlapped(brickColliding[i].TileCollision, pacmanHitResult))
 			{
 				circle.pos = Vector2Subtract(circle.pos, Vector2Scale(pacmanHitResult.normal, pacmanHitResult.pDepth * -1));
 				DrawCircleV(pacmanHitResult.pos, 3, GREEN);
-				std::cout << "Normal X : " << pacmanHitResult.normal.x<< "\n";
-				std::cout << "Normal Y : " << pacmanHitResult.normal.y << "\n";
+				//std::cout << "Normal X : " << pacmanHitResult.normal.x<< "\n";
+				//std::cout << "Normal Y : " << pacmanHitResult.normal.y << "\n";
 			}
 		}
 
@@ -147,6 +148,7 @@ void Pacman::scoreAdder(int _score)
 {
 	score = score + _score;
 }
+
 void Pacman::Draw()
 {
 
@@ -200,5 +202,5 @@ void Pacman::Draw()
 		break;
 	}
 	DrawTexturePro(pacmanSprite, source, destPos, { circle.rad , circle.rad }, angle, WHITE);
-	circle.Draw();
+	//circle.Draw();
 }
