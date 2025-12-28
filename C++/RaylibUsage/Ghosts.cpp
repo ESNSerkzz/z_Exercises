@@ -14,7 +14,7 @@ Ghosts::Ghosts(CC _collision, GhostType _gType, MapGrid* _ghostToMap, std::strin
 	frameTimeLength = 5;
 	gType = _gType;
 	ghostToMap = _ghostToMap;
-	currentBehaviour = SCATTER;
+	currentBehaviour = CHASE;
 	pacman = _pacman;
 	currentTarget = TileCoords(0, 0);
 
@@ -28,6 +28,7 @@ void Ghosts::Update(float delta)
 	
 	TileCoords ghostCoords = ghostToMap->GetCoordsV({ collision.pos.x, collision.pos.y});
 	TileCoords targetTile;
+	TileCoords TileInFrontOfPacman;
 	
 	switch (currentBehaviour)
 	{
@@ -46,6 +47,7 @@ void Ghosts::Update(float delta)
 			
 			break;
 		case CYAN_GHOST:
+			//currentBehaviour = CHASE;
 			targetTile = TileCoords(1,32);
 			
 			break;
@@ -87,34 +89,51 @@ void Ghosts::Update(float delta)
 				targetTile = ghostToMap->GetCoordsV(pacman->circle.pos) + TileCoords(-2, -2);
 			}
 			break;
-		case CYAN_GHOST:
-			targetTile = ghostToMap->GetCoordsV(pacman->circle.pos);
 
+		case CYAN_GHOST:
+			
+			TileInFrontOfPacman = ghostToMap->GetCoordsV(pacman->circle.pos);
+			
 			if (pacman->dir == Right)
 			{
-				targetTile.x += 2;
+				TileInFrontOfPacman.x += 2;
 			}
 			else if(pacman->dir == Left)
 			{
-				targetTile.x -= 2;
+				TileInFrontOfPacman.x -= 2;
 			}
 			if (pacman->dir == Up)
 			{
-				targetTile.y -= 2;
+				TileInFrontOfPacman.x -= 2;
+				TileInFrontOfPacman.y -= 2;
 			}
 			else if (pacman->dir == Down)
 			{
-				targetTile.y += 2;
-
+				TileInFrontOfPacman.y += 2;
 			}
-			targetTile = targetTile - ghostToMap->GetCoordsV(redGhost->collision.pos);
+			currentTarget = TileInFrontOfPacman - ghostToMap->GetCoordsV(redGhost->collision.pos);
+			currentTarget.Invert();
+			currentTarget = TileInFrontOfPacman + currentTarget;
+
+			/*if (targetTile == currentTarget)
+			{
+				targetTile.Invert(targetTile);
+				targetTile = ghostToMap->GetTile(currentTarget);
+			}*/
+
+			DrawLineV(redGhost->collision.pos ,ghostToMap->VposToCoords(currentTarget), RED);
 			//TODO invert the int's of the tilecoords
+
 			
+			//std::cout << currentTarget.x << " " << currentTarget.y << std::endl;
+			//std::cout << "CurrentTarget: " << currentTarget.x << " " << currentTarget.y << std::endl;
+			//targetTile = currentTarget.Invert(ghostToMap->GetCoordsV(redGhost->collision.pos));
 			//targetTile = ghostToMap->GetCoordsV(pacman->circle.pos);
 			break;
+
 		case ORANGE_GHOST:
 
-
+			//if within an 8 tile raduis
 			if (Vector2Distance(collision.pos, pacman->circle.pos) >= 32 * 8)
 			{
 				targetTile = ghostToMap->GetCoordsV(pacman->circle.pos);
@@ -205,7 +224,7 @@ void Ghosts::Update(float delta)
 		return;
 	}
 
-	currentTarget = targetTile;
+	//currentTarget = targetTile;
 	path = ghostToMap->dijkstrasPathing(ghostToMap->GetCoordsV(collision.pos), targetTile);
 }
 
@@ -292,6 +311,12 @@ void Ghosts::Draw()
 	DrawTexturePro(ghostSprite, source, destPos, { collision.rad, collision.rad }, 0, WHITE);
 	collision.Draw();
 	//DrawTexture(ghostSprite, box.pos.x, box.pos.y, WHITE);
+	if (gType == CYAN_GHOST) 
+	{
+		DrawLineV(redGhost->collision.pos, ghostToMap->VposToCoords(currentTarget), RED);
+
+	}
+	
 }
 
 void Ghosts::HandleCollisions()

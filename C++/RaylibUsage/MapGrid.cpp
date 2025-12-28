@@ -276,7 +276,11 @@ std::vector<TileCoords> MapGrid::dijkstrasPathing(TileCoords startPos, TileCoord
 				cheapestTile = openList[i];
 			}
 		}
-	
+		if (cheapestTile == nullptr) 
+		{
+			return std::vector<TileCoords>();
+		}
+
 		if (cheapestTile->y /32  == endPos.y && cheapestTile->x /32 == endPos.x)
 		{
 			//cheapestTile->prevTile = currentTile;
@@ -393,9 +397,17 @@ TileCoords TileCoords::operator+(const TileCoords& tileToADD)
 TileCoords TileCoords::operator-(const TileCoords& tileToSUB)
 {
 	TileCoords subtactTiles;
-	subtactTiles.x = x + tileToSUB.x;
-	subtactTiles.y = y + tileToSUB.y;
+	subtactTiles.x = x - tileToSUB.x;
+	subtactTiles.y = y - tileToSUB.y;
 	return subtactTiles;
+}
+
+void TileCoords::Invert()
+{
+	x = x * -1;
+	y = y * -1;
+
+	
 }
 
 bool TileCoords::operator==(TileCoords tileComparason)

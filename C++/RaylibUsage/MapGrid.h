@@ -36,6 +36,7 @@ struct TileCoords
 	TileCoords(int _x, int _y);
 	TileCoords operator+ (const TileCoords &tileToADD);
 	TileCoords operator- (const TileCoords& tileToSUB);
+	void Invert();
 	bool operator==(TileCoords tileComparason);
 };
 

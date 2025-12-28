@@ -45,21 +45,22 @@ static void SetUp(void)
 			&grid,
 			"./PacmanAssets/assets.png",
 			&ePacman));
-		ghosts.push_back(Ghosts(CC(Vector2Add(grid.VposToCoords({ 13,17 }), { ghostSize,ghostSize }), ghostSize),
+		/*ghosts.push_back(Ghosts(CC(Vector2Add(grid.VposToCoords({ 13,17 }), { ghostSize,ghostSize }), ghostSize),
 			PINK_GHOST,
 			&grid,
 			"./PacmanAssets/assets.png",
-			&ePacman));
+			&ePacman));*/
 		ghosts.push_back(Ghosts(CC(Vector2Add(grid.VposToCoords({ 11,17 }), { ghostSize,ghostSize }), ghostSize),
 			CYAN_GHOST,
 			&grid,
 			"./PacmanAssets/assets.png",
 			&ePacman));
-		ghosts.push_back(Ghosts(CC(Vector2Add(grid.VposToCoords({ 15,17 }), { ghostSize,ghostSize }), ghostSize),
+		ghosts[1].redGhost = &ghosts[0];
+		/*ghosts.push_back(Ghosts(CC(Vector2Add(grid.VposToCoords({ 15,17 }), { ghostSize,ghostSize }), ghostSize),
 			ORANGE_GHOST,
 			&grid,
 			"./PacmanAssets/assets.png",
-			&ePacman));
+			&ePacman));*/
 	
 
 	

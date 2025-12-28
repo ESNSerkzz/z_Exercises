@@ -2,6 +2,7 @@
 #include "Constants.h"
 #include "raylib.h"
 #include "raymath.h"
+struct HitResult;
 
 class AABB
 {
