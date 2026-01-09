@@ -32,8 +32,10 @@ public:
 	int currentFrame;
 	int frameTimeLength;
 	Pacman* pacman;
-	TileCoords currentTarget;
+	TileCoords activeTarget;
 	Ghosts* redGhost;
+	std::vector<TileCoords> scatterLoop;
+	int scatterLoopIndex;
 
 	Ghosts();
 	Ghosts(CC _collision, GhostType _gType, MapGrid* _ghostToMap, std::string filePath, Pacman* _pacman);

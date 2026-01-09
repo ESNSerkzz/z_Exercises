@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib.h"
+#include "raymath.h"
 #include "Constants.h"
 #include "MapGrid.h"
 

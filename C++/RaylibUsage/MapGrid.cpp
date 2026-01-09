@@ -357,7 +357,7 @@ void MapGrid::Draw()
 			case(POWERPALLETE):
 				//pallet->box.pos = { (float)x * tileSize + tileSize / 2, (float)y * tileSize + tileSize / 2 };
 				tile.pallet->Draw();
-				tile.pallet->collision.Draw();
+				//tile.pallet->collision.Draw();
 				break;
 			case(PALLETE):
 				tile.pallet->Draw();

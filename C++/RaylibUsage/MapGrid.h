@@ -49,7 +49,7 @@ public:
 	MapGrid();
 	MapGrid(int _columns, int _rows, int tileSize);
 	MapGrid(int _columns, int _rows, int tileSize, std::string filePath);
-
+	        
 	std::vector<Tile> BoxesAroundPoint(Vector2 pos);
 	std::vector<TileCoords> GetBricklessSpaceAroundOrigin(TileCoords _N);
 	std::vector<TileCoords> dijkstrasPathing(TileCoords startPos, TileCoords endPos);

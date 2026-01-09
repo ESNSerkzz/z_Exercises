@@ -1,31 +1,36 @@
-#include "ScreenGrid.h"
 #include "Blocks.h"
 #include "Collisions.h"
+#include "Constants.h"
+#include "ScreenGrid.h"
 
 static void SetUp(void);
-static void Update();
+static void Update(float delta);
 static void Draw(void);
-
 
 int main(void)
 {
 	SetUp();
 	while (!WindowShouldClose())
 	{
-		Update();
 		Draw();
+		Update(GetFrameTime());
+		EndDrawing();
 	}
 }
 
-void SetUp(void)
+static void SetUp(void)
 {
-	
+	InitWindow(screenWidth,screenHeight, "Window");
+	SetTargetFPS(60);
 }
 
-void Update()
+static void Update(float delta)
 {
+
 }
 
-void Draw(void)
+static void Draw(void)
 {
+	BeginDrawing();
+	ClearBackground(BLACK);
 }

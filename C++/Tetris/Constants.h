@@ -2,4 +2,5 @@
 static const int screenHeight = 700;
 static const int screenWidth = 875;
 
-static const int tileSize = 35;
+static const float tileSize = 35.0f;
+static const float blockSize = tileSize;
