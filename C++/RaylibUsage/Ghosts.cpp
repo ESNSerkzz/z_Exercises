@@ -62,7 +62,6 @@ void Ghosts::Update(float delta)
 	TileCoords ghostCoords = ghostToMap->GetCoordsV({ collision.pos.x, collision.pos.y});
 	TileCoords targetTile;
 	TileCoords TileInFrontOfPacman;
-
 	
 	switch (currentBehaviour)
 	{
@@ -111,6 +110,7 @@ void Ghosts::Update(float delta)
 			{
 				targetTile = ghostToMap->GetCoordsV(pacman->circle.pos) + TileCoords(-2, -2);
 			}
+			targetTile = ghostToMap->GetTileCoords(ghostToMap->closestEmptyTile(targetTile));
 			break;
 
 		case CYAN_GHOST:
@@ -140,7 +140,7 @@ void Ghosts::Update(float delta)
 			targetTile.Invert();
 			targetTile = TileInFrontOfPacman - targetTile;
 			
-			if (targetTile.x > ghostToMap->columns -1)
+			/*if (targetTile.x > ghostToMap->columns -1)
 			{
 				targetTile.x = ghostToMap->columns - 2;
 			}
@@ -156,7 +156,10 @@ void Ghosts::Update(float delta)
 			if (targetTile.y < 4)
 			{
 				targetTile.y = 4;
-			}
+			}*/
+
+			//targetTile = ghostToMap->GetTileCoords(ghostToMap->closestEmptyTile(targetTile));
+			
 
 			break;
 
@@ -342,7 +345,7 @@ void Ghosts::Draw()
 	DrawTexturePro(ghostSprite, source, destPos, { collision.rad, collision.rad }, 0, WHITE);
 	collision.Draw();
 	//DrawTexture(ghostSprite, box.pos.x, box.pos.y, WHITE);
-	if (gType == CYAN_GHOST) 
+	if (gType == PINK_GHOST) 
 	{
 		DrawLineV(collision.pos, ghostToMap->VposToCoords(activeTarget), RED);
 

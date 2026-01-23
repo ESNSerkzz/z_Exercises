@@ -25,7 +25,8 @@ struct Tile
 	Tile* prevTile;
 	bool explored;
 	float cost;
-
+	Tile();
+	Tile(int _posX, int _posY, int _size);
 };
 struct TileCoords
 {
@@ -38,6 +39,8 @@ struct TileCoords
 	TileCoords operator- (const TileCoords& tileToSUB);
 	void Invert();
 	bool operator==(TileCoords tileComparason);
+	
+	
 };
 
 class MapGrid
@@ -49,7 +52,11 @@ public:
 	MapGrid();
 	MapGrid(int _columns, int _rows, int tileSize);
 	MapGrid(int _columns, int _rows, int tileSize, std::string filePath);
-	        
+	
+	//todo - make something similar to a hybrid of BAP, and getBricklessSpacesAroundOrigin for cyanGhosts targetTile, with a raduis of 7 tile. 3 left, 3 right
+	// and +1(the origin)
+	Tile* closestEmptyTile(TileCoords sourceTile);
+	std::vector<Tile> RangedSearch(TileCoords _targetTile);
 	std::vector<Tile> BoxesAroundPoint(Vector2 pos);
 	std::vector<TileCoords> GetBricklessSpaceAroundOrigin(TileCoords _N);
 	std::vector<TileCoords> dijkstrasPathing(TileCoords startPos, TileCoords endPos);
@@ -60,6 +67,7 @@ public:
 	Tile GetTile(TileCoords coord);
 	TileCoords GetCoordsV(Vector2 tilePos);
 	Vector2 VposToCoords(TileCoords pos);
+	TileCoords GetTileCoords(Tile* tile);
 	
 	void DrawBox(int x, int y);
 	void Draw();

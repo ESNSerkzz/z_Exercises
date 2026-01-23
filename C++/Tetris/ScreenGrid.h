@@ -17,21 +17,22 @@ struct Tile
 	int x;
 	int y; 
 	TileType tType;
+	Tile();
 	void DrawTile();
 
+	
 };
+
 struct TileCoords : public Tile
 {
-	
 	TileCoords();
 	TileCoords(int _x, int _y);
-
 
 };
 
 class ScreenGrid
 {
-	int rows;
-	int collumns;
-
+	int rows; // Y
+	int collumns; // X
+	std::vector<Tile>
 };

@@ -14,6 +14,7 @@ public:
 	BlockType shape;
 	Blocks();
 	Blocks(AABB _box, BlockType _bType);
+	void Input();
 	void Update();
 	void Draw();
 };

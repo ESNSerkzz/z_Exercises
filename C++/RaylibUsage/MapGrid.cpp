@@ -15,7 +15,7 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize)
 		listOfTiles.push_back(std::vector<Tile>());
 		for (int y = 0; y < rows; y++)
 		{
-			listOfTiles[x].push_back({AABB(), 0,0,0 });
+			listOfTiles[x].push_back(Tile());
 		}
 	}
 
@@ -25,7 +25,9 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize)
 		{
 			//Palletes palletIndex;
 			//palletIndex = Palletes({(float)x *tileSize, (float)y * tileSize}, 2.0f);
-			listOfTiles[x][y] = {AABB({(float)x * tileSize, (float)y * tileSize}, {tileSize / 2.0f, tileSize / 2.0f}), x * tileSize, y * tileSize, tileSize, new Palletes()};
+
+			
+			listOfTiles[x][y] = Tile(x * tileSize, y * tileSize, tileSize);
 			listOfTiles[x][y].pallet->collision.pos = { (float)x * tileSize + tileSize/2, (float)y * tileSize + tileSize/2 };
 
 		}
@@ -53,7 +55,7 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 		listOfTiles.push_back(std::vector<Tile>());
 		for (int y = 0; y < rows; y++)
 		{
-			listOfTiles[x].push_back({ AABB(), 0,0,0 });
+			listOfTiles[x].push_back(Tile());
 
 		}
 	}
@@ -64,7 +66,7 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 		{
 			//Palletes palletIndex;
 			//palletIndex = Palletes({(float)x *tileSize, (float)y * tileSize}, 2.0f);
-			listOfTiles[x][y] = { AABB(), x * tileSize, y * tileSize, tileSize, nullptr };
+			listOfTiles[x][y] = Tile(x * tileSize, y * tileSize, tileSize);
 	
 			if (allText[x + y * columns ] == '1')
 			{
@@ -106,6 +108,87 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 			}
 		}
 	}
+}
+
+//std::vector<Tile> MapGrid::RangedSearch(TileCoords _targetTile)
+//{
+//
+//	int xPos = _targetTile.x;
+//	int yPos = _targetTile.y;
+//	std::vector<Tile> list_rangeBased;
+//
+//	if (_targetTile.x != 0)
+//	{
+//		//leftSide
+//		list_rangeBased.push_back(listOfTiles[_targetTile.x - 1][_targetTile.y]);
+//		list_rangeBased.push_back(listOfTiles[_targetTile.x - 2][_targetTile.y]);
+//		list_rangeBased.push_back(listOfTiles[_targetTile.x - 3][_targetTile.y]);
+//	}
+//	if (_targetTile.x != columns - 1)
+//	{
+//		//rightSide
+//		list_rangeBased.push_back(listOfTiles[_targetTile.x + 1][_targetTile.y]);
+//		list_rangeBased.push_back(listOfTiles[_targetTile.x + 2][_targetTile.y]);
+//		list_rangeBased.push_back(listOfTiles[_targetTile.x + 3][_targetTile.y]);
+//	}
+//
+//	if (_targetTile.y != 0)
+//	{
+//		//leftSide
+//		list_rangeBased.push_back(listOfTiles[_targetTile.x][_targetTile.y - 1]);
+//		list_rangeBased.push_back(listOfTiles[_targetTile.x][_targetTile.y - 2]);
+//		list_rangeBased.push_back(listOfTiles[_targetTile.x][_targetTile.y - 3]);
+//	}
+//	if (_targetTile.y != rows - 1)
+//	{
+//		//leftSide
+//		list_rangeBased.push_back(listOfTiles[_targetTile.x][_targetTile.y + 1]);
+//		list_rangeBased.push_back(listOfTiles[_targetTile.x][_targetTile.y + 2]);
+//		list_rangeBased.push_back(listOfTiles[_targetTile.x][_targetTile.y + 3]);
+//	}
+//	list_rangeBased.push_back(listOfTiles[_targetTile.x][_targetTile.y]);
+//
+//	return list_rangeBased;
+//}
+
+Tile* MapGrid::closestEmptyTile(TileCoords sourceTile)
+{
+	Tile* emptyTile = new Tile();
+	int range = 0;
+	if (sourceTile.x > 0 && sourceTile.y > 0 && sourceTile.x < columns && sourceTile.y < rows)
+	{
+		if (listOfTiles[sourceTile.x][sourceTile.y].type != BRICK)
+		{
+			return &listOfTiles[sourceTile.x][sourceTile.y];
+		}
+	}
+	
+	while(emptyTile->type == BRICK)
+	{
+		range++;
+		std::cout << "Range: " << range << std::endl;
+
+		for (int x = sourceTile.x - range; x <= sourceTile.x + range; x++) 
+		{
+			if (x < 0 || x > columns-1 ) continue;
+
+			for (int y = sourceTile.y - range; y <= sourceTile.y + range; y++)
+			{
+				if (y < 0 || y > rows -1) continue;
+
+				/*std::cout << "print x: " << x << std::endl;
+				std::cout << "print y: " << y << std::endl;*/
+
+				if (listOfTiles[x][y].type == EMPTY || listOfTiles[x][y].type == PALLETE || listOfTiles[x][y].type == POWERPALLETE)
+				{
+					emptyTile = &listOfTiles[x][y];
+					return emptyTile;
+				}
+			}
+		}
+		
+	}
+	return emptyTile;
 }
 
 std::vector<Tile> MapGrid::BoxesAroundPoint(Vector2 pos)
@@ -290,11 +373,17 @@ std::vector<TileCoords> MapGrid::dijkstrasPathing(TileCoords startPos, TileCoord
 	}
 
 	std::vector <TileCoords> completePath;
-
+	if (currentTile == nullptr)
+	{
+		std::cout << "Current Tile Error" << std::endl;
+	}
 	while (currentTile != &listOfTiles[startPos.x][startPos.y])
 	{
 
-		
+		if (currentTile == nullptr)
+		{
+			std::cout << "Current Tile Error" << std::endl;
+		}
 		completePath.push_back({ currentTile->x / 32, currentTile->y /32 });
 		if (currentTile->prevTile == nullptr)
 		{
@@ -330,12 +419,21 @@ Vector2 MapGrid::VposToCoords(TileCoords pos)
 	return { (float)32 * pos.x, (float)32 * pos.y };
 }
 
+TileCoords MapGrid::GetTileCoords(Tile* tile)
+{
+	TileCoords tileToCoords;
+	tileToCoords.x = tile->x / tile->size;
+	tileToCoords.y = tile->y / tile->size;
+
+	return tileToCoords;
+}
+
 void MapGrid::DrawBox(int x, int y)
 {
 	if (x < columns && x >= 0 && y < rows && y >= 0)
 	{
 		Tile tile = listOfTiles[x][y];
-	
+	   
 		DrawRectangleLines(tile.x, tile.y, tile.size, tile.size, WHITE);
 	}
 }
@@ -373,6 +471,23 @@ void Tile::DrawTile(Color colour)
 	DrawRectangleLines(x, y, size, size, colour);
 }
 
+Tile::Tile()
+{
+	type = BRICK;
+
+}
+
+Tile::Tile(int _posX, int _posY, int _size)
+{
+	x = _posX;
+	y = _posY;
+	size = _size;
+	// cast to vector2
+	TileCollision = AABB({ (float)x,(float)y }, { (float)size,(float)size });
+	//TileCollision = AABB((Vector2) { (float)x, (float)y }, (Vector2) { size / 2, size / 2 });
+
+}
+
 TileCoords::TileCoords()
 {
 }
@@ -407,7 +522,6 @@ void TileCoords::Invert()
 	x = x * -1;
 	y = y * -1;
 
-	
 }
 
 bool TileCoords::operator==(TileCoords tileComparason)

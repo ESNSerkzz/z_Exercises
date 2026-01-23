@@ -7,6 +7,8 @@ static void SetUp(void);
 static void Update(float delta);
 static void Draw(void);
 
+
+
 int main(void)
 {
 	SetUp();
