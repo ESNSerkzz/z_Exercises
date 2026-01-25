@@ -1,12 +1,19 @@
 #include "ScreenGrid.h"
 
+Tile::Tile()
+{
+}
+
+void Tile::DrawTile()
+{
+}
+
 TileCoords::TileCoords()
 {
-
 }
 
 TileCoords::TileCoords(int _x, int _y)
 {
-	rows = _x * tileSize;
-	columns = _y * tileSize;
+	x = _x * tileSize;
+	y = _y * tileSize;
 }

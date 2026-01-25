@@ -19,8 +19,6 @@ struct Tile
 	TileType tType;
 	Tile();
 	void DrawTile();
-
-	
 };
 
 struct TileCoords : public Tile
@@ -33,6 +31,9 @@ struct TileCoords : public Tile
 class ScreenGrid
 {
 	int rows; // Y
-	int collumns; // X
-	std::vector<Tile>
+	int columns; // X
+	ScreenGrid();
+	ScreenGrid(int _collumns, int _rows, int _tileSize, std::string _mapFilePath);
+
+	std::vector<std::vector <Tile>> listOfTiles_Grid;
 };

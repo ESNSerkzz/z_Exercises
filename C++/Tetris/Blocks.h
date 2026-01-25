@@ -1,5 +1,6 @@
 #pragma once
 #include "collisions.h"
+#include "screengrid.h"
 #include "raylib.h"
 #include <vector>
 enum BlockType
@@ -10,12 +11,14 @@ enum BlockType
 class Blocks
 {
 public:
-	AABB box;
+	Tile box;
+	int descentRateTimer;
+
 	BlockType shape;
+
 	Blocks();
 	Blocks(AABB _box, BlockType _bType);
 	void Input();
 	void Update();
-	void Draw();
+	void Draw(Color _colour);
 };
-

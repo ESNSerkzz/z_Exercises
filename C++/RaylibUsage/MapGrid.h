@@ -53,8 +53,6 @@ public:
 	MapGrid(int _columns, int _rows, int tileSize);
 	MapGrid(int _columns, int _rows, int tileSize, std::string filePath);
 	
-	//todo - make something similar to a hybrid of BAP, and getBricklessSpacesAroundOrigin for cyanGhosts targetTile, with a raduis of 7 tile. 3 left, 3 right
-	// and +1(the origin)
 	Tile* closestEmptyTile(TileCoords sourceTile);
 	std::vector<Tile> RangedSearch(TileCoords _targetTile);
 	std::vector<Tile> BoxesAroundPoint(Vector2 pos);
@@ -63,8 +61,8 @@ public:
 
 	std::vector<std::vector <Tile>> listOfTiles;
 	
-	//gets Tile USING tileCoords
-	Tile GetTile(TileCoords coord);
+	
+	Tile GetTile(TileCoords coord); //gets Tile USING tileCoords
 	TileCoords GetCoordsV(Vector2 tilePos);
 	Vector2 VposToCoords(TileCoords pos);
 	TileCoords GetTileCoords(Tile* tile);
