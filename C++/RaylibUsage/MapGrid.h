@@ -48,6 +48,7 @@ class MapGrid
 public:
 	int columns = 28;
 	int rows = 36;
+	Texture2D map;
 
 	MapGrid();
 	MapGrid(int _columns, int _rows, int tileSize);

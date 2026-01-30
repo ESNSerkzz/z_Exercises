@@ -158,7 +158,7 @@ void Ghosts::Update(float delta)
 				targetTile.y = 4;
 			}*/
 
-			//targetTile = ghostToMap->GetTileCoords(ghostToMap->closestEmptyTile(targetTile));
+			targetTile = ghostToMap->GetTileCoords(ghostToMap->closestEmptyTile(targetTile));
 			
 
 			break;
@@ -248,6 +248,23 @@ void Ghosts::Update(float delta)
 		collision.pos.x = collision.pos.x + velocity * delta;
 		break;
 
+	}
+	if (collision.pos.x < 0)
+	{
+		collision.pos.x = screenWidth;
+	}
+	if (collision.pos.x > screenWidth)
+	{
+		collision.pos.x = 0;
+	}
+
+	if (collision.pos.y < 0)
+	{
+		collision.pos.y = screenHeight;
+	}
+	if (collision.pos.y > screenHeight)
+	{
+		collision.pos.y = 0;
 	}
 
 	HandleCollisions();
@@ -345,7 +362,7 @@ void Ghosts::Draw()
 	DrawTexturePro(ghostSprite, source, destPos, { collision.rad, collision.rad }, 0, WHITE);
 	collision.Draw();
 	//DrawTexture(ghostSprite, box.pos.x, box.pos.y, WHITE);
-	if (gType == PINK_GHOST) 
+	if (gType == CYAN_GHOST) 
 	{
 		DrawLineV(collision.pos, ghostToMap->VposToCoords(activeTarget), RED);
 

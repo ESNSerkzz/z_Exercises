@@ -108,6 +108,7 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 			}
 		}
 	}
+	map = LoadTexture("./PacmanAssets/map.png");
 }
 
 //std::vector<Tile> MapGrid::RangedSearch(TileCoords _targetTile)
@@ -440,17 +441,20 @@ void MapGrid::DrawBox(int x, int y)
 
 void MapGrid::Draw()
 {
+	Rectangle source = { 0,0, 228, 258};
+	Rectangle destPos = { 0,32 * 3, screenWidth, screenHeight - (32 * 4) };
+
+
 	for (auto column: listOfTiles)
 	{
+
 		for (auto tile : column)
 		{
 
 			//tile.DrawTile();
 			switch (tile.type)
 			{
-			case(BRICK):
-				DrawRectangleV({ (float)tile.x,(float)tile.y }, { (float)tile.size, (float)tile.size }, BLUE);
-				break;
+				
 
 			case(POWERPALLETE):
 				//pallet->box.pos = { (float)x * tileSize + tileSize / 2, (float)y * tileSize + tileSize / 2 };
@@ -464,6 +468,7 @@ void MapGrid::Draw()
 			}
 		}
 	}
+	DrawTexturePro(map, source, destPos, { 0, 0 }, 0, WHITE);
 }
 
 void Tile::DrawTile(Color colour)

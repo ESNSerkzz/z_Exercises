@@ -18,7 +18,7 @@ public:
 	AABB();
 	AABB(Vector2 _pos);
 	bool IsOverlapped(AABB box);
-	void DrawAABB(Color _FillColour);
+	void DrawAABB();
 
 };
 

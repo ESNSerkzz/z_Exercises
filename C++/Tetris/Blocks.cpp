@@ -8,7 +8,6 @@ Blocks::Blocks(AABB _box, BlockType _bType)
 {
 	box.collision = _box;
 	shape = _bType;
-	blockSize;
 	descentRateTimer = 100;
 }
 

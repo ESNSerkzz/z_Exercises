@@ -30,10 +30,8 @@ struct TileCoords : public Tile
 
 class ScreenGrid
 {
-	int rows; // Y
-	int columns; // X
 	ScreenGrid();
-	ScreenGrid(int _collumns, int _rows, int _tileSize, std::string _mapFilePath);
+	ScreenGrid(int _columns, int _rows, int _tileSize, std::string _mapFilePath);
 
 	std::vector<std::vector <Tile>> listOfTiles_Grid;
 };
