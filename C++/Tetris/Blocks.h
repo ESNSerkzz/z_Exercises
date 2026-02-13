@@ -11,7 +11,7 @@ enum BlockType
 class Blocks
 {
 public:
-	Tile box;
+	Tile block;
 	int descentRateTimer;
 
 	BlockType shape;
@@ -20,5 +20,5 @@ public:
 	Blocks(AABB _box, BlockType _bType);
 	void Input();
 	void Update();
-	void Draw(Color _colour);
+	void Draw();
 };

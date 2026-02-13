@@ -6,20 +6,22 @@ Blocks::Blocks()
 
 Blocks::Blocks(AABB _box, BlockType _bType)
 {
-	box.collision = _box;
+	block.collision = _box;
 	shape = _bType;
 	descentRateTimer = 100;
 }
 
 void Blocks::Input()
 {
+
 }
 
 void Blocks::Update()
 {
+
 }
 
-void Blocks::Draw(Color _colour)
+void Blocks::Draw()
 {
 
 }

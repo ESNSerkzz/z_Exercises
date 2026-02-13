@@ -2,12 +2,19 @@
 
 Tile::Tile()
 {
+	collision = AABB({ (float)x,(float)y });
+	x = collision.pos.x / tileSize;
+	y = collision.pos.y / tileSize;
 }
 
 void Tile::DrawTile()
 {
-}
 
+}
+void Tile::Draw()
+{
+
+}
 TileCoords::TileCoords()
 {
 }
@@ -18,12 +25,16 @@ TileCoords::TileCoords(int _x, int _y)
 	y = _y * tileSize;
 }
 
+//----------------------------------------------------------------//
+
 ScreenGrid::ScreenGrid()
 {
+
 }
 
 ScreenGrid::ScreenGrid(int _columns, int _rows, int _tileSize, std::string _mapFilePath)
 {
+
 	std::fstream file;
 	file.open(_mapFilePath);
 
@@ -44,6 +55,27 @@ ScreenGrid::ScreenGrid(int _columns, int _rows, int _tileSize, std::string _mapF
 		}
 	}
 
+	for (int x = 0; x < columns, x++)
+	{
+		for (int y = 0; y < rows; y++)
+		{
+			listOfTiles_Grid[x][y] = Tile();
+			for (int i = 0; i < allText.size(); i++)
+			{
+				if (allText == ".")
+				{
+					listOfTiles_Grid[x][y].tType = EMPTY;
+				}
+				if (allText == "#")
+				{
+					listOfTiles_Grid[x][y].tType = BRICK;
+				}
+			}
+		}
+	}
+}
 
-
+void ScreenGrid::Draw()
+{
+	
 }

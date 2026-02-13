@@ -29,34 +29,51 @@ void Pacman::Input()
 	
 	if (IsKeyDown(KEY_W))
 	{
-		if (pacToMap->listOfTiles[posX][posY - 1].type != BRICK)
+		if (posY - 1 >= 0 && posX >= 0 && posX + 1 < pacToMap->columns)
 		{
-			dir = Up;
+			if (pacToMap->listOfTiles[posX][posY - 1].type != BRICK)
+			{
+				dir = Up;
+			}
 		}
+		
 	}
 
 	if (IsKeyDown(KEY_D))
 	{
-		if (pacToMap->listOfTiles[posX + 1][posY].type != BRICK)
+		//std::cout << "type: " << pacToMap->listOfTiles[posX + 1][posY].type << std::endl;
+		if (posX + 1 < pacToMap->columns)
 		{
-			dir = Right;
+			if (pacToMap->listOfTiles[posX + 1][posY].type != BRICK)
+			{
+				dir = Right;
+			}
 		}
+		
 	}
 	if (IsKeyDown(KEY_S))
 	{
-		if (pacToMap->listOfTiles[posX][posY + 1].type != BRICK)
+		if (posY + 1 < pacToMap->rows && posX >= 0 && posX + 1 < pacToMap->columns)
 		{
+			if (pacToMap->listOfTiles[posX][posY + 1].type != BRICK)
+			{
 
-			dir = Down;
+				dir = Down;
+			}
 		}
+		
 	}
 	if (IsKeyDown(KEY_A))
 	{
-		if (pacToMap->listOfTiles[posX- 1][posY].type != BRICK)
+		if (posX - 1 >= 0)
 		{
+			if (pacToMap->listOfTiles[posX - 1][posY].type != BRICK)
+			{
 
-			dir = Left;
+				dir = Left;
+			}
 		}
+		
 	}
 	
 }
@@ -106,14 +123,11 @@ void Pacman::Update(float delta)
 		CollisionResults pacmanHitResult = { false, {0,0}, {50,50}, 0.0f };
 		if (brickColliding[i].type == BRICK)
 		{
-			DrawCircleV(brickColliding[i].TileCollision.pos, 3, GREEN);
-			DrawRectangleLines(brickColliding[i].TileCollision.pos.x, brickColliding[i].TileCollision.pos.y, 32, 32, RED);
+			
 			if (circle.isOverlapped(brickColliding[i].TileCollision, pacmanHitResult))
 			{
 				circle.pos = Vector2Subtract(circle.pos, Vector2Scale(pacmanHitResult.normal, pacmanHitResult.pDepth * -1));
-				DrawCircleV(pacmanHitResult.pos, 3, GREEN);
-				//std::cout << "Normal X : " << pacmanHitResult.normal.x<< "\n";
-				//std::cout << "Normal Y : " << pacmanHitResult.normal.y << "\n";
+
 			}
 		}
 

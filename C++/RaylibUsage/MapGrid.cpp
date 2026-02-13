@@ -479,14 +479,20 @@ void Tile::DrawTile(Color colour)
 Tile::Tile()
 {
 	type = BRICK;
+	x = 10;
+	y = 10;
+	size = 32;
 
+		
 }
 
 Tile::Tile(int _posX, int _posY, int _size)
 {
-	x = _posX;
+	x = _posX;	
 	y = _posY;
 	size = _size;
+	type = EMPTY;
+
 	// cast to vector2
 	TileCollision = AABB({ (float)x,(float)y }, { (float)size,(float)size });
 	//TileCollision = AABB((Vector2) { (float)x, (float)y }, (Vector2) { size / 2, size / 2 });
@@ -495,6 +501,7 @@ Tile::Tile(int _posX, int _posY, int _size)
 
 TileCoords::TileCoords()
 {
+
 }
 
 TileCoords::TileCoords(int _x, int _y)

@@ -346,17 +346,17 @@ void Ghosts::Draw()
 			break;
 		}
 
-	for (int i = 0; i < path.size(); i++)
-	{
-		ghostToMap->GetTile(path[i]).DrawTile(GREEN);
-		
-		
-		if (path[i] == path.back())
-		{
-			ghostToMap->GetTile(path[i]).DrawTile(YELLOW);
-		}
+	//for (int i = 0; i < path.size(); i++)
+	//{
+	//	ghostToMap->GetTile(path[i]).DrawTile(GREEN);
+	//	
+	//	
+	//	if (path[i] == path.back())
+	//	{
+	//		ghostToMap->GetTile(path[i]).DrawTile(YELLOW);
+	//	}
 
-	}
+	//}
 	
 
 	DrawTexturePro(ghostSprite, source, destPos, { collision.rad, collision.rad }, 0, WHITE);

@@ -99,7 +99,7 @@ bool CC::isOverlapped(AABB box, CollisionResults& hit)
 	closestPoint.x = std::max(float (box.pos.x) ,std::min(pos.x, float (box.pos.x + box.halfSize.x *2)));
 	closestPoint.y = std::max(float (box.pos.y) ,std::min( float (box.pos.y + box.halfSize.y*2), pos.y));
 
-	DrawLineV(pos, closestPoint, RED);
+	
 	//DrawCircleV(box.pos, 5.0f, RED);
 	Vector2 aabbToClosest = Vector2Subtract(closestPoint, pos);
 	Vector2 CCdistToAABB = Vector2Subtract(pos, Vector2Add(box.pos, box.halfSize));
