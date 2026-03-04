@@ -5,6 +5,7 @@
 #include "Ghosts.h"
 #include "Collisions.h"
 #include "Constants.h"
+#include "GameManager.h"
 #include "Palletes.h"
 
 static void SetUp(void);
@@ -13,6 +14,7 @@ static void Draw(void);
 
 MapGrid grid;
 Pacman ePacman;
+GameManager manager;
 
 std::vector<Ghosts> ghosts;
 
@@ -63,14 +65,17 @@ static void SetUp(void)
 	
 		ghosts[2].redGhost = &ghosts[0];
 
+		manager = GameManager(&ePacman, &ghosts[0], &ghosts[1], &ghosts[2], &ghosts[3]);
+		manager.GameStarted = false;
 	
 }
 
 void Update(float delta)
 {
-
+	manager.Update(delta);
 	ePacman.Update(delta);
 	ePacman.Input();
+	
 	if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) 
 	{
 		std::cout << "Mouse POS: " << grid.GetCoordsV(GetMousePosition()).x << " " << grid.GetCoordsV(GetMousePosition()).y << std::endl;

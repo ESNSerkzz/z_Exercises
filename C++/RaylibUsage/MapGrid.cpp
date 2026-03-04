@@ -70,7 +70,7 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 	
 			if (allText[x + y * columns ] == '1')
 			{
-				listOfTiles[x][y].type = BRICK;
+				listOfTiles[x][y].type = BRICK;	
 				listOfTiles[x][y].TileCollision = AABB({ (float)x * tileSize, (float)y * tileSize }, { tileSize / 2.0f, tileSize / 2.0f });
 			}
 
@@ -110,47 +110,6 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 	}
 	map = LoadTexture("./PacmanAssets/map.png");
 }
-
-//std::vector<Tile> MapGrid::RangedSearch(TileCoords _targetTile)
-//{
-//
-//	int xPos = _targetTile.x;
-//	int yPos = _targetTile.y;
-//	std::vector<Tile> list_rangeBased;
-//
-//	if (_targetTile.x != 0)
-//	{
-//		//leftSide
-//		list_rangeBased.push_back(listOfTiles[_targetTile.x - 1][_targetTile.y]);
-//		list_rangeBased.push_back(listOfTiles[_targetTile.x - 2][_targetTile.y]);
-//		list_rangeBased.push_back(listOfTiles[_targetTile.x - 3][_targetTile.y]);
-//	}
-//	if (_targetTile.x != columns - 1)
-//	{
-//		//rightSide
-//		list_rangeBased.push_back(listOfTiles[_targetTile.x + 1][_targetTile.y]);
-//		list_rangeBased.push_back(listOfTiles[_targetTile.x + 2][_targetTile.y]);
-//		list_rangeBased.push_back(listOfTiles[_targetTile.x + 3][_targetTile.y]);
-//	}
-//
-//	if (_targetTile.y != 0)
-//	{
-//		//leftSide
-//		list_rangeBased.push_back(listOfTiles[_targetTile.x][_targetTile.y - 1]);
-//		list_rangeBased.push_back(listOfTiles[_targetTile.x][_targetTile.y - 2]);
-//		list_rangeBased.push_back(listOfTiles[_targetTile.x][_targetTile.y - 3]);
-//	}
-//	if (_targetTile.y != rows - 1)
-//	{
-//		//leftSide
-//		list_rangeBased.push_back(listOfTiles[_targetTile.x][_targetTile.y + 1]);
-//		list_rangeBased.push_back(listOfTiles[_targetTile.x][_targetTile.y + 2]);
-//		list_rangeBased.push_back(listOfTiles[_targetTile.x][_targetTile.y + 3]);
-//	}
-//	list_rangeBased.push_back(listOfTiles[_targetTile.x][_targetTile.y]);
-//
-//	return list_rangeBased;
-//}
 
 Tile* MapGrid::closestEmptyTile(TileCoords sourceTile)
 {

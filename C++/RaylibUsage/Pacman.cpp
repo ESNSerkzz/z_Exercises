@@ -15,10 +15,12 @@ Pacman::Pacman(MapGrid* _pacToMap)
 	currentFrame = 0;
 	mouthOpenFrames = 5;
 	
-	velocity = 120.55f;
+	velocity = speed;
 	score = 0;
 	pacmanSprite = LoadTexture("./PacmanAssets/assets.png");
 	pacToMap = _pacToMap;
+	isControllable = false;
+
 }
 
 void Pacman::Input()
@@ -27,6 +29,10 @@ void Pacman::Input()
 	int posX = circle.pos.x / 32;
 	int posY = circle.pos.y / 32;
 	
+	if (isControllable == false)
+		return;
+
+
 	if (IsKeyDown(KEY_W))
 	{
 		if (posY - 1 >= 0 && posX >= 0 && posX + 1 < pacToMap->columns)
@@ -79,25 +85,26 @@ void Pacman::Input()
 }
 void Pacman::Update(float delta)
 {
-	bool canMove = true;
-	if (canMove == true)
+
+	if (isControllable == false)
+		return;
+
+	switch (dir)
 	{
-		switch (dir)
-		{
-		case Up:
-			circle.pos.y = circle.pos.y -= velocity * delta;
-			//box.GetDir(box.pos);
-			break;
-		case Right:
-			circle.pos.x = circle.pos.x += velocity * delta;
-			break;
-		case Down:
-			circle.pos.y = circle.pos.y += velocity * delta;
-			break;
-		case Left:
-			circle.pos.x = circle.pos.x -= velocity * delta;
-		}
+	case Up:
+		circle.pos.y = circle.pos.y -= velocity * delta;
+		//box.GetDir(box.pos);
+		break;
+	case Right:
+		circle.pos.x = circle.pos.x += velocity * delta;
+		break;
+	case Down:
+		circle.pos.y = circle.pos.y += velocity * delta;
+		break;
+	case Left:
+		circle.pos.x = circle.pos.x -= velocity * delta;
 	}
+
 	if (circle.pos.x < 0)
 	{
 		circle.pos.x = screenWidth;
@@ -146,6 +153,8 @@ void Pacman::Update(float delta)
 
 				case(PowerPallete):
 					scoreAdder(50);
+					powerTimeRemaining = 6.00f;
+
 					break;
 				case(Fruit):
 					scoreAdder(100);
@@ -155,6 +164,12 @@ void Pacman::Update(float delta)
 				}
 			}
 		}
+
+	}
+
+	if (powerTimeRemaining > 0)
+	{
+		powerTimeRemaining -= delta;
 	}
 }
 

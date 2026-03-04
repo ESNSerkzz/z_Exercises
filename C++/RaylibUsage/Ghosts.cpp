@@ -14,7 +14,7 @@ Ghosts::Ghosts(CC _collision, GhostType _gType, MapGrid* _ghostToMap, std::strin
 	frameTimeLength = 5;
 	gType = _gType;
 	ghostToMap = _ghostToMap;
-	currentBehaviour = CHASE;
+	currentBehaviour = Behaviour::GAMESTART;
 	pacman = _pacman;
 	activeTarget = TileCoords(0, 0);
 	scatterLoopIndex = 0;
@@ -63,128 +63,133 @@ void Ghosts::Update(float delta)
 	TileCoords targetTile;
 	TileCoords TileInFrontOfPacman;
 	
-	switch (currentBehaviour)
-	{
-
-	case SCATTER:
-		
-		if (path.size() < 2)
-		{
-			scatterLoopIndex++;
-
-			if (scatterLoopIndex >= scatterLoop.size())
-			{
-				scatterLoopIndex = 0;
-			}	
-		}
-		targetTile = scatterLoop[scatterLoopIndex];
 	
-		
-
-		break;
-
-	case CHASE:
-
-
-		switch (gType)
+		switch (currentBehaviour)
 		{
-		case RED_GHOST:
-			targetTile = ghostToMap->GetCoordsV(pacman->circle.pos);
-			
-			break;
-		case PINK_GHOST:
 
-			if (pacman->dir == Right)
-			{
-				targetTile = ghostToMap->GetCoordsV(pacman->circle.pos) + TileCoords(2,0);
-			}
-			if (pacman->dir == Left)
-			{
-				targetTile = ghostToMap->GetCoordsV(pacman->circle.pos) + TileCoords(-2, 0);
-			}
-			if (pacman->dir == Down)
-			{
-				targetTile = ghostToMap->GetCoordsV(pacman->circle.pos) + TileCoords(0, 2);
-			}
-			if (pacman->dir == Up)
-			{
-				targetTile = ghostToMap->GetCoordsV(pacman->circle.pos) + TileCoords(-2, -2);
-			}
-			targetTile = ghostToMap->GetTileCoords(ghostToMap->closestEmptyTile(targetTile));
-			break;
+		case Behaviour::SCATTER:
 
-		case CYAN_GHOST:
-			
-			TileInFrontOfPacman = ghostToMap->GetCoordsV(pacman->circle.pos);
-			
-			if (pacman->dir == Right)
+			if (path.size() < 2)
 			{
-				TileInFrontOfPacman.x += 2;
-			}
-			else if(pacman->dir == Left)
-			{
-				TileInFrontOfPacman.x -= 2;
-			}
-			if (pacman->dir == Up)
-			{
-				TileInFrontOfPacman.x -= 2;
-				TileInFrontOfPacman.y -= 2;
-			}
-			else if (pacman->dir == Down)
-			{
-				TileInFrontOfPacman.y += 2;
-			}
-			
+				scatterLoopIndex++;
 
-			targetTile = TileInFrontOfPacman - ghostToMap->GetCoordsV(redGhost->collision.pos);
-			targetTile.Invert();
-			targetTile = TileInFrontOfPacman - targetTile;
-			
-			/*if (targetTile.x > ghostToMap->columns -1)
-			{
-				targetTile.x = ghostToMap->columns - 2;
+				if (scatterLoopIndex >= scatterLoop.size())
+				{
+					scatterLoopIndex = 0;
+				}
 			}
-			if(targetTile.x < 1)
-				
-			{
-				targetTile.x = 1;
-			}
-			if (targetTile.y > ghostToMap->rows - 3)
-			{
-				targetTile.y = ghostToMap->rows - 4;
-			}
-			if (targetTile.y < 4)
-			{
-				targetTile.y = 4;
-			}*/
+			targetTile = scatterLoop[scatterLoopIndex];
 
-			targetTile = ghostToMap->GetTileCoords(ghostToMap->closestEmptyTile(targetTile));
-			
+
 
 			break;
 
+		case Behaviour::CHASE:
 
-		case ORANGE_GHOST:
 
-			//if within an 8 tile raduis
-			if (Vector2Distance(collision.pos, pacman->circle.pos) >= 32 * 8)
+			switch (gType)
 			{
+			case RED_GHOST:
 				targetTile = ghostToMap->GetCoordsV(pacman->circle.pos);
 
-			}
-			else
-			{
-				targetTile = TileCoords(26, 32);
+				break;
+			case PINK_GHOST:
+
+				if (pacman->dir == Right)
+				{
+					targetTile = ghostToMap->GetCoordsV(pacman->circle.pos) + TileCoords(2, 0);
+				}
+				if (pacman->dir == Left)
+				{
+					targetTile = ghostToMap->GetCoordsV(pacman->circle.pos) + TileCoords(-2, 0);
+				}
+				if (pacman->dir == Down)
+				{
+					targetTile = ghostToMap->GetCoordsV(pacman->circle.pos) + TileCoords(0, 2);
+				}
+				if (pacman->dir == Up)
+				{
+					targetTile = ghostToMap->GetCoordsV(pacman->circle.pos) + TileCoords(-2, -2);
+				}
+				targetTile = ghostToMap->GetTileCoords(ghostToMap->closestEmptyTile(targetTile));
+				break;
+
+			case CYAN_GHOST:
+
+				TileInFrontOfPacman = ghostToMap->GetCoordsV(pacman->circle.pos);
+
+				if (pacman->dir == Right)
+				{
+					TileInFrontOfPacman.x += 2;
+				}
+				else if (pacman->dir == Left)
+				{
+					TileInFrontOfPacman.x -= 2;
+				}
+				if (pacman->dir == Up)
+				{
+					TileInFrontOfPacman.x -= 2;
+					TileInFrontOfPacman.y -= 2;
+				}
+				else if (pacman->dir == Down)
+				{
+					TileInFrontOfPacman.y += 2;
+				}
+
+
+				targetTile = TileInFrontOfPacman - ghostToMap->GetCoordsV(redGhost->collision.pos);
+				targetTile.Invert();
+				targetTile = TileInFrontOfPacman - targetTile;
+
+				/*if (targetTile.x > ghostToMap->columns -1)
+				{
+					targetTile.x = ghostToMap->columns - 2;
+				}
+				if(targetTile.x < 1)
+
+				{
+					targetTile.x = 1;
+				}
+				if (targetTile.y > ghostToMap->rows - 3)
+				{
+					targetTile.y = ghostToMap->rows - 4;
+				}
+				if (targetTile.y < 4)
+				{
+					targetTile.y = 4;
+				}*/
+
+				targetTile = ghostToMap->GetTileCoords(ghostToMap->closestEmptyTile(targetTile));
+
+
+				break;
+
+
+			case ORANGE_GHOST:
+
+				//if within an 8 tile raduis
+				if (Vector2Distance(collision.pos, pacman->circle.pos) >= 32 * 8)
+				{
+					targetTile = ghostToMap->GetCoordsV(pacman->circle.pos);
+
+				}
+				else
+				{
+					targetTile = TileCoords(26, 32);
+				}
+
+			default:
+				break;
 			}
 
+			break;
 		default:
 			break;
-		}
 
-		break;
-	default:
-		break;
-	}
+
+		}
+	
+	
 	
 
 	if (path.size() > 1)
@@ -231,6 +236,11 @@ void Ghosts::Update(float delta)
 			path.erase(path.begin());
 		}
 		//std::cout << "GhostDistTotile: " << ghostDistToTile.x << " " << ghostDistToTile.y << std::endl;
+	}
+	if (currentBehaviour == Behaviour::GAMESTART)
+	{
+
+		return;
 	}
 
 	switch (dir)

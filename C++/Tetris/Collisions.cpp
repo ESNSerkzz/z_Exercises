@@ -28,5 +28,5 @@ bool AABB::IsOverlapped(AABB box)
 
 void AABB::DrawAABB()
 {
-	DrawRectangleLines(pos.x, pos.y, size.x, size.y, RED);
+	DrawRectangleLines(pos.x, pos.y, size.x, size.y, WHITE);
 }

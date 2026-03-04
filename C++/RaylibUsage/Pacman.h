@@ -16,7 +16,9 @@ public:
 	int mouthOpenFrames;
 	Texture2D pacmanSprite;
 	MapGrid* pacToMap;
-		
+	bool isControllable;
+	float powerTimeRemaining;
+
 	Pacman();
 	Pacman(MapGrid*_pacToMap);
 

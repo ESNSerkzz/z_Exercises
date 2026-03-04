@@ -8,14 +8,15 @@
 #include "fstream"
 #include <iostream>
 #include <vector>
+
 enum GhostType
 {
 	//BLINKY , PINKY     , INKY      , CLYDE
 	RED_GHOST, PINK_GHOST, CYAN_GHOST, ORANGE_GHOST
 };
-enum Behaviour
+enum class Behaviour
 {
-	CHASE, SCATTER, FRIGHTENED, SPAWN
+	CHASE, SCATTER, FRIGHTENED, GAMESTART, RESPAWN
 };
 
 class Ghosts

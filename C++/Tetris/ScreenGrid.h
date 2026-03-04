@@ -14,12 +14,13 @@ enum TileType
 
 struct Tile
 {
-	AABB collision;
-	int x;
-	int y; 
+	AABB collision; // in pixel coords.
+	int x; // in grid coords X.
+	int y; // in grid coords Y.
 	TileType tType = TileType(0);
 	Tile();
-	void DrawTile();
+	Tile(Vector2 _pos);
+	void DrawTile(Color _lines, Color _fill);
 	void Draw();
 };
 
