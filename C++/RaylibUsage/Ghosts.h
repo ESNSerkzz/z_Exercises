@@ -16,7 +16,7 @@ enum GhostType
 };
 enum class Behaviour
 {
-	CHASE, SCATTER, FRIGHTENED, GAMESTART, RESPAWN
+	CHASE = 0, SCATTER = 1, FRIGHTENED = 2, GAMESTART = 3, RESPAWN = 4
 };
 
 class Ghosts

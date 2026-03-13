@@ -1,6 +1,6 @@
 #include "GameManager.h"
 
-GameManager::GameManager(Pacman* _pacman, Ghosts* _G1, Ghosts* _G2, Ghosts* _G3, Ghosts* _G4)
+GameManager::GameManager(MapGrid* _map, Pacman* _pacman, Ghosts* _G1, Ghosts* _G2, Ghosts* _G3, Ghosts* _G4)
 {
     pacman = _pacman;
     ghosts.push_back(_G1);
@@ -13,10 +13,24 @@ GameManager::GameManager(Pacman* _pacman, Ghosts* _G1, Ghosts* _G2, Ghosts* _G3,
 
 void GameManager::ChangeBehaviourState(Behaviour _beh)
 {
+
     for (int i = 0; i < ghosts.size(); i++)
     {
+   
         ghosts[i]->currentBehaviour = _beh;
+       
+        if (ghosts[i]->currentBehaviour != Behaviour::FRIGHTENED)
+        {
+            ghosts[i]->velocity = speed;
+            pacman->velocity = speed;
+        }
+        if (ghosts[i]->currentBehaviour == Behaviour::FRIGHTENED)
+        {
+            ghosts[i]->velocity = speed / 2;
+            pacman->velocity = (speed * 1.1);
+        }
     }
+
 }
 
 bool GameManager::Paused(bool _TF)
@@ -70,8 +84,14 @@ void GameManager::Update(float delta)
         ChangeBehaviourState(Behaviour::CHASE);
     }
 
-    if (pacman->powerTimeRemaining > 0) 
+    if (pacman->powerTimeRemaining > 0.0f && GetTime() > fromStartTimer) 
     {
-        ChangeBehaviourState(Behaviour::FRIGHTENED);
+       ChangeBehaviourState(Behaviour::FRIGHTENED);
+       //??
     }
+    if (map->pallatesRemaining == 0)
+    {
+
+    }
+
 };

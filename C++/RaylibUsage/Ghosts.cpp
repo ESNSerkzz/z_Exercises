@@ -182,6 +182,10 @@ void Ghosts::Update(float delta)
 				break;
 			}
 
+		case Behaviour::FRIGHTENED:
+			//velocity = velocity / 2;
+
+
 			break;
 		default:
 			break;
@@ -300,10 +304,15 @@ void Ghosts::Draw()
 	frameTimeLength--;
 	if (frameTimeLength == 0)
 	{
-		frameTimeLength = 50;
+		frameTimeLength = 10;
 		currentFrame++;
-		if(currentFrame > 1)
+		if(currentFrame > 1 && currentBehaviour != Behaviour::FRIGHTENED)
 		{
+			currentFrame = 0;
+		}
+		if (currentBehaviour == Behaviour::FRIGHTENED && currentFrame > 3)
+		{
+
 			currentFrame = 0;
 		}
 	}
@@ -355,18 +364,23 @@ void Ghosts::Draw()
 			}
 			break;
 		}
+		if (currentBehaviour == Behaviour::FRIGHTENED)
+		{
+			source = { (float)584 + (currentFrame * 16), 64, 16, 16 };
+		}
 
-	//for (int i = 0; i < path.size(); i++)
-	//{
-	//	ghostToMap->GetTile(path[i]).DrawTile(GREEN);
-	//	
-	//	
-	//	if (path[i] == path.back())
-	//	{
-	//		ghostToMap->GetTile(path[i]).DrawTile(YELLOW);
-	//	}
 
-	//}
+	for (int i = 0; i < path.size(); i++)
+	{
+		ghostToMap->GetTile(path[i]).DrawTile(GREEN);
+		
+		
+		if (path[i] == path.back())
+		{
+			ghostToMap->GetTile(path[i]).DrawTile(YELLOW);
+		}
+
+	}
 	
 
 	DrawTexturePro(ghostSprite, source, destPos, { collision.rad, collision.rad }, 0, WHITE);

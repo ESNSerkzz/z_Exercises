@@ -49,11 +49,14 @@ public:
 	int columns = 28;
 	int rows = 36;
 	Texture2D map;
+	int pallatesRemaining;
 
 	MapGrid();
 	MapGrid(int _columns, int _rows, int tileSize);
 	MapGrid(int _columns, int _rows, int tileSize, std::string filePath);
 	
+	std::string currentLvlFilePath;
+
 	Tile* closestEmptyTile(TileCoords sourceTile);
 	std::vector<Tile> RangedSearch(TileCoords _targetTile);
 	std::vector<Tile> BoxesAroundPoint(Vector2 pos);
@@ -62,7 +65,7 @@ public:
 
 	std::vector<std::vector <Tile>> listOfTiles;
 	
-	
+	void AddPallates();
 	Tile GetTile(TileCoords coord); //gets Tile USING tileCoords
 	TileCoords GetCoordsV(Vector2 tilePos);
 	Vector2 VposToCoords(TileCoords pos);

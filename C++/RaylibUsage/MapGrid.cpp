@@ -38,6 +38,7 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 {
 	columns = _columns;
 	rows = _rows;
+	pallatesRemaining = 0;
 
 	std::fstream file;
 	file.open(filePath);
@@ -59,6 +60,7 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 
 		}
 	}
+	currentLvlFilePath = filePath;
 
 	for (int x = 0; x < columns; x++)
 	{
@@ -78,12 +80,14 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 			{
 				listOfTiles[x][y].type = PALLETE;
 				listOfTiles[x][y].pallet = new Palletes({ (float)x * tileSize + tileSize / 2, (float)y * tileSize + tileSize / 2 }, palletSize);
+				pallatesRemaining++;
 			}
 
 			if (allText[x + y * columns] == '3')
 			{
 				listOfTiles[x][y].type = POWERPALLETE;
 				listOfTiles[x][y].pallet = new Palletes({ (float)x * tileSize + tileSize / 2, (float)y * tileSize + tileSize / 2 }, palletSize, PowerPallete);
+				pallatesRemaining++;
 			}
 			if (allText[x + y * columns] == '4')
 			{
@@ -92,7 +96,6 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 			}
 			
 		}
-
 	}
 	for (int i = 0; i < columns; i++)
 	{
@@ -108,6 +111,7 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 			}
 		}
 	}
+	std::cout << "pallates: " << pallatesRemaining << std::endl;
 	map = LoadTexture("./PacmanAssets/map.png");
 }
 
@@ -126,8 +130,7 @@ Tile* MapGrid::closestEmptyTile(TileCoords sourceTile)
 	while(emptyTile->type == BRICK)
 	{
 		range++;
-		std::cout << "Range: " << range << std::endl;
-
+		
 		for (int x = sourceTile.x - range; x <= sourceTile.x + range; x++) 
 		{
 			if (x < 0 || x > columns-1 ) continue;
@@ -355,6 +358,53 @@ std::vector<TileCoords> MapGrid::dijkstrasPathing(TileCoords startPos, TileCoord
 	completePath.push_back(startPos);
 	std::reverse(completePath.begin(), completePath.end());
 	return completePath;
+}
+
+void MapGrid::AddPallates()
+{
+	std::fstream file;
+	file.open(currentLvlFilePath);
+
+	std::string currentLine;
+	std::string allText;
+
+	while (getline(file, currentLine))
+	{
+		std::cout << currentLine << std::endl;
+		allText.append(currentLine);
+	}
+	for (int x = 0; x < columns; x++)
+	{
+		listOfTiles.push_back(std::vector<Tile>());
+		for (int y = 0; y < rows; y++)
+		{
+			listOfTiles[x].push_back(Tile());
+
+		}
+	}
+
+	for (int x = 0; x < columns; x++)
+	{
+		for (int y = 0; y < rows; y++)
+		{
+		
+			if (allText[x + y * columns] == '2')
+			{
+				listOfTiles[x][y].type = PALLETE;
+				listOfTiles[x][y].pallet = new Palletes({ (float)x * TilesSize + TilesSize / 2, (float)y * TilesSize + TilesSize / 2 }, palletSize);
+				pallatesRemaining++;
+			}
+
+			if (allText[x + y * columns] == '3')
+			{
+				listOfTiles[x][y].type = POWERPALLETE;
+				listOfTiles[x][y].pallet = new Palletes({ (float)x * TilesSize + TilesSize / 2, (float)y * TilesSize + TilesSize / 2 }, palletSize, PowerPallete);
+				pallatesRemaining++;
+			}
+			
+
+		}
+	}
 }
 
 Tile MapGrid::GetTile(TileCoords coord)

@@ -20,7 +20,7 @@ Pacman::Pacman(MapGrid* _pacToMap)
 	pacmanSprite = LoadTexture("./PacmanAssets/assets.png");
 	pacToMap = _pacToMap;
 	isControllable = false;
-
+	powerTimeRemaining = -1;
 }
 
 void Pacman::Input()
@@ -148,10 +148,12 @@ void Pacman::Update(float delta)
 				switch (brickColliding[i].pallet->pType)
 				{
 				case(Pallete):
+					pacToMap->pallatesRemaining--;
 					scoreAdder(10);
 					break;
 
 				case(PowerPallete):
+					pacToMap->pallatesRemaining--;
 					scoreAdder(50);
 					powerTimeRemaining = 6.00f;
 
@@ -167,7 +169,7 @@ void Pacman::Update(float delta)
 
 	}
 
-	if (powerTimeRemaining > 0)
+	if (powerTimeRemaining > 0.0f)
 	{
 		powerTimeRemaining -= delta;
 	}

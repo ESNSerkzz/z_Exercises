@@ -40,7 +40,7 @@ static void SetUp(void)
 	//grid = MapGrid(28, 36, 32, "./emptyMap.txt");
 	grid = MapGrid(28, 36, 32, "./map.txt");
 	ePacman = Pacman(&grid);
-
+	ePacman.powerTimeRemaining = -0.1;
 		
 		ghosts.push_back(Ghosts(CC(Vector2Add(grid.VposToCoords({ 13,14 }), { ghostSize,ghostSize }), ghostSize),
 			RED_GHOST,
@@ -64,8 +64,8 @@ static void SetUp(void)
 			&ePacman));
 	
 		ghosts[2].redGhost = &ghosts[0];
-
-		manager = GameManager(&ePacman, &ghosts[0], &ghosts[1], &ghosts[2], &ghosts[3]);
+		
+		manager = GameManager(&grid, &ePacman, &ghosts[0], &ghosts[1], &ghosts[2], &ghosts[3]);
 		manager.GameStarted = false;
 	
 }
