@@ -37,9 +37,10 @@ public:
 	Ghosts* redGhost;
 	std::vector<TileCoords> scatterLoop;
 	int scatterLoopIndex;
+	bool debugState;
 
 	Ghosts();
-	Ghosts(CC _collision, GhostType _gType, MapGrid* _ghostToMap, std::string filePath, Pacman* _pacman);
+	Ghosts(CC _collision, GhostType _gType, MapGrid* _ghostToMap, std::string filePath, Pacman* _pacman, bool _debugState);
 
 	
 	void Update(float delta);

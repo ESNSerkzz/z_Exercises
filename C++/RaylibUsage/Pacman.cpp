@@ -35,6 +35,7 @@ void Pacman::Input()
 
 	if (IsKeyDown(KEY_W))
 	{
+		//std::cout << "size X of map: " << sizeof(pacToMap->listOfTiles) << std::endl;
 		if (posY - 1 >= 0 && posX >= 0 && posX + 1 < pacToMap->columns)
 		{
 			if (pacToMap->listOfTiles[posX][posY - 1].type != BRICK)

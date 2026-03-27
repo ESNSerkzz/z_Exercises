@@ -4,7 +4,7 @@ Ghosts::Ghosts()
 {
 }
 
-Ghosts::Ghosts(CC _collision, GhostType _gType, MapGrid* _ghostToMap, std::string filePath, Pacman* _pacman)
+Ghosts::Ghosts(CC _collision, GhostType _gType, MapGrid* _ghostToMap, std::string filePath, Pacman* _pacman, bool _debugState)
 {
 	collision = _collision;
 	collision.pos.x += 16;
@@ -18,7 +18,7 @@ Ghosts::Ghosts(CC _collision, GhostType _gType, MapGrid* _ghostToMap, std::strin
 	pacman = _pacman;
 	activeTarget = TileCoords(0, 0);
 	scatterLoopIndex = 0;
-	
+	debugState = _debugState;
 	
 
 	switch (gType)
@@ -369,7 +369,8 @@ void Ghosts::Draw()
 			source = { (float)584 + (currentFrame * 16), 64, 16, 16 };
 		}
 
-
+	DrawTexturePro(ghostSprite, source, destPos, { collision.rad, collision.rad }, 0, WHITE);
+		if (!debugState) return;
 	for (int i = 0; i < path.size(); i++)
 	{
 		ghostToMap->GetTile(path[i]).DrawTile(GREEN);
@@ -383,7 +384,6 @@ void Ghosts::Draw()
 	}
 	
 
-	DrawTexturePro(ghostSprite, source, destPos, { collision.rad, collision.rad }, 0, WHITE);
 	collision.Draw();
 	//DrawTexture(ghostSprite, box.pos.x, box.pos.y, WHITE);
 	if (gType == CYAN_GHOST) 
