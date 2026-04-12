@@ -38,7 +38,7 @@ public:
 	std::vector<TileCoords> scatterLoop;
 	int scatterLoopIndex;
 	bool debugState;
-
+	TileCoords currentTileCoord;
 	Ghosts();
 	Ghosts(CC _collision, GhostType _gType, MapGrid* _ghostToMap, std::string filePath, Pacman* _pacman, bool _debugState);
 

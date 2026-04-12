@@ -11,6 +11,16 @@ GameManager::GameManager(MapGrid* _map, Pacman* _pacman, Ghosts* _G1, Ghosts* _G
 
 }
 
+bool GameManager::GhostOverlap()
+{
+    for (auto& i : ghosts)
+    {
+        if (i->currentTileCoord == pacman->currentTileCoord) 
+            return true;
+    }
+    return false;
+}
+
 void GameManager::ChangeBehaviourState(Behaviour _beh)
 {
 
@@ -93,5 +103,8 @@ void GameManager::Update(float delta)
     {
 
     }
-
+    if (GhostOverlap())
+    {
+        std::cout << " overlapped" << std::endl;
+    }
 };

@@ -18,10 +18,13 @@ public:
 	MapGrid* pacToMap;
 	bool isControllable;
 	float powerTimeRemaining;
+	TileCoords currentTileCoord;
+
 
 	Pacman();
 	Pacman(MapGrid*_pacToMap);
 
+	
 	void Input();
 	void Update(float delta);
 	

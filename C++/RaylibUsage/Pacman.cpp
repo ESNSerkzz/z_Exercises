@@ -124,6 +124,8 @@ void Pacman::Update(float delta)
 		circle.pos.y = 0;
 	}
 	
+
+
 	std::vector<Tile> brickColliding = pacToMap->BoxesAroundPoint(circle.pos);
 		
 	for (int i = 0; i < brickColliding.size(); i++)
@@ -167,8 +169,8 @@ void Pacman::Update(float delta)
 				}
 			}
 		}
-
 	}
+	currentTileCoord = pacToMap->GetCoordsV(circle.pos);
 
 	if (powerTimeRemaining > 0.0f)
 	{

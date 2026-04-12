@@ -239,6 +239,7 @@ void Ghosts::Update(float delta)
 
 			path.erase(path.begin());
 		}
+
 		//std::cout << "GhostDistTotile: " << ghostDistToTile.x << " " << ghostDistToTile.y << std::endl;
 	}
 	if (currentBehaviour == Behaviour::GAMESTART)
@@ -291,6 +292,8 @@ void Ghosts::Update(float delta)
 
 	activeTarget = targetTile;
 	path = ghostToMap->dijkstrasPathing(ghostToMap->GetCoordsV(collision.pos), targetTile);
+
+	currentTileCoord = ghostToMap->GetCoordsV(Vector2Add(collision.pos, {16, 16}));
 }
 
 void Ghosts::Draw()
