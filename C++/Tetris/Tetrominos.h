@@ -1,35 +1,20 @@
 #pragma once
 #include "collisions.h"
+#include "ScreenGrid.h"
 #include "raylib.h"
 #include <vector>
-enum ShapeType
-{
-	I_shape, O_shape, T_shape, S_shape, Z_shape, L_shape, J_shape
-};
 
-enum TileType
-{
-	EMPTY, BRICK, TETROMINO	
-};
-
-struct Tile
-{
-	int x; // in grid coords X.
-	int y; // in grid coords Y.
-	TileType tType = TileType(0);
-	Tile();
-	Tile(Vector2 _pos);
-	Tile(TileType _type, int _x, int _y);
-
-	void DrawTile(Color _lines, Color _fill);
-	void Draw();
-};
 
 class Tetrominos
 {
+	ScreenGrid* screenMap;
 public:
-	std::vector<Tile>tetrominos;
+	std::vector<Tile>tetroTiles;
 	float descentRateTimer;
+	
+	int x;
+	int y;
+	bool paused;
 
 	ShapeType shape;
 
@@ -39,8 +24,10 @@ public:
 	
 	std::vector<Tile> BlockCanvas(Tetrominos tetromino);
 	void Decention();
-
+	void ResetTetro();
+	void CreateTetro(ShapeType _type);
+	void RotateTetro(double _rotation);
 	void Input();
-	void Update(float delta);
+	void Update(float delta, ScreenGrid* map);
 	void Draw();
 };

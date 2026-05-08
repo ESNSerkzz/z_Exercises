@@ -170,7 +170,7 @@ void Pacman::Update(float delta)
 			}
 		}
 	}
-	currentTileCoord = pacToMap->GetCoordsV(circle.pos);
+	currentTileCoord = pacToMap->GetCoordsV(Vector2Add(circle.pos, { 16, 16 }));
 
 	if (powerTimeRemaining > 0.0f)
 	{

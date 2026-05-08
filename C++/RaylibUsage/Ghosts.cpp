@@ -183,7 +183,7 @@ void Ghosts::Update(float delta)
 			}
 
 		case Behaviour::FRIGHTENED:
-			//velocity = velocity / 2;
+			
 
 
 			break;

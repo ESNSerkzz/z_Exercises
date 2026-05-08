@@ -70,20 +70,20 @@ MapGrid::MapGrid(int _columns, int _rows, int tileSize, std::string filePath)
 			//palletIndex = Palletes({(float)x *tileSize, (float)y * tileSize}, 2.0f);
 			listOfTiles[x][y] = Tile(x * tileSize, y * tileSize, tileSize);
 	
-			if (allText[x + y * columns ] == '1')
+			if (allText[x + y * columns ] == '#')
 			{
 				listOfTiles[x][y].type = BRICK;	
 				listOfTiles[x][y].TileCollision = AABB({ (float)x * tileSize, (float)y * tileSize }, { tileSize / 2.0f, tileSize / 2.0f });
 			}
 
-			if (allText[x + y * columns] == '2')
+			if (allText[x + y * columns] == '*')
 			{
 				listOfTiles[x][y].type = PALLETE;
 				listOfTiles[x][y].pallet = new Palletes({ (float)x * tileSize + tileSize / 2, (float)y * tileSize + tileSize / 2 }, palletSize);
 				pallatesRemaining++;
 			}
 
-			if (allText[x + y * columns] == '3')
+			if (allText[x + y * columns] == 'X')
 			{
 				listOfTiles[x][y].type = POWERPALLETE;
 				listOfTiles[x][y].pallet = new Palletes({ (float)x * tileSize + tileSize / 2, (float)y * tileSize + tileSize / 2 }, palletSize, PowerPallete);

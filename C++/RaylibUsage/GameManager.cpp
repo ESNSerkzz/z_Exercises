@@ -68,7 +68,7 @@ void GameManager::Update(float delta)
     {
         ChangeBehaviourState(Behaviour::CHASE);
     }
-    if (GetTime() > fromStartTimer + 27 && GetTime() < 34 + fromStartTimer  )
+    if (GetTime() > fromStartTimer + 27 && GetTime() < 34 + fromStartTimer)
     {
         ChangeBehaviourState(Behaviour::SCATTER);
 

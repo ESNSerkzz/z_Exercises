@@ -1,6 +1,49 @@
 #include "ScreenGrid.h"
 
+Tile::Tile()
+{
+}
 
+Tile::Tile(Vector2 _pos)
+{
+	tType = BRICK;
+}
+
+Tile::Tile(TileType _type, int _x, int _y)
+{
+	tType = _type;
+	x = _x;
+	y = _y;
+
+}
+
+void Tile::DrawTile(Color _lines, Color _fill)
+{
+	DrawRectangleV({ (float)x * tileSize, (float)y * tileSize }, { tileSize, tileSize }, _fill);
+	DrawRectangleLines(x * tileSize, y * tileSize, tileSize, tileSize, _lines);
+}
+
+void Tile::Draw()
+{
+	switch (tType)
+	{
+	case EMPTY:
+
+		DrawTile(GRAY, LIGHTGRAY);
+		break;
+	case BRICK:
+		DrawTile(DARKGRAY, DARKGRAY);
+		break;
+
+	case TETROMINO:
+		DrawTile(colourLines, colourFill);
+
+	default:
+		break;
+
+	}
+
+}
 //----------------------------------------------------------------//
 
 ScreenGrid::ScreenGrid()
@@ -39,9 +82,50 @@ ScreenGrid::ScreenGrid(int _columns, int _rows, int _tileSize, std::string _mapF
 		}
 	}
 
+
+
 }
 
+void ScreenGrid::HandleTetroLanding(std::vector<Tile> tetro)
+{
+	for (int i = 0; i < tetro.size(); i++)
+	{
+		listOfTiles_Grid[tetro[i].x][tetro[i].y].tType = TETROMINO;
+		listOfTiles_Grid[tetro[i].x][tetro[i].y].colourFill = tetro[i].colourFill;
+		listOfTiles_Grid[tetro[i].x][tetro[i].y].colourLines = tetro[i].colourLines;
+	}
+	if (FilledRowCheck().size() > 0)
+	{
+		
+	}
+	std::cout << FilledRowCheck().size() << std::endl;
+}
 
+std::vector<int> ScreenGrid::FilledRowCheck()
+{
+	std::vector<int> rowToClear;
+	for (int y = 2; y <= 21; y++)
+	{
+		bool clear = true;
+		for (int x = 1; x < 10; x++)
+		{
+			if (listOfTiles_Grid[x][y].tType != TETROMINO)
+			{
+				clear = false;
+				
+			}
+
+		}
+		if (clear == true)
+		{
+			rowToClear.push_back(y);
+
+		}
+	}
+	
+
+	return rowToClear;
+}
 
 void ScreenGrid::Draw()
 {
@@ -50,21 +134,7 @@ void ScreenGrid::Draw()
 	{
 		for (int y = 0; y < rows; y++)
 		{
-			switch (listOfTiles_Grid[x][y].tType)
-			{
-			case EMPTY:
-
-				listOfTiles_Grid[x][y].DrawTile(GRAY, LIGHTGRAY);
-				break;
-			case BRICK:
-				listOfTiles_Grid[x][y].DrawTile(DARKGRAY, DARKGRAY);
-				break;
-
-			
-			default:
-				break;
-
-			}
+			listOfTiles_Grid[x][y].Draw();
 			
 		}
 	}

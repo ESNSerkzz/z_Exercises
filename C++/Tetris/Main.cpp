@@ -24,16 +24,26 @@ int main(void)
 
 static void SetUp(void)
 {
+	
 	InitWindow(screenWidth,screenHeight, "Window");
 	SetTargetFPS(60);
 
 	grid = ScreenGrid(columns, rows, tileSize, "./Map.txt");
-	tetro = Tetrominos(I_shape);
+	//tetro = Tetrominos(I_shape);
+	//tetro = Tetrominos(O_shape);
+	//tetro = Tetrominos(S_shape);
+	//tetro = Tetrominos(Z_shape);
+	//tetro = Tetrominos(T_shape);
+	//tetro = Tetrominos(L_shape);
+	//tetro = Tetrominos(J_shape);
+	tetro = Tetrominos((ShapeType)(std::rand() % 7));
+
 }
 
 static void Update(float delta)
 {
-	tetro.Update(delta);
+	tetro.Update(delta, &grid);
+	tetro.Input();
 }
 
 static void Draw(void)
