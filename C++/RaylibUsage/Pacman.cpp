@@ -170,7 +170,7 @@ void Pacman::Update(float delta)
 			}
 		}
 	}
-	currentTileCoord = pacToMap->GetCoordsV(Vector2Add(circle.pos, { 16, 16 }));
+	currentTileCoord = pacToMap->GetCoordsV(circle.pos);
 
 	if (powerTimeRemaining > 0.0f)
 	{
@@ -236,5 +236,6 @@ void Pacman::Draw()
 		break;
 	}
 	DrawTexturePro(pacmanSprite, source, destPos, { circle.rad , circle.rad }, angle, WHITE);
+	pacToMap->DrawBox(currentTileCoord.x, currentTileCoord.y);
 	//circle.Draw();
 }

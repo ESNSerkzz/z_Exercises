@@ -15,8 +15,12 @@ bool GameManager::GhostOverlap()
 {
     for (auto& i : ghosts)
     {
-        if (i->currentTileCoord == pacman->currentTileCoord) 
+        if (pacman->currentTileCoord == i->currentTileCoord)
+        {
+            std::cout << i->gType << std::endl;
             return true;
+            
+        }
     }
     return false;
 }
@@ -104,7 +108,9 @@ void GameManager::Update(float delta)
 
     }
     if (GhostOverlap())
-    {
+    {        
+
         std::cout << " overlapped" << std::endl;
+
     }
 };

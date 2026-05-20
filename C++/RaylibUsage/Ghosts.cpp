@@ -284,6 +284,7 @@ void Ghosts::Update(float delta)
 
 	HandleCollisions();
 
+	currentTileCoord = ghostToMap->GetCoordsV(collision.pos);
 	if (activeTarget == targetTile)
 	{
 
@@ -293,7 +294,6 @@ void Ghosts::Update(float delta)
 	activeTarget = targetTile;
 	path = ghostToMap->dijkstrasPathing(ghostToMap->GetCoordsV(collision.pos), targetTile);
 
-	currentTileCoord = ghostToMap->GetCoordsV(Vector2Add(collision.pos, {16, 16}));
 }
 
 void Ghosts::Draw()
@@ -371,6 +371,7 @@ void Ghosts::Draw()
 		{
 			source = { (float)584 + (currentFrame * 16), 64, 16, 16 };
 		}
+	ghostToMap->DrawBox(currentTileCoord.x, currentTileCoord.y);
 
 	DrawTexturePro(ghostSprite, source, destPos, { collision.rad, collision.rad }, 0, WHITE);
 		if (!debugState) return;
@@ -394,7 +395,6 @@ void Ghosts::Draw()
 		DrawLineV(collision.pos, ghostToMap->VposToCoords(activeTarget), RED);
 
 	}
-	
 }
 
 void Ghosts::HandleCollisions()

@@ -200,11 +200,7 @@ void Tetrominos::RotateTetro(double _rotation)
 
 void Tetrominos::Input()
 {
-	for (int i = 0; i < tetroTiles.size(); i++)
-	{
-		
-
-	}
+	
 	if (IsKeyPressed(KEY_A))
 	{
 		//checking if we can move to the left.
@@ -216,6 +212,10 @@ void Tetrominos::Input()
 			if (screenMap->listOfTiles_Grid[tetroTiles[i].x - 1][tetroTiles[i].y].tType == BRICK)
 			{
 				
+				canMoveDir = false;
+			}
+			if (screenMap->listOfTiles_Grid[tetroTiles[i].x - 1][tetroTiles[i].y].tType == TETROMINO)
+			{
 				canMoveDir = false;
 			}
 		}
@@ -235,7 +235,7 @@ void Tetrominos::Input()
 	}
 	if (IsKeyPressed(KEY_D))
 	{
-		//checking if we can move to the left.
+		//checking if we can move to the right.
 
 		bool canMoveDir = true;
 
@@ -245,6 +245,11 @@ void Tetrominos::Input()
 			{
 				canMoveDir = false;
 			}
+			if (screenMap->listOfTiles_Grid[tetroTiles[i].x + 1][tetroTiles[i].y].tType == TETROMINO)
+			{
+				canMoveDir = false;
+			}
+
 		}
 
 		//then actually moving left if nothing obstruct
@@ -261,12 +266,12 @@ void Tetrominos::Input()
 
 	if (IsKeyPressed(KEY_R))
 	{
-		
-		RotateTetro(PI/2);
+		if (shape != O_shape)
+		{
+			RotateTetro(PI/2);
+		}
 		
 	}
-	
-	
 
 	
 	if (IsKeyPressed(KEY_Q))  
@@ -290,6 +295,10 @@ void Tetrominos::Update(float delta, ScreenGrid* map)
 	if (descentRateTimer < 0)
 	{
 		descentRateTimer = 0.3f;
+		if (IsKeyDown(KEY_S))
+		{
+			descentRateTimer = descentRateTimer / 4;
+		}
 		bool shouldStop = false;
 
 		for (int i = 0; i < tetroTiles.size(); i++)
@@ -314,6 +323,8 @@ void Tetrominos::Update(float delta, ScreenGrid* map)
 
 		}
 	}
+
+	
 }
 
 void Tetrominos::Draw()

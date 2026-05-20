@@ -27,6 +27,7 @@ static void SetUp(void)
 	
 	InitWindow(screenWidth,screenHeight, "Window");
 	SetTargetFPS(60);
+	srand(time(NULL));
 
 	grid = ScreenGrid(columns, rows, tileSize, "./Map.txt");
 	//tetro = Tetrominos(I_shape);

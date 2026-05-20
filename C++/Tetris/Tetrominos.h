@@ -21,7 +21,12 @@ public:
 	Tetrominos();
 	Tetrominos(ShapeType _bType);
 	
-	
+	//TODO 
+	// --------------------------
+	// add a seperate list of tetroTiles to the top right corner to represent the "next tile" 
+
+
+
 	std::vector<Tile> BlockCanvas(Tetrominos tetromino);
 	void Decention();
 	void ResetTetro();
