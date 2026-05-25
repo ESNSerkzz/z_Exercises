@@ -9,6 +9,7 @@ static void Draw(void);
 
 ScreenGrid grid;
 Tetrominos tetro;
+int lvl;
 
 int main(void)
 {
@@ -29,7 +30,8 @@ static void SetUp(void)
 	SetTargetFPS(60);
 	srand(time(NULL));
 
-	grid = ScreenGrid(columns, rows, tileSize, "./Map.txt");
+	lvl = 10;
+	grid = ScreenGrid(columns, rows, tileSize, "./Map.txt", &lvl);
 	//tetro = Tetrominos(I_shape);
 	//tetro = Tetrominos(O_shape);
 	//tetro = Tetrominos(S_shape);
@@ -37,8 +39,8 @@ static void SetUp(void)
 	//tetro = Tetrominos(T_shape);
 	//tetro = Tetrominos(L_shape);
 	//tetro = Tetrominos(J_shape);
-	tetro = Tetrominos((ShapeType)(std::rand() % 7));
-
+	tetro = Tetrominos((ShapeType)(std::rand() % 7), &lvl);
+	//tetro.BlockCanvas(tetro.);
 }
 
 static void Update(float delta)
@@ -52,6 +54,12 @@ static void Draw(void)
 	BeginDrawing();
 	ClearBackground(BLACK);
 
+	int posX = 13 * 40;
+	int posY = 8 * 40;
+
 	grid.Draw();
 	tetro.Draw();
+
+	DrawText(TextFormat("Score: %4i", grid.score), posX, posY, 30, LIGHTGRAY);
+	DrawText(TextFormat("Level: %4i", lvl), posX, posY + 50, 30, LIGHTGRAY);
 }

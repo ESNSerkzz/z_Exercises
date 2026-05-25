@@ -1,56 +1,31 @@
 #include "Tetrominos.h"
 
-
-//------------------------------------|||||
 Tetrominos::Tetrominos()
 {
 	
 }
 
-Tetrominos::Tetrominos(ShapeType _bType)
+Tetrominos::Tetrominos(ShapeType _bType, int* _lvl)
 {
+	lvl =_lvl;
 	descentRateTimer = 5;
 	CreateTetro(_bType);
 	
 }
 
-std::vector<Tile> Tetrominos::BlockCanvas(Tetrominos tetromino)
+std::vector<Tile> Tetrominos::BlockCanvas(std::vector<Tetrominos> tetromino)
 {
 
-	int rows = 4;
-	int columns = 4;
+	x = 16;
+	y = 5;
 	std::vector<Tile>blockCanvas;
 	/*blockCanvas.push_back(new Tile());*/
 	for (int i = 0; i < blockCanvas.size(); i ++)
 	{
-		
-		blockCanvas.push_back(Tile(EMPTY, columns, rows));
-		
+		CreateTetro(tetromino[i].shape);
 	}
 	
-		
-
 	return blockCanvas;
-}
-
-void Tetrominos::Decention()
-{
-	if (paused != true)
-	{
-		y++;
-		for (int i = 0; i < tetroTiles.size(); i++)
-		{
-			tetroTiles[i].y = tetroTiles[i].y + 1;
-		}
-	}
-	
-	
-}
-
-void Tetrominos::ResetTetro()
-{
-	tetroTiles.clear();
-	CreateTetro((ShapeType)(std::rand() % 7));
 }
 
 void Tetrominos::CreateTetro(ShapeType _type)
@@ -153,6 +128,28 @@ void Tetrominos::CreateTetro(ShapeType _type)
 
 }
 
+void Tetrominos::Decention()
+{
+	if (paused != true)
+	{
+		y++;
+		for (int i = 0; i < tetroTiles.size(); i++)
+		{
+			tetroTiles[i].y = tetroTiles[i].y + 1;
+		}
+	}
+	
+	
+}
+
+void Tetrominos::ResetTetro()
+{
+	tetroTiles.clear();
+	CreateTetro((ShapeType)(std::rand() % 7));
+}
+
+
+
 void Tetrominos::RotateTetro(double _rotation)
 {
 	
@@ -197,6 +194,8 @@ void Tetrominos::RotateTetro(double _rotation)
 	}
 	
 }
+
+
 
 void Tetrominos::Input()
 {
@@ -291,13 +290,94 @@ void Tetrominos::Input()
 void Tetrominos::Update(float delta, ScreenGrid* map)
 {
 	screenMap = map;
+
 	descentRateTimer = descentRateTimer - delta;
 	if (descentRateTimer < 0)
 	{
-		descentRateTimer = 0.3f;
+
+		switch (*lvl)
+		{
+		case 0:
+			descentRateTimer = 0.01674 * 53;
+
+			break;
+		case 1:
+			descentRateTimer = 0.01674 * 49;
+			break;
+		case 2:
+			descentRateTimer = 0.01674 * 45;
+			break;
+		case 3:
+			descentRateTimer = 0.01674 * 41;
+			break;
+		case 4:
+			descentRateTimer = 0.01674 * 37;
+			break;
+		case 5:
+			descentRateTimer = 0.01674 * 33;
+			break;
+		case 6:
+			descentRateTimer = 0.01674 * 28;
+			break;
+		case 7:
+			descentRateTimer = 0.01674 * 22;
+			break;
+		case 8:
+			descentRateTimer = 0.01674 * 17;
+			break;
+		case 9:
+			descentRateTimer = 0.01674 * 11;
+			break;
+		case 10:
+			descentRateTimer = 0.01674 * 10;
+			break;
+		case 11:
+			descentRateTimer = 0.01674 * 9;
+			break;
+		case 12:
+			descentRateTimer = 0.01674 * 8;
+			break;
+		case 13:
+			descentRateTimer = 0.01674 * 7;
+			break;
+		case 14:
+			descentRateTimer = 0.01674 * 6;
+			break;
+		case 15:
+			descentRateTimer = 0.01674 * 6;
+			break;
+		case 16:
+			descentRateTimer = 0.01674 * 5;
+			break;
+		case 17:
+			descentRateTimer = 0.01674 * 5;
+			break;
+		case 18:
+			descentRateTimer = 0.01674 * 4;
+			break;
+		case 19:
+			descentRateTimer = 0.01674 * 4;
+			break;
+		case 20:
+			descentRateTimer = 0.01674 * 3;
+			break;
+
+
+		}
 		if (IsKeyDown(KEY_S))
 		{
-			descentRateTimer = descentRateTimer / 4;
+
+			descentRateTimer = descentRateTimer / 5;
+			for (int i = 0; i < tetroTiles.size(); i++)
+			{
+				if (map->listOfTiles_Grid[tetroTiles[i].x][tetroTiles[i].y + 1].tType != EMPTY)
+				{
+					//std::cout << score << std::endl;
+				
+				}
+
+
+			}
 		}
 		bool shouldStop = false;
 
@@ -305,7 +385,6 @@ void Tetrominos::Update(float delta, ScreenGrid* map)
 		{
 			if (map->listOfTiles_Grid[tetroTiles[i].x][tetroTiles[i].y + 1].tType != EMPTY)
 			{
-				std::cout << "example" << std::endl;
 				shouldStop = true;
 			}
 		
@@ -322,9 +401,9 @@ void Tetrominos::Update(float delta, ScreenGrid* map)
 			Decention();
 
 		}
+
 	}
 
-	
 }
 
 void Tetrominos::Draw()

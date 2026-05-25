@@ -51,7 +51,7 @@ ScreenGrid::ScreenGrid()
 
 }
 
-ScreenGrid::ScreenGrid(int _columns, int _rows, int _tileSize, std::string _mapFilePath)
+ScreenGrid::ScreenGrid(int _columns, int _rows, int _tileSize, std::string _mapFilePath, int* _lvl)
 {
 
 	std::fstream file;
@@ -59,7 +59,9 @@ ScreenGrid::ScreenGrid(int _columns, int _rows, int _tileSize, std::string _mapF
 
 	std::string currentLine;
 	std::string allText;
-
+	lvl = _lvl;
+	score = 0;
+	rowsCleared = 0;
 	while (getline(file, currentLine))
 	{
 		std::cout << currentLine << std::endl;
@@ -93,6 +95,7 @@ void ScreenGrid::HandleTetroLanding(std::vector<Tile> tetro)
 		
 	}
 	std::vector<int> clearRow = FilledRowCheck();
+	
 	if (clearRow.size() > 0)
 	{
 		for (int i = 0; i < clearRow.size(); i++)
@@ -105,11 +108,98 @@ void ScreenGrid::HandleTetroLanding(std::vector<Tile> tetro)
 					listOfTiles_Grid[x][y].colourFill = listOfTiles_Grid[x][y - 1].colourFill;
 					listOfTiles_Grid[x][y].colourLines = listOfTiles_Grid[x][y - 1].colourLines;
 				}
+
 			}
 			//listOfTiles_Grid[tetro[i].x][tetro[i].y + FilledRowCheck().size()].tType = EMPTY;
 
 		}
+		rowsCleared += clearRow.size();
+		if (rowsCleared >= 10)
+		{
+			*lvl = 1;
+		}
+		if (rowsCleared >= 20)
+		{
+			*lvl = 2;
+		}
+		if (rowsCleared >= 30)
+		{
+			*lvl = 3;
+		}
+		if (rowsCleared >= 40)
+		{
+			*lvl = 4;
+		}
+		if (rowsCleared >= 50)
+		{
+			*lvl = 5;
+		}
+		if (rowsCleared >= 60)
+		{
+			*lvl = 6;
+		}
+		if (rowsCleared >= 70)
+		{
+			*lvl = 7;
+		}
+		if (rowsCleared >= 80)
+		{
+			*lvl = 8;
+		}
+		//------------------------
+		if (rowsCleared >= 100)
+		{
+			*lvl = 9;
+		}
+		if (rowsCleared >= 120)
+		{
+			*lvl = 10;
+		}
+		if (rowsCleared >= 140)
+		{
+			*lvl = 11;
+		}
+		if (rowsCleared >= 160)
+		{
+			*lvl = 12;
+		}
+		if (rowsCleared >= 180)
+		{
+			*lvl = 13;
+		}
+		if (rowsCleared >= 200)
+		{
+			*lvl = 14;
+		}
+		if (rowsCleared >= 220)
+		{
+			*lvl = 15;
+		}
+		if (rowsCleared >= 240)
+		{
+			*lvl = 16;
+		}
+		if (rowsCleared >= 260)
+		{
+			*lvl = 17;
+		}
+		if (rowsCleared >= 280)
+		{
+			*lvl = 18;
+		}
+		if (rowsCleared >= 300)
+		{
+			*lvl = 19;
+		}
+		if (rowsCleared >= 320)
+		{
+			*lvl = 20;
+		}
+
+		ScoreCalc(clearRow.size());
+
 	}
+	std::cout << "cleared: " << rowsCleared << std::endl;
 }
 
 std::vector<int> ScreenGrid::FilledRowCheck()
@@ -133,13 +223,36 @@ std::vector<int> ScreenGrid::FilledRowCheck()
 		if (clear == true)
 		{
 			rowToClear.push_back(y);
-			std::cout << "clearRow: " << y << std::endl;
+			//std::cout << "clearRow: " << y << std::endl;
 			listOfTiles_Grid[rowToClear.size()][y].tType = EMPTY;
 		}
 	}
 	
 
 	return rowToClear;
+}
+
+void ScreenGrid::ScoreCalc(int _rowsClear)
+{
+	
+	if (_rowsClear == 1)
+	{
+		score = score + (40 * (*lvl + 1));
+	}
+
+	if (_rowsClear == 2)
+	{
+		score = score + (100 * (*lvl + 1));
+	}
+	if (_rowsClear == 3)
+	{
+		score = score + (300 * (*lvl + 1));
+	}
+	if (_rowsClear == 4)
+	{
+		score = score + (1200 * (*lvl + 1));
+	}
+
 }
 
 void ScreenGrid::Draw()

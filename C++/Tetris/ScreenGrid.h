@@ -29,7 +29,6 @@ struct Tile
 	Tile(Vector2 _pos);
 	Tile(TileType _type, int _x, int _y);
 
-
 	void DrawTile(Color _lines, Color _fill);
 	void Draw();
 };
@@ -39,12 +38,15 @@ class ScreenGrid
 
 
 public:
+	int* lvl;
+	int score;
+	int rowsCleared;
 	ScreenGrid();
-	ScreenGrid(int _columns, int _rows, int _tileSize, std::string _mapFilePath);
+	ScreenGrid(int _columns, int _rows, int _tileSize, std::string _mapFilePath, int* _lvl);
 
 	std::vector<std::vector <Tile>> listOfTiles_Grid;
 	void HandleTetroLanding(std::vector<Tile> tetro);
 	std::vector<int> FilledRowCheck();
-	
+	void ScoreCalc(int _rowsClear);
 	void Draw();
 };
