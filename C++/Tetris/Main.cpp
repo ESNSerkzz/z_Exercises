@@ -8,7 +8,10 @@ static void Update(float delta);
 static void Draw(void);
 
 ScreenGrid grid;
-Tetrominos tetro;
+//Tetrominos tetro;
+//Tetrominos nextTetro;
+
+std::vector<Tetrominos> tetros;
 int lvl;
 
 int main(void)
@@ -39,14 +42,23 @@ static void SetUp(void)
 	//tetro = Tetrominos(T_shape);
 	//tetro = Tetrominos(L_shape);
 	//tetro = Tetrominos(J_shape);
-	tetro = Tetrominos((ShapeType)(std::rand() % 7), &lvl);
-	//tetro.BlockCanvas(tetro.);
+	tetros.push_back(Tetrominos((ShapeType)(std::rand() % 7), &lvl, false));
+	tetros.push_back(Tetrominos((ShapeType)(std::rand() % 7), &lvl, true));
+	tetros[0].nextTetro = &tetros[1];
+	tetros[1].nextTetro = &tetros[0];
+
+	//tetro = Tetrominos((ShapeType)(std::rand() % 7), &lvl, false);
+
 }
 
 static void Update(float delta)
 {
-	tetro.Update(delta, &grid);
-	tetro.Input();
+	for (int i = 0; i < tetros.size(); i++)
+	{
+		tetros[i].Update(delta, &grid);
+		tetros[i].Input();
+	}
+	
 }
 
 static void Draw(void)
@@ -54,11 +66,14 @@ static void Draw(void)
 	BeginDrawing();
 	ClearBackground(BLACK);
 
-	int posX = 13 * 40;
-	int posY = 8 * 40;
+	int posX = 13 * tileSize;
+	int posY = 8 * tileSize;
 
 	grid.Draw();
-	tetro.Draw();
+	for (int i = 0; i < tetros.size(); i++)
+	{
+		tetros[i].Draw();
+	}
 
 	DrawText(TextFormat("Score: %4i", grid.score), posX, posY, 30, LIGHTGRAY);
 	DrawText(TextFormat("Level: %4i", lvl), posX, posY + 50, 30, LIGHTGRAY);

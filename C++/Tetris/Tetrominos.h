@@ -9,6 +9,9 @@ class Tetrominos
 {
 	ScreenGrid* screenMap;
 public:
+
+	Tetrominos* nextTetro;
+
 	std::vector<Tile>tetroTiles;
 	float descentRateTimer;
 	
@@ -21,22 +24,25 @@ public:
 	ShapeType shape;
 
 	Tetrominos();
-	Tetrominos(ShapeType _bType, int* _lvl);
+	Tetrominos(ShapeType _bType, int* _lvl, bool inCanvas);
 	
 	//TODO 
 	// --------------------------
-	// add a seperate list of tetroTiles to the top right corner to represent the "next tile" 
+	// add a seperate list of tetroTiles to the top right corner to represent the "next tetromino piece" 
 	// the score (for soft drop)
 	// the lose condition when overlapped.
 
 
-	std::vector<Tile> BlockCanvas(std::vector<Tetrominos> tetromino);
-
-	void CreateTetro(ShapeType _type);
+	//void BlockCanvas(std::vector<Tile> nextTetrosTiles);
+	//void BlockCanvas(Tetrominos nextTetro);
+	
+	void CreateTetro(ShapeType _type, bool inCanvas);
 	void Decention();
 	void ResetTetro();
 	void RotateTetro(double _rotation);
-	
+	void SetToCanvas();
+	void SetToGame();
+
 	void Input();
 	void Update(float delta, ScreenGrid* map);
 	void Draw();

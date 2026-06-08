@@ -10,3 +10,7 @@ static const int columns = 20; //screenWidth / tileSize;
 
 static const int Xspawn = 6;
 static const int Yspawn = 4;
+
+static const int c_Xspawn = 16;
+static const int c_Yspawn = 5;
+
