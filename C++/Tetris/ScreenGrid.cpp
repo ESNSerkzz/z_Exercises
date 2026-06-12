@@ -62,6 +62,7 @@ ScreenGrid::ScreenGrid(int _columns, int _rows, int _tileSize, std::string _mapF
 	lvl = _lvl;
 	score = 0;
 	rowsCleared = 0;
+	gameOver = false;
 	while (getline(file, currentLine))
 	{
 		std::cout << currentLine << std::endl;
@@ -87,6 +88,10 @@ ScreenGrid::ScreenGrid(int _columns, int _rows, int _tileSize, std::string _mapF
 
 void ScreenGrid::HandleTetroLanding(std::vector<Tile> tetro)
 {
+	if (GameOver())
+	{
+		std::cout << "GGS" << std::endl;
+	}
 	for (int i = 0; i < tetro.size(); i++)
 	{
 		listOfTiles_Grid[tetro[i].x][tetro[i].y].tType = TETROMINO;
@@ -199,7 +204,6 @@ void ScreenGrid::HandleTetroLanding(std::vector<Tile> tetro)
 		ScoreCalc(clearRow.size());
 
 	}
-	std::cout << "cleared: " << rowsCleared << std::endl;
 }
 
 std::vector<int> ScreenGrid::FilledRowCheck()
@@ -230,6 +234,15 @@ std::vector<int> ScreenGrid::FilledRowCheck()
 	
 
 	return rowToClear;
+}
+
+bool ScreenGrid::GameOver()
+{
+	if (listOfTiles_Grid[Xspawn][Yspawn].tType == TETROMINO)
+	{
+		gameOver = true;
+	}
+	return gameOver;
 }
 
 void ScreenGrid::ScoreCalc(int _rowsClear)

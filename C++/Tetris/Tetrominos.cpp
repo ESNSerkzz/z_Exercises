@@ -18,12 +18,6 @@ Tetrominos::Tetrominos(ShapeType _bType, int* _lvl, bool inCanvas)
 		descentRateTimer = 5;
 	}
 	//Tetrominos nextTetro = Tetrominos((ShapeType(Z_shape)), _lvl, true);
-	
-	/*Tetrominos nextTetro;
-	nextTetro.CreateTetro((ShapeType(Z_shape)), true);
-	nextTetro.x = c_Xspawn;
-	nextTetro.y = c_Yspawn;*/
-	
 }
 
 void Tetrominos::CreateTetro(ShapeType _type, bool inCanvas)
@@ -309,17 +303,6 @@ void Tetrominos::Input()
 	}
 
 	
-	if (IsKeyPressed(KEY_Q))  
-	{
-		
-		if (paused == false)
-		{
-			paused = true;
-		}
-		else paused = false;
-		
-	}
-	
 	
 }
 
@@ -407,14 +390,9 @@ void Tetrominos::Update(float delta, ScreenGrid* map)
 		{
 
 			descentRateTimer = descentRateTimer / 5;
-			for (int i = 0; i < tetroTiles.size(); i++)
+			if (descentRateTimer < 1)
 			{
-				if (map->listOfTiles_Grid[tetroTiles[i].x][tetroTiles[i].y + 1].tType != EMPTY)
-				{
-					//std::cout << score << std::endl;
-				
-				}
-
+				map->score = map->score + 1;
 
 			}
 		}
@@ -426,10 +404,14 @@ void Tetrominos::Update(float delta, ScreenGrid* map)
 			{
 				landed = true;
 			}
-			if (map->listOfTiles_Grid[tetroTiles[i].x][tetroTiles[i].y].tType != EMPTY)
-			{
-				map->listOfTiles_Grid.clear();
-			}
+			//if (map->listOfTiles_Grid[tetroTiles[i].x][tetroTiles[i].y].tType == tetroTiles[i].tType)
+			//{
+			//	paused = true;
+			//	landed = false;
+			//	std::cout << "overlapped" << std::endl;
+			//	//map->listOfTiles_Grid.clear();
+			//}
+			//else paused = false;
 		
 		}
 		if (landed)
@@ -437,12 +419,7 @@ void Tetrominos::Update(float delta, ScreenGrid* map)
 			map->HandleTetroLanding(tetroTiles);
 			ResetTetro();
 			SetToCanvas();
-			//CreateTetro(shape)
-			
 			nextTetro->SetToGame();
-			//CreateTetro((ShapeType)(std::rand() % 7), false);
-
-			//tetrominoo
 		}
 		else
 		{

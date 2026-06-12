@@ -38,6 +38,7 @@ class ScreenGrid
 
 
 public:
+	bool gameOver;
 	int* lvl;
 	int score;
 	int rowsCleared;
@@ -47,6 +48,7 @@ public:
 	std::vector<std::vector <Tile>> listOfTiles_Grid;
 	void HandleTetroLanding(std::vector<Tile> tetro);
 	std::vector<int> FilledRowCheck();
+	bool GameOver();
 	void ScoreCalc(int _rowsClear);
 	void Draw();
 };

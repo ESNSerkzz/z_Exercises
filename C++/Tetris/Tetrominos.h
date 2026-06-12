@@ -28,13 +28,7 @@ public:
 	
 	//TODO 
 	// --------------------------
-	// add a seperate list of tetroTiles to the top right corner to represent the "next tetromino piece" 
-	// the score (for soft drop)
-	// the lose condition when overlapped.
-
-
-	//void BlockCanvas(std::vector<Tile> nextTetrosTiles);
-	//void BlockCanvas(Tetrominos nextTetro);
+	// the lose condition when overlapped. and the GameOver UI/button that goes with it.
 	
 	void CreateTetro(ShapeType _type, bool inCanvas);
 	void Decention();

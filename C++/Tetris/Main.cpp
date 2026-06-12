@@ -13,6 +13,7 @@ ScreenGrid grid;
 
 std::vector<Tetrominos> tetros;
 int lvl;
+bool paused;
 
 int main(void)
 {
@@ -33,7 +34,7 @@ static void SetUp(void)
 	SetTargetFPS(60);
 	srand(time(NULL));
 
-	lvl = 10;
+	lvl = 0;
 	grid = ScreenGrid(columns, rows, tileSize, "./Map.txt", &lvl);
 	//tetro = Tetrominos(I_shape);
 	//tetro = Tetrominos(O_shape);
@@ -46,6 +47,7 @@ static void SetUp(void)
 	tetros.push_back(Tetrominos((ShapeType)(std::rand() % 7), &lvl, true));
 	tetros[0].nextTetro = &tetros[1];
 	tetros[1].nextTetro = &tetros[0];
+	paused = false;
 
 	//tetro = Tetrominos((ShapeType)(std::rand() % 7), &lvl, false);
 
@@ -53,8 +55,27 @@ static void SetUp(void)
 
 static void Update(float delta)
 {
+	if (grid.gameOver == true)
+	{
+		return;
+	}
+	if (IsKeyPressed(KEY_Q))
+	{
+
+		if (paused == false)
+		{
+			paused = true;
+		}
+		else paused = false;
+
+	}
+	if (paused != false)
+	{
+		return;
+	}
 	for (int i = 0; i < tetros.size(); i++)
 	{
+		
 		tetros[i].Update(delta, &grid);
 		tetros[i].Input();
 	}
@@ -75,6 +96,11 @@ static void Draw(void)
 		tetros[i].Draw();
 	}
 
+	if (paused == true)
+	{
+		DrawRectangle(3 * tileSize, 7 * tileSize, 6*tileSize, tileSize, DARKGRAY);
+		DrawText(TextFormat("PAUSED"), 5* tileSize - tileSize/2, 7* tileSize + 5, 30, WHITE);
+	}
 	DrawText(TextFormat("Score: %4i", grid.score), posX, posY, 30, LIGHTGRAY);
 	DrawText(TextFormat("Level: %4i", lvl), posX, posY + 50, 30, LIGHTGRAY);
 }
