@@ -1,8 +1,10 @@
 #pragma once
+#include <algorithm>
 #include "Constants.h"
 #include "Collisions.h"
 #include "fstream"
 #include "raylib.h"
+#include <utility>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -45,10 +47,14 @@ public:
 	ScreenGrid();
 	ScreenGrid(int _columns, int _rows, int _tileSize, std::string _mapFilePath, int* _lvl);
 
+
 	std::vector<std::vector <Tile>> listOfTiles_Grid;
+	std::vector<std::pair<std::string, int>> scores;
 	void HandleTetroLanding(std::vector<Tile> tetro);
 	std::vector<int> FilledRowCheck();
-	bool GameOver();
+	bool GameOver(); 
+	void HighScoreCalc();
 	void ScoreCalc(int _rowsClear);
+	void AddToHSC();
 	void Draw();
 };

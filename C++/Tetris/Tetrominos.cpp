@@ -141,6 +141,79 @@ void Tetrominos::Decention()
 	
 }
 
+float Tetrominos::DecentionRate(int lvl)
+{
+	switch (lvl)
+	{
+	case 0:
+		return (float)0.01674 * 53;
+
+		break;
+	case 1:
+		return  (float)0.01674 * 49;
+		break;
+	case 2:
+		return (float)0.01674 * 45;
+		break;
+	case 3:
+		return (float)0.01674 * 41;
+		break;
+	case 4:
+		return (float)0.01674 * 37;
+		break;
+	case 5:
+		return (float)0.01674 * 33;
+		break;
+	case 6:
+		return (float)0.01674 * 28;
+		break;
+	case 7:
+		return (float)0.01674 * 22;
+		break;
+	case 8:
+		return (float)0.01674 * 17;
+		break;
+	case 9:
+		return (float)0.01674 * 11;
+		break;
+	case 10:
+		return (float)0.01674 * 10;
+		break;
+	case 11:
+		return (float)0.01674 * 9;
+		break;
+	case 12:
+		return (float)0.01674 * 8;
+		break;
+	case 13:
+		return (float)0.01674 * 7;
+		break;
+	case 14:
+		return (float)0.01674 * 6;
+		break;
+	case 15:
+		return (float)0.01674 * 6;
+		break;
+	case 16:
+		return (float)0.01674 * 5;
+		break;
+	case 17:
+		return (float)0.01674 * 5;
+		break;
+	case 18:
+		return (float)0.01674 * 4;
+		break;
+	case 19:
+		return (float)0.01674 * 4;
+		break;
+	case 20:
+		return (float)0.01674 * 3;
+		break;
+	}
+	return (float)0.01674 * 3;
+
+}
+
 void Tetrominos::ResetTetro()
 {
 	tetroTiles.clear();
@@ -181,12 +254,18 @@ void Tetrominos::RotateTetro(double _rotation)
 	bool canRotate = true;
 	for (int i = 0; i < tempList.size() ; i++)
 	{
+		if (tempList[i].x < 0 || tempList[i].x > screenWidth || tempList[i].y < 0 || tempList[i].y > screenHeight)
+		{
+
+			return;
+		}
 		if (screenMap->listOfTiles_Grid[tempList[i].x][tempList[i].y].tType != EMPTY)
 		{
 			canRotate = false;
 
 		}
 	}
+
 	if (canRotate == true)
 	{
 		tetroTiles = tempList;
@@ -198,6 +277,7 @@ void Tetrominos::SetToCanvas()
 {
 	CreateTetro((ShapeType)(std::rand() % 7), true);
 	paused = true;
+
 	x = c_Xspawn;
 	y = c_Yspawn;
 
@@ -212,6 +292,7 @@ void Tetrominos::SetToGame()
 	x = Xspawn;
 	y = Yspawn;
 	paused = false;
+	descentRateTimer = DecentionRate(*lvl);
 	for (int i = 0; i < tetroTiles.size(); i++)
 	{
 		tetroTiles[i].x += Xspawn - c_Xspawn;
@@ -309,6 +390,11 @@ void Tetrominos::Input()
 void Tetrominos::Update(float delta, ScreenGrid* map)
 {
 	screenMap = map;
+	if (screenMap->gameOver == true)
+	{
+		return;
+	}
+
 	if (paused == true)
 	{
 		return;
@@ -317,75 +403,11 @@ void Tetrominos::Update(float delta, ScreenGrid* map)
 	if (descentRateTimer < 0)
 	{
 
-		switch (*lvl)
-		{
-		case 0:
-			descentRateTimer = (float)0.01674 * 53;
-
-			break;
-		case 1:
-			descentRateTimer = (float)0.01674 * 49;
-			break;
-		case 2:
-			descentRateTimer = (float)0.01674 * 45;
-			break;
-		case 3:
-			descentRateTimer = (float)0.01674 * 41;
-			break;
-		case 4:
-			descentRateTimer = (float)0.01674 * 37;
-			break;
-		case 5:
-			descentRateTimer = (float)0.01674 * 33;
-			break;
-		case 6:
-			descentRateTimer = (float)0.01674 * 28;
-			break;
-		case 7:
-			descentRateTimer = (float)0.01674 * 22;
-			break;
-		case 8:
-			descentRateTimer = (float)0.01674 * 17;
-			break;
-		case 9:
-			descentRateTimer = (float)0.01674 * 11;
-			break;
-		case 10:
-			descentRateTimer = (float)0.01674 * 10;
-			break;
-		case 11:
-			descentRateTimer = (float)0.01674 * 9;
-			break;
-		case 12:
-			descentRateTimer = (float)0.01674 * 8;
-			break;
-		case 13:
-			descentRateTimer = (float)0.01674 * 7;
-			break;
-		case 14:
-			descentRateTimer = (float)0.01674 * 6;
-			break;
-		case 15:
-			descentRateTimer = (float)0.01674 * 6;
-			break;
-		case 16:
-			descentRateTimer = (float)0.01674 * 5;
-			break;
-		case 17:
-			descentRateTimer = (float)0.01674 * 5;
-			break;
-		case 18:
-			descentRateTimer = (float)0.01674 * 4;
-			break;
-		case 19:
-			descentRateTimer = (float)0.01674 * 4;
-			break;
-		case 20:
-			descentRateTimer = (float)0.01674 * 3;
-			break;
+		descentRateTimer = DecentionRate(*lvl);
+			
 
 
-		}
+		
 		if (IsKeyDown(KEY_S))
 		{
 
@@ -427,7 +449,8 @@ void Tetrominos::Update(float delta, ScreenGrid* map)
 
 		}
 	}
-	
+	return;
+	std::cout << " return" << std::endl;
 }
 
 void Tetrominos::Draw()

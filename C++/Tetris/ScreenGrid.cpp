@@ -90,6 +90,7 @@ void ScreenGrid::HandleTetroLanding(std::vector<Tile> tetro)
 {
 	if (GameOver())
 	{
+		
 		std::cout << "GGS" << std::endl;
 	}
 	for (int i = 0; i < tetro.size(); i++)
@@ -241,8 +242,72 @@ bool ScreenGrid::GameOver()
 	if (listOfTiles_Grid[Xspawn][Yspawn].tType == TETROMINO)
 	{
 		gameOver = true;
+		HighScoreCalc();
 	}
 	return gameOver;
+}
+
+void ScreenGrid::HighScoreCalc()
+{
+
+	std::fstream file;
+	file.open("ScoreBoard.txt");
+	
+	std::string currentLine;
+	std::string allText;
+	if (!file)
+	{
+		std::cout << "Failed to open file." << std::endl;
+	}
+	else
+	{
+		while (getline(file, currentLine))
+		{
+			
+			scores.push_back(std::make_pair("Score; ", stoi(currentLine)));
+		
+			
+		}
+		bool addScore = false;
+
+		for (int i = 0; i < scores.size(); i++)
+		{
+			
+			if (scores[i].second < score)
+			{
+				addScore = true;
+				//break means it stops the loop from running what comes after the condition is met
+				break;
+			}
+			//currentLine = scores[i].second;
+			/*scores[i].first = "Score: ";
+			scores[i].second = score;
+			scores.push_back(scores[i]);*/
+			std::cout << scores[i].first << scores[i].second << std::endl;
+		}
+		if (addScore == true)
+		{
+			scores.push_back(std::make_pair("score: ", score));
+			std::sort(scores.begin(), scores.end(), [](auto& left, auto& right) 
+			{
+				return left.second > right.second; 
+			});
+
+
+			scores.resize(5);
+			std::ofstream writeToFile("ScoreBoard.txt");
+
+			for (int i = 0; i < scores.size(); i++)
+			{
+				std::cout << scores[i].second << std::endl;
+				writeToFile << scores[i].second << std::endl;
+			}
+			writeToFile.close();
+
+		}
+
+	}
+
 }
 
 void ScreenGrid::ScoreCalc(int _rowsClear)
@@ -265,6 +330,11 @@ void ScreenGrid::ScoreCalc(int _rowsClear)
 	{
 		score = score + (1200 * (*lvl + 1));
 	}
+
+}
+
+void ScreenGrid::AddToHSC()
+{
 
 }
 

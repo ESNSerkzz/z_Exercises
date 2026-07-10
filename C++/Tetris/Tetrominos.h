@@ -32,6 +32,7 @@ public:
 	
 	void CreateTetro(ShapeType _type, bool inCanvas);
 	void Decention();
+	float DecentionRate(int lvl);
 	void ResetTetro();
 	void RotateTetro(double _rotation);
 	void SetToCanvas();
