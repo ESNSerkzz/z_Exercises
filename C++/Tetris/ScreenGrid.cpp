@@ -333,11 +333,6 @@ void ScreenGrid::ScoreCalc(int _rowsClear)
 
 }
 
-void ScreenGrid::AddToHSC()
-{
-
-}
-
 void ScreenGrid::Draw()
 {
 

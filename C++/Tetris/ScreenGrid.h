@@ -55,6 +55,5 @@ public:
 	bool GameOver(); 
 	void HighScoreCalc();
 	void ScoreCalc(int _rowsClear);
-	void AddToHSC();
 	void Draw();
 };

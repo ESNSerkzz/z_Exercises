@@ -183,10 +183,27 @@ static void Draw(void)
 
 		//scoreboard 
 		DrawRectangle(tileSize * 2, tileSize * 10, tileSize * 8, tileSize * 5, DARKBLUE);
-		DrawText(TextFormat("Score: %4i", grid.scores[0].second), tileSize * 2.5, tileSize * 10.5, 30, SKYBLUE);
+
+		Color colour;
+		int yPos = 10.2 * tileSize;
+
+		for (int i = 0; i < grid.scores.size(); i++)
+		{
+			if (grid.scores[i].second == grid.score)
+			{
+				colour = YELLOW;
+			}
+			else 
+			{
+				colour = SKYBLUE;
+			}
+			DrawText(TextFormat("Score: %4i", grid.scores[i].second), tileSize * 2.5, yPos - 0.5f + tileSize * i, 30, colour);
+
+		}
+		/*DrawText(TextFormat("Score: %4i", grid.scores[0].second), tileSize * 2.5, tileSize * 10.5, 30, color);
 		DrawText(TextFormat("Score: %4i", grid.scores[1].second), tileSize * 2.5, tileSize * 11.5, 30, SKYBLUE);
 		DrawText(TextFormat("Score: %4i", grid.scores[2].second), tileSize * 2.5, tileSize * 12.5, 30, SKYBLUE);
-		DrawText(TextFormat("Score: %4i", grid.scores[3].second), tileSize * 2.5, tileSize * 13.5, 30, SKYBLUE);
+		DrawText(TextFormat("Score: %4i", grid.scores[3].second), tileSize * 2.5, tileSize * 13.5, 30, SKYBLUE);*/
 		
 	}
 
