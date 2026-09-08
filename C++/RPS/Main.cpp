@@ -8,17 +8,20 @@ RPS player;
 
 int main(void)
 {
-
 	SetUp();
-	Update();
+	//Update();
 }
 
 void SetUp(void)
 {
-	
+	//starting text
 	std::cout << "ROCK (R), PAPER (P), SCISSORS (S)" << std::endl;
-	std::cin >> player.inputChoice;
-	player = RPS(player.inputChoice);
+	player = RPS();
+
+	player.takeInput();
+	// inputs R P S
+	// tells the user wether the input is correct or not. if not, ask to do it again. 
+	
 	
 }
 

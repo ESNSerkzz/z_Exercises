@@ -5,18 +5,20 @@
 
 enum RPS_Type
 {
-	ROCK, PAPER, SCISSORS
+	ROCK, PAPER, SCISSORS, EMPTY
 };
 
 class RPS
 {
 public:
-
-	std::string inputChoice;
+	
+	
 	RPS_Type choice;
 	int score;
 	RPS();
 	RPS(std::string _inputChoice);
+	void takeInput();
+
 
 	void Update();
 };

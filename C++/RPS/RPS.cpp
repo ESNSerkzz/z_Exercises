@@ -3,33 +3,64 @@
 RPS::RPS()
 {
 	score = 0;
-	choice = ROCK;
+	choice = EMPTY;
 
 }
 
 RPS::RPS(std::string _inputChoice)
 {
 	score = 0;
-	choice = ROCK;
-	//std::cin >> _inputChoice;
-	//inputChoice = _inputChoice;
-	//switch(hoice)
-	/*if (inputChoice == "R" || "r" || "P" || "p" || "S" || "s")
-	{
-		std::cout << "good choice" << std::endl;
-	}
-	else
-	{
-		std::cout << "Wrong input" << std::endl;
-
-	}*/
+	choice = EMPTY;
 	
+	
+	
+}
+
+void RPS::takeInput()
+{
+	while (EMPTY == choice)
+	{
+		std::string inputChoice;
+		std::cin >> inputChoice;
+		char inputLetter = inputChoice[0];
+
+	
+			
+
+			switch (inputLetter)
+			{
+			case 'R':
+				choice = ROCK;
+				break;
+			case 'r':
+				choice = ROCK;
+				break;
+			case 'P':
+				choice = PAPER;
+				break;
+			case 'p':
+				choice = PAPER;
+				break;
+			case 'S':
+				choice = SCISSORS;
+				break;
+			case 's':
+				choice = SCISSORS;
+				break;
+			default:
+				std::cout << "Wrong input" << std::endl;
+				break;
+			}
+	
+	}
+	std::cout << "good choice" << std::endl;
+	return;
 }
 
 void RPS::Update()
 {
 	
-	if( inputChoice == "R" || "r")
+	/*if( inputChoice == "R" || "r")
 	{
 		choice = ROCK;
 		std::cout << "Rock" << std::endl;
@@ -37,7 +68,7 @@ void RPS::Update()
 	else
 	{
 		std::cout << "nope" << std::endl;
-	}
+	}*/
 	
 	
 	
